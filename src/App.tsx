@@ -10,7 +10,7 @@ import React from 'react';
 const router = createBrowserRouter([
 	{
 	  path: "/",
-	  element: <Navbar />,
+	  element: <Navbar userFirstName={"Махмедахмадиниджан"} userProfileUrl={null} />,
 	},
   ]);
 
