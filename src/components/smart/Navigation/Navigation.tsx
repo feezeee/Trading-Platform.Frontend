@@ -16,7 +16,7 @@ const Navbar: React.FC<IProps> = ({ userFirstName, userProfileUrl }) => {
       <div className="container">
         <nav className="navbar navbar-expand">
           <div className="container-fluid justify-content-start">
-            <a className="navbar-brand" href="/">
+            <a className="navbar-brand" href="/products">
               <img
                 className="d-inline-block"
                 src={logo}

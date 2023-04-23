@@ -1,36 +1,28 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
-import Navbar from "./components/smart/Navigation/Navigation";
-import Product from "./components/simple/products/Product";
-import ProfileMenu from "./components/ordinary/profile_menu/ProfileMenu";
+import Footer from "../src/components/Footer";
+import Header from "../src/components/Header";
+import ProductPage from "../src/pages/ProductPage";
 import React from "react";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <Navbar userFirstName={"Махмедахмадиниджан"} userProfileUrl={null} />
-    ),
-  },
-]);
+export interface IAppProps {}
 
-function App() {
+const App: React.FunctionComponent<IAppProps> = (props) => {
   return (
-    // <React.StrictMode>
-    //   <RouterProvider router={router} />
-    // </React.StrictMode>
-    <div>
-      <Navbar userFirstName={"Махмедахмадиниджан"} userProfileUrl={null} />
+    <div className="h-100 d-flex flex-column">
+      <BrowserRouter>
+        <Header />
+        <div className="h-100">
+          <Routes>
+            <Route path="/products" element={<ProductPage />} />
+            <Route path="/" element={<ProductPage />} />
+            <Route path="*" element={<div style={{ height: "100%" }}></div>} />
+          </Routes>
+        </div>
+        <Footer />
+      </BrowserRouter>
     </div>
-
-    // <div className="container mx-auto max-w-2xl pt-5">
-    //   <Product />
-    //   <Product />
-    //   <Product />
-    //   <Product />
-    //   <Product />
-    // </div>
   );
-}
+};
 
 export default App;
