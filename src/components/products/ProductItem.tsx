@@ -14,7 +14,7 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
   };
 
   return (
-    <div key={props.product.id} className="card p-0" style={{ width: 200, height: 360 }}>
+    <div key={props.product.id} className="card p-0" style={{ width: 220, height: 360 }}>
       <img src={imageSrc} onError={handleImageError} alt="Картинка" />
       <div className="card-body">
         <div className="d-flex justify-content-between">
