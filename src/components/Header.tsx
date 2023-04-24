@@ -1,4 +1,4 @@
-import Navigation from "../components/smart/Navigation/Navigation"
+import Navigation from "./navigation/Navigation"
 import React from "react";
 
 export interface IHeaderProps {}

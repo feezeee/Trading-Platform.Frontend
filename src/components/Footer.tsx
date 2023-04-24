@@ -1,10 +1,10 @@
-import FooterInf from "../components/ordinary/footer_inf/FooterInf"
+import FooterInf from "./footer_inf/FooterInf"
 
 export interface IFooterProps {}
 
 const Footer: React.FunctionComponent<IFooterProps> = (props) => {
     return (
-        <footer><FooterInf/></footer>
+        <footer className="mt-auto"><FooterInf/></footer>
     )
 }
 

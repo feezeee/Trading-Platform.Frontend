@@ -9,10 +9,10 @@ export interface IAppProps {}
 
 const App: React.FunctionComponent<IAppProps> = (props) => {
   return (
-    <div className="h-100 d-flex flex-column">
+    <div className="d-flex flex-column h-100 overflow-auto">
       <BrowserRouter>
         <Header />
-        <div className="h-100">
+        <div>
           <Routes>
             <Route path="/products" element={<ProductPage />} />
             <Route path="/" element={<ProductPage />} />

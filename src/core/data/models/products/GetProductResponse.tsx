@@ -1,4 +1,4 @@
-export interface GetProductEntity {
+export interface GetProductResponse {
 	id: string;
 	name: string;
 	description: string;

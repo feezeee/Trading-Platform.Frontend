@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-import ProfileMenu from "../../ordinary/profile_menu/ProfileMenu";
-import logo from "../../../images/logo.png";
-import { posix } from "path";
-import profileIcon from "../../../images/profile-icon.png";
+import ProfileMenu from "../profile_menu/ProfileMenu";
+import logo from "../../images/logo.png";
+import profileIcon from "../../images/profile-icon.png";
 
 interface IProps {
   userFirstName: string | null;
