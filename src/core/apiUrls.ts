@@ -1,5 +1,5 @@
 
-const apiGateway = process.env.API_GATEWAY;
+const apiGateway = process.env.REACT_APP_API_GATEWAY;
 
 const API_URLS = {
     GET_PRODUCTS: apiGateway + 'products',

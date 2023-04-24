@@ -49,10 +49,16 @@ const ProfileMenu: React.FC<IProps> = ({
         <hr className="dropdown-divider" />
       </li>
       <li>
-        <a className="dropdown-item" href="/#">
+        <div
+          role="button"
+          className="dropdown-item"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
           Выход
-        </a>
+        </div>        
       </li>
+      
     </ul>
   );
 };

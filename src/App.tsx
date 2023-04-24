@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
 import Footer from "../src/components/Footer";
 import Header from "../src/components/Header";
+import LogoutModal from "./components/logout_modal/LogoutModal";
 import ProductPage from "../src/pages/ProductPage";
 import React from "react";
 
@@ -12,6 +13,7 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
     <div className="d-flex flex-column h-100 overflow-auto">
       <BrowserRouter>
         <Header />
+        <LogoutModal />
         <div>
           <Routes>
             <Route path="/products" element={<ProductPage />} />

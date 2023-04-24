@@ -5,4 +5,5 @@ export interface GetProductEntity {
 	name: string;
 	description: string;
     price: number | null;
+	images: string[];
 }
