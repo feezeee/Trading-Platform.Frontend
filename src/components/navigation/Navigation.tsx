@@ -4,12 +4,13 @@ import ProfileMenu from "../profile_menu/ProfileMenu";
 import logo from "../../images/logo.png";
 import profileIcon from "../../images/profile-icon.png";
 
-interface IProps {
+export interface INavbarProps {
   userFirstName: string | null;
   userProfileUrl: string | null;
+  hideSearchField: boolean;
 }
 
-const Navbar: React.FC<IProps> = ({ userFirstName, userProfileUrl }) => {
+const Navbar: React.FC<INavbarProps> = (props) => {
   return (
     <div className="border-bottom shadow-sm">
       <div className="container">
@@ -24,20 +25,24 @@ const Navbar: React.FC<IProps> = ({ userFirstName, userProfileUrl }) => {
                 height="50"
               />
             </a>
-            <form className="d-flex w-100" role="search">
-              <input
-                id="floatSearch"
-                className="form-control"
-                type="search"
-                placeholder="Поиск"
-                aria-label="Поиск"
-              />
-              <button className="btn btn-success" type="submit">
-                Поиск
-              </button>
-            </form>
+            <div className="w-100">
+              { !props.hideSearchField ? (
+                <form className={"d-flex w-100"} role="search">
+                  <input
+                    id="floatSearch"
+                    className="form-control"
+                    type="search"
+                    placeholder="Поиск"
+                    aria-label="Поиск"
+                  />
+                  <button className="btn btn-success" type="submit">
+                    Поиск
+                  </button>
+                </form>
+              ) : ""}
+            </div>
 
-            {userFirstName == null ? (
+            {props.userFirstName == null ? (
               <div className="d-flex ms-5">
                 <div className="d-flex btn">
                   <img src={profileIcon} alt="" width="25" height="25" />
@@ -46,7 +51,7 @@ const Navbar: React.FC<IProps> = ({ userFirstName, userProfileUrl }) => {
               </div>
             ) : (
               <div className="w-25 ms-3 marquee">
-                <span>{"Добро пожаловать, " + userFirstName + "!"}</span>
+                <span>{"Добро пожаловать, " + props.userFirstName + "!"}</span>
               </div>
             )}
             <div className="btn-group rounded-circle border text-center ms-3 p-0">
@@ -65,7 +70,7 @@ const Navbar: React.FC<IProps> = ({ userFirstName, userProfileUrl }) => {
                   <img
                     width={25}
                     height={25}
-                    src={userProfileUrl ?? profileIcon}
+                    src={props.userProfileUrl ?? profileIcon}
                     alt=""
                   />
                 </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import Filter from "../components/filters/Filter";
 import { GetProductEntity } from "../core/entities/products/GetProductEntity";
-import { GetProductResponse } from "../core/data/models/products/GetProductResponse";
 import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 
