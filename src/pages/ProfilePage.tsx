@@ -1,14 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export interface IHeaderProps {
-    hideSearchField: boolean
-}
+import Footer from "../components/Footer";
+import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
+import Header from "../components/Header";
+import LogoutModal from "../components/logout_modal/LogoutModal";
+import { UserService } from "../core/services/UserService";
 
-const Header: React.FunctionComponent<IHeaderProps> = (props) => {
+export interface IProfilePageProps {}
+
+const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
+  const [user, setUser] = useState<GetUserShortEntity | null>(null);
+
+  var userService = new UserService();
+  useEffect(() => {
+    const fetchData = async () => {
+      setUser(await userService.getUserById("qwe"));
+    };
+    fetchData();
+  }, []);
+
   return (
-    <header>
-    </header>
+    <div className="d-flex flex-column min-vh-100">
+      <Header hideSearchField={true} isAuthorize={true}/>
+      <div className="container py-5">
+        {user != null ? (
+          <div className="d-flex">
+            <div className="d-flex flex-column">
+              <img
+                width="280px"
+                className="rounded"
+                height="310px"
+                src="https://mobimg.b-cdn.net/v3/fetch/1b/1bbe0c30fd8b9cd89656e6dc6d5e59a7.jpeg"
+              />
+              <button type="button" className="btn mt-3">Изменить фото</button>
+            </div>
+
+            <div className="w-100 ps-5">
+              <div className="row">
+                <p className="text-break">
+                  <strong>{user.lastName + " " + user.firstName}</strong>
+                </p>
+              </div>
+              <div className="row">
+                <div>
+                  <span>Псевдоним: </span>
+                  <strong>{user.nickname}</strong>
+                </div>
+              </div>
+              <div className="row">
+                <div>
+                  <span>Дата регистрации: </span>
+                  <strong>{user.registrationDate}</strong>
+                </div>
+              </div>
+              <div className="row">
+                <div>
+                  <span>Количество размещенных объявлений: </span>
+                  <strong>0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+      <Footer />
+    </div>
   );
 };
 
-export default Header;
+export default ProfilePage;

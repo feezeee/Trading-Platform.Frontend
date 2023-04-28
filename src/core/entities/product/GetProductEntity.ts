@@ -1,4 +1,4 @@
-import { GetProductResponse } from "../../data/models/products/GetProductResponse";
+import { GetProductResponse } from "../../data/models/product/GetProductResponse";
 
 export interface GetProductEntity {
 	id: string;

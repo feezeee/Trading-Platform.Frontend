@@ -6,8 +6,8 @@ import profileIcon from "../../images/profile-icon.png";
 
 export interface INavbarProps {
   userFirstName: string | null;
-  userProfileUrl: string | null;
   hideSearchField: boolean;
+  isAuthorize: boolean;
 }
 
 const Navbar: React.FC<INavbarProps> = (props) => {
@@ -26,7 +26,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
               />
             </a>
             <div className="w-100">
-              { !props.hideSearchField ? (
+              {!props.hideSearchField ? (
                 <form className={"d-flex w-100"} role="search">
                   <input
                     id="floatSearch"
@@ -39,7 +39,9 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                     Поиск
                   </button>
                 </form>
-              ) : ""}
+              ) : (
+                ""
+              )}
             </div>
 
             {props.userFirstName == null ? (
@@ -54,33 +56,39 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                 <span>{"Добро пожаловать, " + props.userFirstName + "!"}</span>
               </div>
             )}
-            <div className="btn-group rounded-circle border text-center ms-3 p-0">
-              <div
-                role="button"
-                className="dropdown"
-                id="dropdownMenuProfile"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="true"
-                aria-expanded="false"
-              >
+            {props.isAuthorize ? (
+              <div className="btn-group rounded-circle border text-center ms-3 p-0">
                 <div
-                  className="d-flex align-items-center justify-content-center"
-                  style={{ width: 50, height: 50 }}
+                  role="button"
+                  className="dropdown"
+                  id="dropdownMenuProfile"
+                  data-bs-toggle="dropdown"
+                  data-bs-auto-close="true"
+                  aria-expanded="false"
                 >
-                  <img
-                    width={25}
-                    height={25}
-                    src={props.userProfileUrl ?? profileIcon}
-                    alt=""
-                  />
+                  <div
+                    className="d-flex align-items-center justify-content-center"
+                    style={{ width: 50, height: 50 }}
+                  >
+                    <img width={25} height={25} src={profileIcon} alt="" />
+                  </div>
                 </div>
+                <ProfileMenu
+                  productCount={100}
+                  messageCount={12}
+                  ariaLabelledby="dropdownMenuProfile"
+                />
               </div>
-              <ProfileMenu
-                productCount={100}
-                messageCount={12}
-                ariaLabelledby="dropdownMenuProfile"
-              />
-            </div>
+            ) : (
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+                type="submit"
+                className="ms-3 btn btn-outline-success"
+              >
+                Войти
+              </button>
+            )}
           </div>
         </nav>
       </div>

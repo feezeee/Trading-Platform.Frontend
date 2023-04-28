@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Console } from "console";
-import { GetProductEntity } from "../../core/entities/products/GetProductEntity";
+import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
 import NoImage from "../../images/noImage.png";
 
 export interface IProductItemProps {

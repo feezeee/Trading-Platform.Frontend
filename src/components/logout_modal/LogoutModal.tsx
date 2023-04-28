@@ -6,7 +6,7 @@ const LogoutModal: React.FunctionComponent<ILogoutModalProps> = (props) => {
   return (
     <div
       className="modal fade"
-      id="staticBackdrop"
+      id="logoutModal"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabIndex={-1}

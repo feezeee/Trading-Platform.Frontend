@@ -1,8 +1,8 @@
 import API_URLS from "../apiUrls";
-import { GetProductEntity } from "../entities/products/GetProductEntity";
-import { GetProductResponse } from "../data/models/products/GetProductResponse";
+import { GetProductEntity } from "../entities/product/GetProductEntity";
+import { GetProductResponse } from "../data/models/product/GetProductResponse";
 import axios from "axios";
-import { toGetProductEntity } from "../mapper/products/ProductMapper";
+import { toGetProductEntity } from "../mapper/product/ProductMapper";
 
 export class ProductService {
   public getProducts = async (): Promise<GetProductEntity[]> => {

@@ -1,5 +1,5 @@
-import { GetProductEntity } from "../../entities/products/GetProductEntity";
-import { GetProductResponse } from "../../data/models/products/GetProductResponse";
+import { GetProductEntity } from "../../entities/product/GetProductEntity";
+import { GetProductResponse } from "../../data/models/product/GetProductResponse";
 
 export const toGetProductEntity = (
   apiResponse: GetProductResponse

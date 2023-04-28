@@ -53,7 +53,7 @@ const ProfileMenu: React.FC<IProps> = ({
           role="button"
           className="dropdown-item"
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
+          data-bs-target="#logoutModal"
         >
           Выход
         </div>        
