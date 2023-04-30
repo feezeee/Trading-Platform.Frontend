@@ -21,4 +21,21 @@ export class ProductService {
       return [];
     }    
   };
+  public getProductById = async (id: string): Promise<GetProductEntity | null> => {
+    try{
+      const response = await axios.get<GetProductResponse | null>(
+        `${API_URLS.GET_PRODUCTS}/${id}`
+      );
+      if (response.status !== 200){
+        return null
+      }
+      if (response.data == null){
+        return null;
+      }
+      return toGetProductEntity(response.data);
+    }
+    catch(error){
+      return null;
+    }    
+  };
 }

@@ -12,7 +12,6 @@ import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
-import MyTooltip from "../components/tooltips/MyTooltip";
 
 export interface IProductPageProps {}
 
@@ -21,13 +20,14 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
   const [authorizeShortUser, setAuthorizeShortUser] =
     useState<GetUserShortEntity | null>(null);
 
+  const [productsIsFectching, setProductsIsFectching] = useState(true);
+
   const [loginModalIsShowed, showLoginModal] = useState(false);
   const [registrationModalIsShowed, showRegistrationModal] = useState(false);
 
   const [logoutModalIsShowed, showLogoutModal] = useState(false);
 
   var productService = new ProductService();
-  var userService = new UserService();
 
   const checkUser = async () => {
     const userId: string | null = localStorage.getItem(localStorageKeys.userId);
@@ -73,11 +73,16 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
   };
 
   useEffect(() => {
+    checkUser();
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       setProducts(await productService.getProducts());
+      setProductsIsFectching(false);
     };
-    checkUser();
-    fetchData();
+    setProductsIsFectching(true);
+    fetchData();    
   }, []);
 
   return (
@@ -121,14 +126,26 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
           <div style={{ width: 250 }} className="position-fixed">
             <Filter />
           </div>
-          <div className="container-fluid">
-            <div className="row flex-wrap g-3">
-              {products.map((product) => (
-                <div className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">
-                  <ProductItem product={product} />
-                </div>
-              ))}
-            </div>
+          <div style={{ minHeight: "65vh" }} className="container-fluid">
+            {productsIsFectching === true ? (
+              <div style={{ zIndex: 2 }} className="d-flex h-100 w-100 justify-content-center align-items-center">                
+                  <div
+                    style={{ width: 100, height: 100 }}
+                    className="spinner-border text-secondary"
+                    role="status"
+                  >
+                    <span className="visually-hidden">Загрузка...</span>
+                  </div>
+              </div>
+            ) : (
+              <div className="row flex-wrap g-3">
+                {products.map((product) => (
+                  <div className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">
+                    <ProductItem product={product} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

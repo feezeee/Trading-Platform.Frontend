@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Console } from "console";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
@@ -16,21 +17,31 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
   const handleImageError = () => {
     setImageSrc(NoImage);
   };
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/products/${props.product.id}`)
+  }
 
   return (
     <div
+      role="button"
       key={props.product.id}
       className="card p-0"
       style={{ width: 220, height: 360 }}
+      onClick={handleClick}
     >
       <div
         style={{ width: "100%", height: 220 }}
         className="d-flex justify-content-center align-content-center overflow-hidden"
       >
         <img
+          // width={220}
+          // height={220}
+          className="rounded rounded-top"
           src={imageSrc}
           onError={handleImageError}
-          alt="Картинка"
+          alt=""
         />
       </div>
 
