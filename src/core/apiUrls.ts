@@ -1,12 +1,25 @@
 
-const apiGateway = process.env.REACT_APP_API_GATEWAY;
+const usersApiUrl = process.env.REACT_APP_USERS_API_URL;
+const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
+const imagesApiUrl = process.env.REACT_APP_IMAGES_API_URL;
+
 
 const API_URLS = {
-    GET_PRODUCTS: apiGateway + '/products',
+    // Products API
+    GET_PRODUCTS: productsApiUrl + '/api/products',
 
-    AUTHORIZE_USER: apiGateway + '/authorization',
+    // Users API
 
-    API_GATEWAY: apiGateway
+    USER_AUTHORIZATION: usersApiUrl + '/api/authorization',
+    USER_NICKNAME_IS_FREE: usersApiUrl + '/api/nickname/is-free',
+
+    CURRENT_USER_SHORT_INFORMATION: usersApiUrl + '/api/current-user/short-information',
+    CURRENT_USER_FULL_INFORMATION: usersApiUrl + '/api/current-user/full-information',
+
+    
+    REACT_APP_USERS_API_URL: usersApiUrl,
+    REACT_APP_PRODUCTS_API_URL: productsApiUrl,
+    REACT_APP_IMAGES_API_URL: imagesApiUrl
 }
 
 export default API_URLS;

@@ -1,9 +1,15 @@
-import { toAuthorizeUserRequest, toGetUserTokenEntity } from './../mapper/user/UserMapper';
+import {
+  toAuthorizeUserRequest,
+  toGetShortUserEntity,
+  toGetUserTokenEntity,
+} from "./../mapper/user/UserMapper";
+
 import API_URLS from "../apiUrls";
-import { GetUserTokenResponse } from "../data/models/user/GetUserTokenResponse";
 import { AuthorizeUserEntity } from "../entities/user/AuthorizeUserEntity";
-import { GetUserTokenEntity } from "../entities/user/GetUserTokenEntity";
 import { GetUserShortEntity } from "./../entities/user/GetUserShortEntity";
+import { GetUserShortResponse } from "../data/models/user/GetUserShortResponse";
+import { GetUserTokenEntity } from "../entities/user/GetUserTokenEntity";
+import { GetUserTokenResponse } from "../data/models/user/GetUserTokenResponse";
 import axios from "axios";
 
 export class UserService {
@@ -29,14 +35,25 @@ export class UserService {
     // );
   };
 
-  public authorizeUser = async(
+  public authorizeUser = async (
     authorizeUser: AuthorizeUserEntity
   ): Promise<GetUserTokenEntity | null> => {
     const response = await axios.post<GetUserTokenResponse>(
-      API_URLS.AUTHORIZE_USER,
+      API_URLS.USER_AUTHORIZATION,
       toAuthorizeUserRequest(authorizeUser)
     );
     // "http://localhost:8003/api/authorization"
-    return response.data == null ? null : toGetUserTokenEntity(response.data)
-  }
+    return response.data == null ? null : toGetUserTokenEntity(response.data);
+  };
+
+  public getShortUserByToken = async (
+    accessToken: string
+  ): Promise<GetUserShortEntity | null> => {
+    const response = await axios.get<GetUserShortResponse>(API_URLS.CURRENT_USER_SHORT_INFORMATION, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    return toGetShortUserEntity(response.data);
+  };
 }

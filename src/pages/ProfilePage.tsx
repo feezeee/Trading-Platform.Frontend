@@ -21,7 +21,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Header hideSearchField={true} isAuthorize={true}/>
+      {/* <Header hideSearchField={true} isAuthorize={true}/> */}
       <div className="container py-5">
         {user != null ? (
           <div className="d-flex">

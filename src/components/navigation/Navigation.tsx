@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 
+import { GetUserShortEntity } from "../../core/entities/user/GetUserShortEntity";
+import LoginModal from "../login_modal/LoginModal";
 import ProfileMenu from "../profile_menu/ProfileMenu";
 import logo from "../../images/logo.png";
 import profileIcon from "../../images/profile-icon.png";
 
 export interface INavbarProps {
-  userFirstName: string | null;
-  hideSearchField: boolean;
-  isAuthorize: boolean;
+  shortUser: GetUserShortEntity | null,
+  searchFieldIsHidden: boolean
 }
 
-const Navbar: React.FC<INavbarProps> = (props) => {
+const Navbar: React.FC<INavbarProps> = (props) => { 
   return (
     <div className="border-bottom shadow-sm">
       <div className="container">
@@ -26,7 +27,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
               />
             </a>
             <div className="w-100">
-              {!props.hideSearchField ? (
+              {!props.searchFieldIsHidden ? (
                 <form className={"d-flex w-100"} role="search">
                   <input
                     id="floatSearch"
@@ -43,8 +44,18 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                 ""
               )}
             </div>
-
-            {props.userFirstName == null ? (
+            {props.shortUser != null ? (
+              <div className="w-25 ms-3 marquee">
+                {props.shortUser.firstName.length > 0 ? (
+                  <span>
+                    {"Добро пожаловать, " + props.shortUser.firstName + "!"}
+                  </span>
+                ) : (
+                  <span>{"Добро пожаловать"}</span>
+                )}
+              </div>
+            ) : ("")}
+            {/* {props.userFirstName == null ? (
               <div className="d-flex ms-5">
                 <div className="d-flex btn">
                   <img src={profileIcon} alt="" width="25" height="25" />
@@ -55,8 +66,8 @@ const Navbar: React.FC<INavbarProps> = (props) => {
               <div className="w-25 ms-3 marquee">
                 <span>{"Добро пожаловать, " + props.userFirstName + "!"}</span>
               </div>
-            )}
-            {props.isAuthorize ? (
+            )} */}
+            {props.shortUser != null ? (
               <div className="btn-group rounded-circle border text-center ms-3 p-0">
                 <div
                   role="button"

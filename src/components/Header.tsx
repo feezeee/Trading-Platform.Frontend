@@ -1,15 +1,17 @@
+import React, { useState } from "react";
+
+import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
 import Navigation from "./navigation/Navigation";
-import React from "react";
 
 export interface IHeaderProps {
-    hideSearchField: boolean,
-    isAuthorize: boolean,
+  shortUser: GetUserShortEntity | null
+  searchFieldIsHidden: boolean;
 }
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
     <header>
-      <Navigation userFirstName={"Denis"} hideSearchField={props.hideSearchField} isAuthorize={props.isAuthorize} />
+      <Navigation searchFieldIsHidden={props.searchFieldIsHidden} shortUser={props.shortUser} />
     </header>
   );
 };

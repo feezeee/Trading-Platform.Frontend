@@ -3,7 +3,9 @@ const localStorageKeys = {
     refreshToken: "refreshToken",
     nickname: "nickname",
     firstName: "firstName",
-    lastName: "lastName"
+    lastName: "lastName",
+    registrationDate: "registrationDate",
+    userId: "userId"
 }
 
 export default localStorageKeys;
