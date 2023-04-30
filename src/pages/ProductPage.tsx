@@ -12,6 +12,7 @@ import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
+import MyTooltip from "../components/tooltips/MyTooltip";
 
 export interface IProductPageProps {}
 
@@ -81,6 +82,7 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
+      <MyTooltip/>
       <Header
         searchFieldIsHidden={false}
         shortUser={authorizeShortUser}
