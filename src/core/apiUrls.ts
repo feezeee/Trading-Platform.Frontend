@@ -16,6 +16,13 @@ const API_URLS = {
     CURRENT_USER_SHORT_INFORMATION: usersApiUrl + '/api/current-user/short-information',
     CURRENT_USER_FULL_INFORMATION: usersApiUrl + '/api/current-user/full-information',
 
+    USER_REGISTRATION: usersApiUrl + '/api/registration',
+
+    NICKNAME_IS_FREE: usersApiUrl + '/api/nickname/is-free',
+
+    // Images API
+
+    UPLOAD_IMAGE: imagesApiUrl + '/api/images',
     
     REACT_APP_USERS_API_URL: usersApiUrl,
     REACT_APP_PRODUCTS_API_URL: productsApiUrl,

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
 import Header from "../components/Header";
-import LogoutModal from "../components/logout_modal/LogoutModal";
 import { UserService } from "../core/services/UserService";
 
 export interface IProfilePageProps {}

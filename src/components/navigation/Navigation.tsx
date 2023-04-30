@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 
 import { GetUserShortEntity } from "../../core/entities/user/GetUserShortEntity";
-import LoginModal from "../login_modal/LoginModal";
 import ProfileMenu from "../profile_menu/ProfileMenu";
 import logo from "../../images/logo.png";
 import profileIcon from "../../images/profile-icon.png";
 
 export interface INavbarProps {
-  shortUser: GetUserShortEntity | null,
-  searchFieldIsHidden: boolean
+  shortUser: GetUserShortEntity | null;
+  searchFieldIsHidden: boolean;
+  login: () => void;
+  logout: () => void;
+  registration: () => void;
 }
 
-const Navbar: React.FC<INavbarProps> = (props) => { 
+const Navbar: React.FC<INavbarProps> = (props) => {
   return (
     <div className="border-bottom shadow-sm">
       <div className="container">
@@ -54,19 +56,9 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                   <span>{"Добро пожаловать"}</span>
                 )}
               </div>
-            ) : ("")}
-            {/* {props.userFirstName == null ? (
-              <div className="d-flex ms-5">
-                <div className="d-flex btn">
-                  <img src={profileIcon} alt="" width="25" height="25" />
-                  <p className="m-0 ms-3">Войти</p>
-                </div>
-              </div>
             ) : (
-              <div className="w-25 ms-3 marquee">
-                <span>{"Добро пожаловать, " + props.userFirstName + "!"}</span>
-              </div>
-            )} */}
+              ""
+            )}
             {props.shortUser != null ? (
               <div className="btn-group rounded-circle border text-center ms-3 p-0">
                 <div
@@ -88,17 +80,26 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                   productCount={100}
                   messageCount={12}
                   ariaLabelledby="dropdownMenuProfile"
+                  logout={props.logout}
                 />
               </div>
             ) : (
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#loginModal"
-                type="submit"
-                className="ms-3 btn btn-outline-success"
-              >
-                Войти
-              </button>
+              <div className="ms-3 d-flex">
+                <button
+                  onClick={props.login}
+                  type="submit"
+                  className=" btn btn-outline-success"
+                >
+                  Войти
+                </button>
+                <button
+                  type="submit"
+                  className="ms-3 btn btn-outline-success"
+                  onClick={props.registration}
+                >
+                  Регситрация
+                </button>
+              </div>
             )}
           </div>
         </nav>

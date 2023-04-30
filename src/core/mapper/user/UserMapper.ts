@@ -4,6 +4,8 @@ import { GetUserShortEntity } from "../../entities/user/GetUserShortEntity";
 import { GetUserShortResponse } from "../../data/models/user/GetUserShortResponse";
 import { GetUserTokenEntity } from "../../entities/user/GetUserTokenEntity";
 import { GetUserTokenResponse } from "../../data/models/user/GetUserTokenResponse";
+import { CreateUserRequest } from "../../data/models/user/CreateUserRequest";
+import { CreateUserEntity } from "../../entities/user/CreateUserEntity";
 
 export const toGetUserTokenEntity = (
   apiResponse: GetUserTokenResponse
@@ -37,4 +39,17 @@ export const toGetShortUserEntity = (
     registrationDate: apiResponse.registration_date,
   };
   return data;
+};
+
+export const toCreateUserRequest = (
+  data: CreateUserEntity
+): CreateUserRequest => {
+  const res: CreateUserRequest = {
+    first_name: data.firstName,
+    last_name: data.lastName,
+    nickname: data.nickname,
+    password: data.password,
+    profile_image_url: data.profileImageUrl,
+  };
+  return res;
 };

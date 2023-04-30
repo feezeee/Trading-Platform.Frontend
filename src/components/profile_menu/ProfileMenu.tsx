@@ -1,21 +1,18 @@
 import React from "react";
 
-interface IProps {
+export interface IProfileMenuProps {
   productCount: number;
   messageCount: number;
   ariaLabelledby: string;
+  logout: () => void
 }
 
-const ProfileMenu: React.FC<IProps> = ({
-  productCount,
-  messageCount,
-  ariaLabelledby,
-}) => {
+const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
   return (
     <ul
       style={{ fontSize: 18 }}
       className="bg-white dropdown-menu dropdown-menu-end"
-      aria-labelledby={ariaLabelledby}
+      aria-labelledby={props.ariaLabelledby}
     >
       <li>
         <a className="dropdown-item" href="/my-profile">
@@ -28,9 +25,9 @@ const ProfileMenu: React.FC<IProps> = ({
       <li>
         <a className="dropdown-item" href="/my-messages">
           <span className="pe-2">Мои сообщения</span>
-          {messageCount > 1 && (
+          {props.messageCount > 1 && (
             <span className="badge bg-danger">
-              {messageCount > 99 ? "+99" : messageCount}
+              {props.messageCount > 99 ? "+99" : props.messageCount}
             </span>
           )}
         </a>
@@ -38,9 +35,9 @@ const ProfileMenu: React.FC<IProps> = ({
       <li>
         <a className="dropdown-item" href="/my-products">
           <span className="pe-2">Мои товары</span>
-          {productCount > 1 && (
+          {props.productCount > 1 && (
             <span className="badge bg-danger">
-              {productCount > 99 ? "+99" : productCount}
+              {props.productCount > 99 ? "+99" : props.productCount}
             </span>
           )}
         </a>
@@ -52,8 +49,7 @@ const ProfileMenu: React.FC<IProps> = ({
         <div
           role="button"
           className="dropdown-item"
-          data-bs-toggle="modal"
-          data-bs-target="#logoutModal"
+          onClick={props.logout}
         >
           Выход
         </div>        

@@ -5,8 +5,9 @@ import Footer from "../components/Footer";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
 import Header from "../components/Header";
-import LoginModal from "../components/login_modal/LoginModal";
-import LogoutModal from "../components/logout_modal/LogoutModal";
+import MyLoginModal from "../components/login_modal/MyLoginModal";
+import MyLogoutModal from "../components/logout_modal/MyLogoutModal";
+import MyRegistrationModal from "../components/registration_modal/MyRegistrationModal";
 import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { UserService } from "../core/services/UserService";
@@ -18,6 +19,11 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
   const [products, setProducts] = useState<GetProductEntity[]>([]);
   const [authorizeShortUser, setAuthorizeShortUser] =
     useState<GetUserShortEntity | null>(null);
+
+  const [loginModalIsShowed, showLoginModal] = useState(false);
+  const [registrationModalIsShowed, showRegistrationModal] = useState(false);
+
+  const [logoutModalIsShowed, showLogoutModal] = useState(false);
 
   var productService = new ProductService();
   var userService = new UserService();
@@ -66,24 +72,48 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
   };
 
   useEffect(() => {
-    checkUser();
-  }, []);
-
-  useEffect(() => {
     const fetchData = async () => {
       setProducts(await productService.getProducts());
     };
+    checkUser();
     fetchData();
   }, []);
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Header searchFieldIsHidden={false} shortUser={authorizeShortUser} />
+      <Header
+        searchFieldIsHidden={false}
+        shortUser={authorizeShortUser}
+        login={() => showLoginModal(!loginModalIsShowed)}
+        logout={() => showLogoutModal(!logoutModalIsShowed)}
+        registration={() => showRegistrationModal(!registrationModalIsShowed)}
+      />
       {authorizeShortUser != null ? (
-        <LogoutModal successLogout={checkUser} />
+        <MyLogoutModal
+          modalShow={logoutModalIsShowed}
+          hideModal={() => {
+            showLogoutModal(!logoutModalIsShowed);
+          }}
+          successLogout={checkUser}
+        />
       ) : (
-        <LoginModal successLogin={checkUser} />
+        <div>
+          <MyLoginModal
+            modalShow={loginModalIsShowed}
+            hideModal={() => {
+              showLoginModal(!loginModalIsShowed);
+            }}
+            successLogin={checkUser}
+          />
+          <MyRegistrationModal
+            modalShow={registrationModalIsShowed}
+            hideModal={() => {
+              showRegistrationModal(!registrationModalIsShowed);
+            }}
+          />
+        </div>
       )}
+
       <div className="container py-5">
         <div className="d-flex">
           <div style={{ minWidth: 250 }}></div>

@@ -6,12 +6,15 @@ import Navigation from "./navigation/Navigation";
 export interface IHeaderProps {
   shortUser: GetUserShortEntity | null
   searchFieldIsHidden: boolean;
+  login: () => void,
+  logout: () => void,
+  registration: () => void
 }
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
     <header>
-      <Navigation searchFieldIsHidden={props.searchFieldIsHidden} shortUser={props.shortUser} />
+      <Navigation searchFieldIsHidden={props.searchFieldIsHidden} shortUser={props.shortUser} login={props.login} logout={props.logout} registration={props.registration} />
     </header>
   );
 };
