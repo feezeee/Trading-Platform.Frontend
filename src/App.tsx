@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import React, { useState } from "react";
 
 import LoginModal from "./components/login_modal/LoginModal";
-import Modal from "./components/modal/Modal";
 import ProductPage from "../src/pages/ProductPage";
 import ProfilePage from "./pages/ProfilePage";
 
