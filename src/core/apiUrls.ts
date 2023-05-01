@@ -2,6 +2,7 @@
 const usersApiUrl = process.env.REACT_APP_USERS_API_URL;
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 const imagesApiUrl = process.env.REACT_APP_IMAGES_API_URL;
+const categoriesApiUrl = process.env.REACT_APP_CATEGORIES_API_URL
 
 
 const API_URLS = {
@@ -23,10 +24,14 @@ const API_URLS = {
     // Images API
 
     UPLOAD_IMAGE: imagesApiUrl + '/api/images',
+
+    // Categories API
+    GET_CATEGORIES: categoriesApiUrl + '/api/categories',
     
     REACT_APP_USERS_API_URL: usersApiUrl,
     REACT_APP_PRODUCTS_API_URL: productsApiUrl,
-    REACT_APP_IMAGES_API_URL: imagesApiUrl
+    REACT_APP_IMAGES_API_URL: imagesApiUrl,
+    REACT_APP_CATEGORIES_API_URL: categoriesApiUrl
 }
 
 export default API_URLS;

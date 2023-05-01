@@ -1,6 +1,6 @@
 import API_URLS from "../apiUrls";
-import { GetImageResponse } from "../data/models/image/GetImageResponse";
 import { GetImageEntity } from "../entities/image/GetImageEntity";
+import { GetImageResponse } from "../data/image/GetImageResponse";
 import axios from "axios";
 import { toGetImageEntity } from "../mapper/image/ImageMapper";
 

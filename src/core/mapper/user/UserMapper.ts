@@ -1,11 +1,11 @@
 import { AuthorizeUserEntity } from "../../entities/user/AuthorizeUserEntity";
-import { AuthorizeUserRequest } from "../../data/models/user/AuthorizeUserRequest";
-import { GetUserShortEntity } from "../../entities/user/GetUserShortEntity";
-import { GetUserShortResponse } from "../../data/models/user/GetUserShortResponse";
-import { GetUserTokenEntity } from "../../entities/user/GetUserTokenEntity";
-import { GetUserTokenResponse } from "../../data/models/user/GetUserTokenResponse";
-import { CreateUserRequest } from "../../data/models/user/CreateUserRequest";
+import { AuthorizeUserRequest } from "../../data/user/AuthorizeUserRequest";
 import { CreateUserEntity } from "../../entities/user/CreateUserEntity";
+import { CreateUserRequest } from "../../data/user/CreateUserRequest";
+import { GetUserShortEntity } from "../../entities/user/GetUserShortEntity";
+import { GetUserShortResponse } from "../../data/user/GetUserShortResponse";
+import { GetUserTokenEntity } from "../../entities/user/GetUserTokenEntity";
+import { GetUserTokenResponse } from "../../data/user/GetUserTokenResponse";
 
 export const toGetUserTokenEntity = (
   apiResponse: GetUserTokenResponse

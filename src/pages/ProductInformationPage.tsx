@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 
 import { Card } from "react-bootstrap";
 import { Carousel } from "react-responsive-carousel";
+import { CategoryService } from "../core/services/CategoryService";
 import Filter from "../components/filters/Filter";
 import Footer from "../components/Footer";
+import { GetCategoryEntity } from "../core/entities/category/GetCategoryEntity";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
 import Header from "../components/Header";
@@ -29,6 +31,8 @@ const ProductInformationPage: React.FunctionComponent<
   const [product, setProduct] = useState<GetProductEntity | null>(null);
   const [productIsFectching, setProductIsFectching] = useState(true);
 
+  const [categories, setCategories] = useState<GetCategoryEntity[]>([]);
+
   const [authorizeShortUser, setAuthorizeShortUser] =
     useState<GetUserShortEntity | null>(null);
 
@@ -36,7 +40,8 @@ const ProductInformationPage: React.FunctionComponent<
   const [registrationModalIsShowed, showRegistrationModal] = useState(false);
   const [logoutModalIsShowed, showLogoutModal] = useState(false);
 
-  var productService = new ProductService();
+  const productService = new ProductService();
+  const categoryService = new CategoryService();
 
   const checkUser = async () => {
     const userId: string | null = localStorage.getItem(localStorageKeys.userId);
@@ -80,19 +85,12 @@ const ProductInformationPage: React.FunctionComponent<
   useEffect(() => {
     const fetchData = async () => {
       setProduct(await productService.getProductById(id ?? ""));
+      setCategories(await categoryService.getCategories());
       setProductIsFectching(false);
     };
     setProductIsFectching(true);
     fetchData();
   }, []);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -149,40 +147,42 @@ const ProductInformationPage: React.FunctionComponent<
               <div className="d-flex flex-column">
                 <div className="row">
                   <div className="col">
-                    <Carousel
-                      autoPlay={true}
-                      dynamicHeight={true}
-                      width={700}
-                      showStatus={false}
-                      showArrows={true}
-                      infiniteLoop={true}
-                    >
-                      {product?.images.length == 0
-                        ? [
-                            <div>
-                              <img
-                                className="rounded"
-                                src={NoImage}
-                                alt=""
-                                onError={(event) => {
-                                  event.currentTarget.src = NoImage;
-                                }}
-                              />
-                            </div>,
-                          ]
-                        : product?.images.map((url) => (
-                            <div>
-                              <img
-                                className="rounded"
-                                src={url}
-                                alt=""
-                                onError={(event) => {
-                                  event.currentTarget.src = NoImage;
-                                }}
-                              />
-                            </div>
-                          ))}
-                    </Carousel>
+                    <div style={{width: 700}}>
+                      <Carousel
+                        autoPlay={true}
+                        dynamicHeight={true}
+                        width={700}
+                        showStatus={false}
+                        showArrows={true}
+                        infiniteLoop={true}
+                      >
+                        {product?.images.length == 0
+                          ? [
+                              <div>
+                                <img
+                                  className="rounded"
+                                  src={NoImage}
+                                  alt=""
+                                  onError={(event) => {
+                                    event.currentTarget.src = NoImage;
+                                  }}
+                                />
+                              </div>,
+                            ]
+                          : product?.images.map((url) => (
+                              <div>
+                                <img
+                                  className="rounded"
+                                  src={url}
+                                  alt=""
+                                  onError={(event) => {
+                                    event.currentTarget.src = NoImage;
+                                  }}
+                                />
+                              </div>
+                            ))}
+                      </Carousel>
+                    </div>
                   </div>
                   <div className="col">
                     <div>
@@ -251,11 +251,21 @@ const ProductInformationPage: React.FunctionComponent<
                           </p>
                         </div>
                         <div className="d-flex flex-wrap">
-                          {product?.categories.map((category) => (
-                            <div className="mx-2">
-                              <span>{category.name}</span>
-                            </div>
-                          ))}
+                          {product?.categoryIdArr.map(
+                            (categoryId) =>
+                              categories.find((t) => t.id == categoryId) !==
+                                null && (
+                                <div className="mx-2">
+                                  <span>
+                                    {
+                                      categories.find(
+                                        (t) => t.id == categoryId
+                                      )!.name
+                                    }
+                                  </span>
+                                </div>
+                              )
+                          )}
                         </div>
                       </div>
                     </div>

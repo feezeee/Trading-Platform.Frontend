@@ -7,16 +7,16 @@ import {
 
 import API_URLS from "../apiUrls";
 import { AuthorizeUserEntity } from "../entities/user/AuthorizeUserEntity";
-import { GetUserShortEntity } from "./../entities/user/GetUserShortEntity";
-import { GetUserShortResponse } from "../data/models/user/GetUserShortResponse";
-import { GetUserTokenEntity } from "../entities/user/GetUserTokenEntity";
-import { GetUserTokenResponse } from "../data/models/user/GetUserTokenResponse";
-import axios from "axios";
-import { NicknameIsFreeEntity } from "../entities/nickname/NicknameIsFreeEntity";
-import { NicknameIsFreeResponse } from "../data/models/nickname/NicknameIsFreeResponse";
-import { toNicknameIsFreeEntity } from "../mapper/nickname/NicknameMapper";
 import { CreateUserEntity } from "../entities/user/CreateUserEntity";
-import { CreateUserRequest } from "../data/models/user/CreateUserRequest";
+import { CreateUserRequest } from "../data/user/CreateUserRequest";
+import { GetUserShortEntity } from "./../entities/user/GetUserShortEntity";
+import { GetUserShortResponse } from "../data/user/GetUserShortResponse";
+import { GetUserTokenEntity } from "../entities/user/GetUserTokenEntity";
+import { GetUserTokenResponse } from "../data/user/GetUserTokenResponse";
+import { NicknameIsFreeEntity } from "../entities/nickname/NicknameIsFreeEntity";
+import { NicknameIsFreeResponse } from "../data/nickname/NicknameIsFreeResponse";
+import axios from "axios";
+import { toNicknameIsFreeEntity } from "../mapper/nickname/NicknameMapper";
 
 export class UserService {
   public getUserById = async (

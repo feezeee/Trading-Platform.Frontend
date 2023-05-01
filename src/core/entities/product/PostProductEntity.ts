@@ -1,7 +1,10 @@
+import { GetCategoryEntity } from "../category/GetCategoryEntity";
 
 export interface PostProductEntity {
-	id: string;
 	name: string;
 	description: string;
     price: number;
+	images: string[];
+	phoneNumbers: string[];
+	categories: string[];
 }

@@ -1,5 +1,5 @@
-import { GetImageResponse } from "../../data/models/image/GetImageResponse";
 import { GetImageEntity } from "../../entities/image/GetImageEntity";
+import { GetImageResponse } from "../../data/image/GetImageResponse";
 
 export const toGetImageEntity = (
   apiResponse: GetImageResponse

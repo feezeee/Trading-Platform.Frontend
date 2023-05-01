@@ -1,6 +1,6 @@
 import API_URLS from "../apiUrls";
 import { GetProductEntity } from "../entities/product/GetProductEntity";
-import { GetProductResponse } from "../data/models/product/GetProductResponse";
+import { GetProductResponse } from "../data/product/GetProductResponse";
 import axios from "axios";
 import { toGetProductEntity } from "../mapper/product/ProductMapper";
 

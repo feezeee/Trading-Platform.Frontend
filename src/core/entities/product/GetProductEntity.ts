@@ -8,5 +8,5 @@ export interface GetProductEntity {
 	images: string[];
 	createdAt: string;
 	phoneNumbers: string[];
-	categories: GetCategoryEntity[];
+	categoryIdArr: string[];
 }
