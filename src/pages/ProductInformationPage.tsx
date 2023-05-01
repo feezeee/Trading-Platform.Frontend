@@ -1,5 +1,9 @@
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 import React, { useEffect, useState } from "react";
 
+import { Card } from "react-bootstrap";
+import { Carousel } from "react-responsive-carousel";
 import Filter from "../components/filters/Filter";
 import Footer from "../components/Footer";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
@@ -8,17 +12,19 @@ import Header from "../components/Header";
 import MyLoginModal from "../components/login_modal/MyLoginModal";
 import MyLogoutModal from "../components/logout_modal/MyLogoutModal";
 import MyRegistrationModal from "../components/registration_modal/MyRegistrationModal";
+import NoImage from "../images/noImage.png";
 import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
+import { prettyDOM } from "@testing-library/react";
 import { useParams } from "react-router-dom";
 
-export interface IProductPageProps {}
+export interface IProductInformationPageProps {}
 
-const ProductInformationPage: React.FunctionComponent<IProductPageProps> = (
-  props
-) => {
+const ProductInformationPage: React.FunctionComponent<
+  IProductInformationPageProps
+> = (props) => {
   const { id } = useParams();
   const [product, setProduct] = useState<GetProductEntity | null>(null);
   const [productIsFectching, setProductIsFectching] = useState(true);
@@ -80,6 +86,14 @@ const ProductInformationPage: React.FunctionComponent<IProductPageProps> = (
     fetchData();
   }, []);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <Header
@@ -132,69 +146,119 @@ const ProductInformationPage: React.FunctionComponent<IProductPageProps> = (
                 </div>
               </div>
             ) : (
-              <div className="d-flex">
+              <div className="d-flex flex-column">
                 <div className="row">
-                  <div
-                    id="carouselExampleIndicators"
-                    className="carousel slide"
-                  >
-                    <div className="carousel-indicators">
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to="0"
-                        className="active"
-                        aria-current="true"
-                        aria-label="Slide 1"
-                      ></button>
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to="1"
-                        aria-label="Slide 2"
-                      ></button>
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to="2"
-                        aria-label="Slide 3"
-                      ></button>
-                    </div>
-                    <div className="carousel-inner">
-                      <div className="carousel-item active">
-                        <img src="..." className="d-block w-100" alt="..." />
-                      </div>
-                      <div className="carousel-item">
-                        <img src="..." className="d-block w-100" alt="..." />
-                      </div>
-                      <div className="carousel-item">
-                        <img src="..." className="d-block w-100" alt="..." />
-                      </div>
-                    </div>
-                    <button
-                      className="carousel-control-prev"
-                      type="button"
-                      data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide="prev"
+                  <div className="col">
+                    <Carousel
+                      autoPlay={true}
+                      dynamicHeight={true}
+                      width={700}
+                      showStatus={false}
+                      showArrows={true}
+                      infiniteLoop={true}
                     >
-                      <span
-                        className="carousel-control-prev-icon"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="visually-hidden">Предыдущий</span>
-                    </button>
-                    <button
-                      className="carousel-control-next"
-                      type="button"
-                      data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide="next"
-                    >
-                      <span
-                        className="carousel-control-next-icon"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="visually-hidden">Следующий</span>
-                    </button>
+                      {product?.images.length == 0
+                        ? [
+                            <div>
+                              <img
+                                className="rounded"
+                                src={NoImage}
+                                alt=""
+                                onError={(event) => {
+                                  event.currentTarget.src = NoImage;
+                                }}
+                              />
+                            </div>,
+                          ]
+                        : product?.images.map((url) => (
+                            <div>
+                              <img
+                                className="rounded"
+                                src={url}
+                                alt=""
+                                onError={(event) => {
+                                  event.currentTarget.src = NoImage;
+                                }}
+                              />
+                            </div>
+                          ))}
+                    </Carousel>
+                  </div>
+                  <div className="col">
+                    <div>
+                      {product?.price == null ? (
+                        <p style={{ fontSize: 24 }}>
+                          <strong>{`Договорная`}</strong>
+                        </p>
+                      ) : (
+                        <p style={{ fontSize: 24 }}>
+                          <strong>{`${product?.price} р.`}</strong>
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 24 }} className="text-break text-">
+                        <strong>{`${product?.name}`}</strong>
+                      </p>
+                    </div>
+                    <hr />
+                    <div>
+                      <p style={{ fontSize: 16 }} className="text-break text-">
+                        {`Дата размещения: ${product?.createdAt}`}
+                      </p>
+                    </div>
+                    <hr />
+                    {product?.phoneNumbers.length !== 0 && (
+                      <div>
+                        {product?.phoneNumbers.map((phoneNumber) => (
+                          <div>
+                            <p>{phoneNumber}</p>
+                          </div>
+                        ))}
+                        <hr />
+                      </div>
+                    )}
+                    <div className="d-flex justify-content-center">
+                      <button className="btn btn-outline-success w-100">
+                        Написать
+                      </button>
+                      <div
+                        role="button"
+                        className="d-flex justify-content-center align-items-center mx-3"
+                      >
+                        <i className="bi bi-heart-fill text-danger"></i>
+                      </div>
+                    </div>
+                    <div className="d-flex"></div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="d-flex flex-column">
+                    <div className="row">
+                      <div className="d-flex flex-column">
+                        <p>
+                          <strong>Описание</strong>
+                        </p>
+                        <p>{product?.description}</p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div className="row">
+                      <div className="d-flex flex-column">
+                        <div className="row">
+                          <p>
+                            <strong>Категории</strong>
+                          </p>
+                        </div>
+                        <div className="d-flex flex-wrap">
+                          {product?.categories.map((category) => (
+                            <div className="mx-2">
+                              <span>{category.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
