@@ -1,6 +1,6 @@
-import Filter, { FilterValues } from "../components/filters/Filter";
 import React, { useEffect, useState } from "react";
 
+import Filter from "../components/filters/Filter";
 import Footer from "../components/Footer";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
@@ -12,10 +12,11 @@ import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
+import { useNavigate } from "react-router-dom";
 
 export interface IProductPageProps {}
 
-const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
+const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
   const [products, setProducts] = useState<GetProductEntity[]>([]);
   const [authorizeShortUser, setAuthorizeShortUser] =
     useState<GetUserShortEntity | null>(null);
@@ -28,6 +29,8 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
   const [logoutModalIsShowed, showLogoutModal] = useState(false);
 
   var productService = new ProductService();
+
+  const navigate = useNavigate();
 
   const checkUser = async () => {
     const userId: string | null = localStorage.getItem(localStorageKeys.userId);
@@ -42,8 +45,8 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
     );
     const registrationDate: string | null = localStorage.getItem(
       localStorageKeys.registrationDate
-    );
-
+    );    
+    
     if (
       userId == null ||
       firstName == null ||
@@ -51,6 +54,7 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
       nickname == null ||
       registrationDate == null
     ) {
+        navigate("/products")
       setAuthorizeShortUser(null);
     } else {
       const shortUserEntity: GetUserShortEntity = {
@@ -62,19 +66,11 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
       };
       setAuthorizeShortUser(shortUserEntity);
     }
-
-    // const token = localStorage.getItem(localStorageKeys.accessToken);
-    // if (token != null){
-    //   setAuthorizeShortUser(await userService.getShortUserByToken(token));
-    // }
-    // else {
-    //   setAuthorizeShortUser(null)
-    // }
   };
 
   useEffect(() => {
     checkUser();
-  }, []);
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,25 +78,8 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
       setProductsIsFectching(false);
     };
     setProductsIsFectching(true);
-    fetchData();
+    fetchData();    
   }, []);
-
-  const onShowByFilters = (res: FilterValues) => {
-    const fetchData = async () => {
-      setProducts(
-        await productService.getProducts(
-          undefined,
-          res.fromPrice,
-          res.toPrice,
-          res.priceIsSet,
-          res.imagesAreSet
-        )
-      );
-      setProductsIsFectching(false);
-    };
-    setProductsIsFectching(true);
-    fetchData();
-  };
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -139,39 +118,7 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
 
       <div className="container py-5">
         <div className="d-flex">
-          <div style={{ minWidth: 250 }}></div>
-          <div style={{ width: 250 }} className="position-fixed">
-            <Filter
-              isDisabled={productsIsFectching}
-              onShowByFilters={(res) => {
-                onShowByFilters(res);
-              }}
-            />
-          </div>
-          <div style={{ minHeight: "65vh" }} className="container-fluid">
-            {productsIsFectching === true ? (
-              <div
-                style={{ zIndex: 2 }}
-                className="d-flex h-100 w-100 justify-content-center align-items-center"
-              >
-                <div
-                  style={{ width: 100, height: 100 }}
-                  className="spinner-border text-secondary"
-                  role="status"
-                >
-                  <span className="visually-hidden">Загрузка...</span>
-                </div>
-              </div>
-            ) : (
-              <div className="row flex-wrap g-3">
-                {products.map((product) => (
-                  <div className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">
-                    <ProductItem product={product} />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+         
         </div>
       </div>
       <Footer />
@@ -179,4 +126,4 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
   );
 };
 
-export default ProductPage;
+export default MyProductsPage;

@@ -1,34 +1,79 @@
-export interface IFilterProps {}
+import { useState } from "react";
+
+export interface IFilterProps {
+  onShowByFilters: (res: FilterValues) => void;
+  isDisabled: boolean;
+}
+
+export interface FilterValues {
+  fromPrice: number | undefined;
+  toPrice: number | undefined;
+  priceIsSet: boolean | undefined;
+  imagesAreSet: boolean | undefined;
+}
 
 const Filter: React.FunctionComponent<IFilterProps> = (props) => {
+  const [formValues, setFormValues] = useState<FilterValues>({
+    fromPrice: undefined,
+    toPrice: undefined,
+    priceIsSet: undefined,
+    imagesAreSet: undefined,
+  });
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const clearFilters = () => {
+    setFormValues({
+      fromPrice: undefined,
+      toPrice: undefined,
+      priceIsSet: undefined,
+      imagesAreSet: undefined,
+    });
+  };
+
+  const onShowByFilters = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    props.onShowByFilters(formValues);
+  };
+
   return (
     <div className="w-100">
-      <form className="w-100">
+      <form onSubmit={(event) => onShowByFilters(event)} className="w-100">
         <div className="row m-0">
           <div className="d-flex flex-column p-0">
             <strong className="w-100">Цена</strong>
             <div className="input-group mt-2">
               <input
-                type="text"
+                disabled={props.isDisabled}
+                type="number"
                 className="form-control"
+                name="fromPrice"
                 placeholder="От"
                 aria-label="От"
+                onChange={handleInputChange}
               />
               <input
-                type="text"
+                disabled={props.isDisabled}
+                type="number"
                 className="form-control"
+                name="toPrice"
                 placeholder="До"
                 aria-label="До"
+                onChange={handleInputChange}
               />
             </div>
             <div className="mt-2">
               <div className="form-check">
                 <input
+                  disabled={props.isDisabled}
                   className="form-check-input"
                   type="radio"
-                  name="priceSetOrNot"
-                  id="priceSet"
-                  value="priceSet"
+                  name="priceIsSet"
+                  value="true"
+                  onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="priceSet">
                   Цена указана
@@ -36,11 +81,12 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
               </div>
               <div className="form-check">
                 <input
+                  disabled={props.isDisabled}
                   className="form-check-input"
                   type="radio"
-                  name="priceSetOrNot"
-                  id="priceNotSet"
-                  value="priceNotSet"
+                  name="priceIsSet"
+                  value="false"
+                  onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="priceNotSet">
                   Цена не указана
@@ -48,12 +94,13 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
               </div>
               <div className="form-check">
                 <input
+                  disabled={props.isDisabled}
                   className="form-check-input"
                   type="radio"
-                  name="priceSetOrNot"
-                  id="priceSetOrNot"
-                  value="priceSetOrNot"
+                  name="priceIsSet"
+                  value={undefined}
                   defaultChecked
+                  onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="priceSetOrNot">
                   Неважно
@@ -68,11 +115,12 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
             <div className="mt-2">
               <div className="form-check">
                 <input
+                  disabled={props.isDisabled}
                   className="form-check-input"
                   type="radio"
-                  name="imageExistOrNot"
-                  id="imageExist"
-                  value="imageExist"
+                  name="imagesAreSet"
+                  value="true"
+                  onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="imageExist">
                   Только с фото
@@ -80,11 +128,12 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
               </div>
               <div className="form-check">
                 <input
+                  disabled={props.isDisabled}
                   className="form-check-input"
                   type="radio"
-                  name="imageExistOrNot"
-                  id="imageNotExist"
-                  value="imageNotExist"
+                  name="imagesAreSet"
+                  value="false"
+                  onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="imageNotExist">
                   Только без фото
@@ -92,12 +141,13 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
               </div>
               <div className="form-check">
                 <input
+                  disabled={props.isDisabled}
                   className="form-check-input"
                   type="radio"
-                  name="imageExistOrNot"
-                  id="imageExistOrNot"
-                  value="imageExistOrNot"
+                  name="imagesAreSet"
+                  value={undefined}
                   defaultChecked
+                  onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="imageExistOrNot">
                   Неважно
@@ -107,12 +157,18 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
           </div>
         </div>
         <div className="row m-0 mt-3">
-          <button type="submit" className="btn btn-success">
+          <button
+            disabled={props.isDisabled}
+            type="submit"
+            className="btn btn-success"
+          >
             Показать
           </button>
         </div>
         <div className="row m-0 mt-2">
           <button
+            disabled={props.isDisabled}
+            onClick={clearFilters}
             className="d-flex align-items-center justify-content-center btn"
             type="reset"
           >
