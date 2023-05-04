@@ -1,8 +1,10 @@
+import { toGetProductEntity, toPostProductRequest } from "../mapper/product/ProductMapper";
+
 import API_URLS from "../apiUrls";
 import { GetProductEntity } from "../entities/product/GetProductEntity";
 import { GetProductResponse } from "../data/product/GetProductResponse";
+import { PostProductEntity } from "../entities/product/PostProductEntity";
 import axios from "axios";
-import { toGetProductEntity } from "../mapper/product/ProductMapper";
 
 export class ProductService {
   public getProducts = async (
@@ -55,4 +57,23 @@ export class ProductService {
       return null;
     }
   };
+
+  public createProduct = async (entity: PostProductEntity): Promise<GetProductEntity | null> => {
+    try{
+        const response = await axios.post<GetProductResponse>(
+          API_URLS.CREATE_PRODDUCT,
+          toPostProductRequest(entity)
+        )
+        if (response.status !== 201){
+          return null;
+        }
+        if (response.data === null){
+          return null;
+        }
+        return toGetProductEntity(response.data)
+    }
+    catch(error){
+      return null;
+    }
+  }
 }

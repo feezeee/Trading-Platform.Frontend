@@ -64,7 +64,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
           ""
         )}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

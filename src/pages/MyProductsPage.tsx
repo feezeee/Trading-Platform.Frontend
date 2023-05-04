@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+import AddProductModal from "../components/add_product_menu/AddProductModal";
 import Filter from "../components/filters/Filter";
+import FloatRoundedButton from "../components/float_rounded_button/FloatRoundedButton";
 import Footer from "../components/Footer";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
@@ -28,7 +30,9 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
 
   const [logoutModalIsShowed, showLogoutModal] = useState(false);
 
-  var productService = new ProductService();
+  const [addProductModalIsShowed, showAddProductModal] = useState(false);
+
+  const productService = new ProductService();
 
   const navigate = useNavigate();
 
@@ -45,8 +49,8 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
     );
     const registrationDate: string | null = localStorage.getItem(
       localStorageKeys.registrationDate
-    );    
-    
+    );
+
     if (
       userId == null ||
       firstName == null ||
@@ -54,8 +58,7 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
       nickname == null ||
       registrationDate == null
     ) {
-        navigate("/products")
-      setAuthorizeShortUser(null);
+      navigate("/products");
     } else {
       const shortUserEntity: GetUserShortEntity = {
         id: userId,
@@ -69,22 +72,42 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
   };
 
   useEffect(() => {
-    checkUser();
-  });
+    const fetchData = async () => {
+      await checkUser();
+    };
+    setProductsIsFectching(true);
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      setProducts(await productService.getProducts());
-      setProductsIsFectching(false);
+      if (authorizeShortUser != null) {
+        const productService = new ProductService();
+        setProducts(await productService.getProducts(authorizeShortUser.id));
+        setProductsIsFectching(false);
+      }
     };
+    fetchData();
+  }, [authorizeShortUser != null]);
+
+  const successCreateProduct = async () => {
+    if (authorizeShortUser == null) {
+      navigate("/products");
+    }
     setProductsIsFectching(true);
-    fetchData();    
-  }, []);
+    const productService = new ProductService();
+    setProducts(await productService.getProducts(authorizeShortUser!.id));
+    setProductsIsFectching(false);
+  };
+
+  const addNewProduct = () => {
+      navigate("/products/add")
+  };
 
   return (
     <div className="d-flex flex-column min-vh-100">
       <Header
-        searchFieldIsHidden={false}
+        searchFieldIsHidden={true}
         shortUser={authorizeShortUser}
         login={() => showLoginModal(!loginModalIsShowed)}
         logout={() => showLogoutModal(!logoutModalIsShowed)}
@@ -118,10 +141,39 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
 
       <div className="container py-5">
         <div className="d-flex">
-         
+          <div style={{ minHeight: "65vh" }} className="container-fluid">
+            {productsIsFectching === true ? (
+              <div
+                style={{ zIndex: 2 }}
+                className="d-flex h-100 w-100 justify-content-center align-items-center"
+              >
+                <div
+                  style={{ width: 100, height: 100 }}
+                  className="spinner-border text-secondary"
+                  role="status"
+                >
+                  <span className="visually-hidden">Загрузка...</span>
+                </div>
+              </div>
+            ) : (
+              <div className="row flex-wrap g-3">                
+                {products.map((product) => (
+                  <div className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">
+                    <ProductItem product={product} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+        {productsIsFectching === false && (
+          <div>
+            <FloatRoundedButton onClick={addNewProduct} />
+          </div>
+        )}
       </div>
-      <Footer />
+
+      {/* <Footer /> */}
     </div>
   );
 };

@@ -276,7 +276,7 @@ const ProductInformationPage: React.FunctionComponent<
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

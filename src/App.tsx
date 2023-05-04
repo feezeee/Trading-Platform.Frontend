@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import React, { useState } from "react";
 
+import AddProductPage from "./pages/AddProductPage";
 import MyProductsPage from "./pages/MyProductsPage";
 import ProductInformationPage from "./pages/ProductInformationPage";
 import ProductPage from "./pages/ProductsPage";
@@ -15,6 +16,7 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
         <Route path="/products" element={<ProductPage />} />
         <Route path="/" element={<ProductPage />} />
         <Route path="/my-profile" element={<ProfilePage />} />
+        <Route path="/products/add" element={<AddProductPage />}/>
         <Route path="/products/:id" element={<ProductInformationPage/>}/>
         <Route path="/my-products" element={<MyProductsPage/>}/>
       </Routes>

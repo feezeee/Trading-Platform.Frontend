@@ -174,7 +174,7 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
