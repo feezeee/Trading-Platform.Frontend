@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface IProfileMenuProps {
-  productCount: number;
+  // productCount: number;
   messageCount: number;
   ariaLabelledby: string;
   logout: () => void
@@ -35,11 +35,11 @@ const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
       <li>
         <a className="dropdown-item" href="/my-products">
           <span className="pe-2">Мои товары</span>
-          {props.productCount > 1 && (
+          {/* {props.productCount > 1 && (
             <span className="badge bg-danger">
               {props.productCount > 99 ? "+99" : props.productCount}
             </span>
-          )}
+          )} */}
         </a>
       </li>
       <li>

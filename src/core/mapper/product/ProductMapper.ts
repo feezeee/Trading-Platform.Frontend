@@ -12,7 +12,7 @@ export const toGetProductEntity = (
     description: apiResponse.description,
     price: apiResponse.price,
     images: apiResponse.image_urls,
-    createdAt: apiResponse.created_at,
+    createdAt: new Date(apiResponse.created_at),
     phoneNumbers: apiResponse.phone_numbers,
     categoryIdArr: apiResponse.category_id_list
   };

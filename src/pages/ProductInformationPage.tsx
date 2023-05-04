@@ -21,6 +21,7 @@ import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
 import { prettyDOM } from "@testing-library/react";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 
 export interface IProductInformationPageProps {}
 
@@ -147,7 +148,7 @@ const ProductInformationPage: React.FunctionComponent<
               <div className="d-flex flex-column">
                 <div className="row">
                   <div className="col">
-                    <div style={{width: 700}}>
+                    <div style={{ width: 700 }}>
                       <Carousel
                         autoPlay={true}
                         dynamicHeight={true}
@@ -204,7 +205,22 @@ const ProductInformationPage: React.FunctionComponent<
                     <hr />
                     <div>
                       <p style={{ fontSize: 16 }} className="text-break text-">
-                        {`Дата размещения: ${product?.createdAt}`}
+                        {/* const year = date.getFullYear();
+const month = ("0" + (date.getMonth() + 1)).slice(-2);
+const day = ("0" + date.getDate()).slice(-2);
+const hours = ("0" + date.getHours()).slice(-2);
+const minutes = ("0" + date.getMinutes()).slice(-2);
+const seconds = ("0" + date.getSeconds()).slice(-2); */}
+                        {/* {`Дата размещения: ${product?.createdAt.}`} */}
+                        {`Дата размещения: ${
+                          product!.createdAt.toLocaleString("ru-Ru", { 
+                            year: 'numeric', 
+                            month: 'numeric', 
+                            day: 'numeric',  
+                            hour: 'numeric', 
+                            minute: 'numeric'
+                          })
+                        }`}
                       </p>
                     </div>
                     <hr />

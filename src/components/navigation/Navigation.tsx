@@ -77,7 +77,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                   </div>
                 </div>
                 <ProfileMenu
-                  productCount={100}
+                  // productCount={100}
                   messageCount={12}
                   ariaLabelledby="dropdownMenuProfile"
                   logout={props.logout}
