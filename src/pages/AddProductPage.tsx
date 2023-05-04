@@ -15,6 +15,7 @@ import { ProductService } from "../core/services/ProductService";
 import TextInputPhoneNumberWithDeleteButton from "../components/phone_number_editable/TextInputPhoneNumberWithDeleteButton";
 import localStorageKeys from "../core/localStorageKeys";
 import { useNavigate } from "react-router-dom";
+import { ImageService } from "../core/services/ImageService";
 
 export interface IAddProductPageProps {}
 
@@ -185,6 +186,23 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
 
   const addProductClick = async () => {
     setProductIsCreating(true);
+    const imageService = new ImageService();
+
+    let newImagesUrls: string[] = []
+
+    for(let i=0; i < productImages.length; i++){
+      const response = await imageService.uploadImage(productImages[i], null);
+      if(response != null){
+        newImagesUrls = [...newImagesUrls, response.imageUrl]
+      }      
+    }
+    // productImages.ma
+
+    // productImages.map((item) => {
+    //   const response = await imageService.uploadImage(item);
+
+    // })
+
     const postProduct: PostProductEntity = {
       userId: authorizeShortUser!.id,
       categories: productCategories,
@@ -192,7 +210,7 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
       name: productName,
       phoneNumbers: productPhoneNumbers,
       price: Number(productPrice),
-      images: [],
+      images: newImagesUrls,
     };
     await productService.createProduct(postProduct);
     navigate("/my-products");
