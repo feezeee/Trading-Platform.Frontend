@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Console } from "console";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
 import NoImage from "../../images/noImage.png";
+import { useNavigate } from "react-router-dom";
 
 export interface IProductItemProps {
   product: GetProductEntity;
+  onClick: (id: string) => void
 }
 
 const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
@@ -20,7 +21,7 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/products/${props.product.id}`)
+    props.onClick(props.product.id)    
   }
 
   return (

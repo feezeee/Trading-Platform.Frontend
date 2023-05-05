@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import AddProductModal from "../components/add_product_menu/AddProductModal";
-import Filter from "../components/filters/Filter";
 import FloatRoundedButton from "../components/float_rounded_button/FloatRoundedButton";
-import Footer from "../components/Footer";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
 import Header from "../components/Header";
@@ -12,7 +9,6 @@ import MyLogoutModal from "../components/logout_modal/MyLogoutModal";
 import MyRegistrationModal from "../components/registration_modal/MyRegistrationModal";
 import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
-import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
 import { useNavigate } from "react-router-dom";
 
@@ -159,7 +155,10 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
               <div className="row flex-wrap g-3">                
                 {products.map((product) => (
                   <div className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">
-                    <ProductItem product={product} />
+                    <ProductItem onClick={(id) => {
+                      
+                      navigate(`/my-products/${id}`)
+                    }} product={product} />
                   </div>
                 ))}
               </div>
@@ -172,8 +171,6 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
           </div>
         )}
       </div>
-
-      {/* <Footer /> */}
     </div>
   );
 };

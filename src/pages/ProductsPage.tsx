@@ -12,6 +12,7 @@ import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
+import { useNavigate } from "react-router-dom";
 
 export interface IProductPageProps {}
 
@@ -29,6 +30,7 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
 
   var productService = new ProductService();
 
+  const navigate = useNavigate();
   const checkUser = async () => {
     const userId: string | null = localStorage.getItem(localStorageKeys.userId);
     const firstName: string | null = localStorage.getItem(
@@ -166,7 +168,9 @@ const ProductPage: React.FunctionComponent<IProductPageProps> = (props) => {
               <div className="row flex-wrap g-3">
                 {products.map((product) => (
                   <div className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">
-                    <ProductItem product={product} />
+                    <ProductItem onClick={(id) => {
+                      navigate(`/products/${id}`)
+                    }} product={product} />
                   </div>
                 ))}
               </div>
