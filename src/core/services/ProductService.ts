@@ -1,9 +1,14 @@
-import { toGetProductEntity, toPostProductRequest } from "../mapper/product/ProductMapper";
+import {
+  toGetProductEntity,
+  toPostProductRequest,
+  toPutProductRequest,
+} from "../mapper/product/ProductMapper";
 
 import API_URLS from "../apiUrls";
 import { GetProductEntity } from "../entities/product/GetProductEntity";
 import { GetProductResponse } from "../data/product/GetProductResponse";
 import { PostProductEntity } from "../entities/product/PostProductEntity";
+import { PutProductEntity } from "../entities/product/PutProductEntity";
 import axios from "axios";
 
 export class ProductService {
@@ -58,22 +63,57 @@ export class ProductService {
     }
   };
 
-  public createProduct = async (entity: PostProductEntity): Promise<GetProductEntity | null> => {
-    try{
-        const response = await axios.post<GetProductResponse>(
-          API_URLS.CREATE_PRODDUCT,
-          toPostProductRequest(entity)
-        )
-        if (response.status !== 201){
-          return null;
-        }
-        if (response.data === null){
-          return null;
-        }
-        return toGetProductEntity(response.data)
-    }
-    catch(error){
+  public createProduct = async (
+    entity: PostProductEntity
+  ): Promise<GetProductEntity | null> => {
+    try {
+      const response = await axios.post<GetProductResponse>(
+        API_URLS.CREATE_PRODUCT,
+        toPostProductRequest(entity)
+      );
+      if (response.status !== 201) {
+        return null;
+      }
+      if (response.data === null) {
+        return null;
+      }
+      return toGetProductEntity(response.data);
+    } catch (error) {
       return null;
     }
-  }
+  };
+
+  public updateProduct = async (
+    entity: PutProductEntity
+  ): Promise<GetProductEntity | null> => {
+    try {
+      const response = await axios.put<GetProductResponse | null>(
+        API_URLS.UPDATE_PRODUCT,
+        toPutProductRequest(entity)
+      );
+      if (response.status !== 200) {
+        return null;
+      }
+      if (response.data === null){
+        return null;
+      }
+      return toGetProductEntity(response.data);
+    } catch (error) {
+      return null;
+    }
+  };
+
+  public deleteProduct = async (id: string): Promise<boolean> => {
+    try {
+      const response = await axios.delete(
+        `${API_URLS.DELETE_PRODUCTS}/${id}`
+      );
+      if (response.status !== 200) {
+        return false;
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
 }

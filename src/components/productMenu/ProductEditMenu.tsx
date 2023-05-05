@@ -3,48 +3,63 @@ import React, { useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import CategoryEditable from "../category_editable/CategoryEditable";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
+import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
 import NoImage from "../../images/noImage.png";
 import TextInputPhoneNumberWithDeleteButton from "../phone_number_editable/TextInputPhoneNumberWithDeleteButton";
 
-export interface IProductAddMenuProps {
-  onSave: (createProduct: CreateProductValues) => void;
+export interface IProductEditMenuProps {
+  product: GetProductEntity;
+  onSave: (createProduct: UpdateProductValues) => void;
+  onCancel: () => void;
   categories: GetCategoryEntity[];
 }
 
-export interface CreateProductValues {
+export interface UpdateProductValues {
+  id: string;
   name: string;
   description: string;
   price: number | null;
   imageFileArr: File[];
+  imageUrlArr: string[];
   phoneNumberArr: string[];
   categoryIdArr: string[];
 }
 
-const ProductAddMenu: React.FunctionComponent<
-  IProductAddMenuProps
-> = (props) => {
-  const [productImageUrls, setProductImageUrls] = useState<string[]>([]);
-  const [productImages, setProductImages] = useState<File[]>([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(
-    null
+const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
+  props
+) => {
+  const [productImageUrls, setProductImageUrls] = useState<string[]>(
+    props.product.images
   );
+  const [productImages, setProductImages] = useState<File[]>(
+    Array.from({ length: props.product.images.length }, () => new File([], ""))
+  );
+  const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(0);
 
-  const [productName, setProductName] = useState<string>("");
-  const [productNameIsValid, setProductNameIsValid] = useState(false);
+  const [productName, setProductName] = useState<string>(props.product.name);
+  const [productNameIsValid, setProductNameIsValid] = useState(true);
 
-  const [productDescription, setProductDescription] = useState<string>("");
+  const [productDescription, setProductDescription] = useState<string>(
+    props.product.description
+  );
   const [productDescriptionIsValid, setProductDescriptionIsValid] =
-    useState(false);
+    useState(true);
 
-  const [productPrice, setProductPrice] = useState<string | null>(null);
+  const [productPrice, setProductPrice] = useState<string | null>(
+    props.product.price === null ? null : props.product.price.toString()
+  );
   const [productPriceIsValid, setProductPriceIsValid] = useState(true);
 
-  const [productPhoneNumbers, setProductPhoneNumbers] = useState<string[]>([]);
+  const [productPhoneNumbers, setProductPhoneNumbers] = useState<string[]>(
+    props.product.phoneNumbers
+  );
   const [productPhoneNumbersIsValid, setproductPhoneNumbersIsValid] = useState<
     boolean[]
-  >([]);
+  >(Array.from({ length: props.product.phoneNumbers.length }, () => true));
 
-  const [productCategoryIds, setProductCategories] = useState<string[]>([]);
+  const [productCategoryIds, setProductCategories] = useState<string[]>(
+    props.product.categoryIdArr
+  );
 
   const productPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.value.length == 0) {
@@ -125,18 +140,20 @@ const ProductAddMenu: React.FunctionComponent<
     }
   };
 
-  const addProductClick = () => {
-    const postProduct: CreateProductValues = {
+  const updateProductClick = () => {
+    const updateProduct: UpdateProductValues = {
+      id: props.product.id,
       name: productName,
       description: productDescription,
       price: productPrice === null ? null : Number(productPrice),
       phoneNumberArr: productPhoneNumbers,
       categoryIdArr: productCategoryIds,
       imageFileArr: productImages,
+      imageUrlArr: productImageUrls,
     };
-    props.onSave(postProduct);
+    props.onSave(updateProduct);
   };
-  
+
   const selectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files as FileList;
     if (selectedFiles != null && selectedFiles.length > 0) {
@@ -378,22 +395,31 @@ const ProductAddMenu: React.FunctionComponent<
                   </div>
                   <div className="row mt-auto">
                     <div className="d-flex justify-content-center">
-                      <button
-                        disabled={
-                          productNameIsValid === true &&
-                          productPriceIsValid === true &&
-                          productPhoneNumbersIsValid.find((t) => t == false) ==
-                            undefined &&
-                          productDescriptionIsValid === true &&
-                          productCategoryIds.length > 0
-                            ? false
-                            : true
-                        }
-                        className="btn btn-success"
-                        onClick={addProductClick}
-                      >
-                        Добавить
-                      </button>
+                      <div className="mt-5 w-50 d-flex justify-content-around">
+                        <button
+                          disabled={
+                            productNameIsValid === true &&
+                            productPriceIsValid === true &&
+                            productPhoneNumbersIsValid.find(
+                              (t) => t == false
+                            ) == undefined &&
+                            productDescriptionIsValid === true &&
+                            productCategoryIds.length > 0
+                              ? false
+                              : true
+                          }
+                          className="btn btn-success"
+                          onClick={updateProductClick}
+                        >
+                          Сохранить
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={props.onCancel}
+                        >
+                          Отмена
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -406,4 +432,4 @@ const ProductAddMenu: React.FunctionComponent<
   );
 };
 
-export default ProductAddMenu;
+export default ProductEditMenu;

@@ -9,4 +9,5 @@ export interface GetProductEntity {
 	createdAt: Date;
 	phoneNumbers: string[];
 	categoryIdArr: string[];
+	userId: string;
 }

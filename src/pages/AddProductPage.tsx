@@ -1,6 +1,4 @@
-import ProductAddMenu, {
-  CreateProductValues,
-} from "../components/ProductAddMenu/ProductAddMenu";
+import ProductAddMenu, { CreateProductValues } from "../components/productMenu/ProductAddMenu";
 import React, { useEffect, useState } from "react";
 
 import { Carousel } from "react-responsive-carousel";
@@ -144,7 +142,7 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
           />
         </div>
       )}
-      <div className="container">
+      <div className="container py-5">
         <div className="d-flex">
           <div style={{ minHeight: "80vh" }} className="container-fluid">
             {productIsCreating === true ? (

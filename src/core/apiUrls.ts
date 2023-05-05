@@ -8,7 +8,9 @@ const categoriesApiUrl = process.env.REACT_APP_CATEGORIES_API_URL
 const API_URLS = {
     // Products API
     GET_PRODUCTS: productsApiUrl + '/api/products',
-    CREATE_PRODDUCT: productsApiUrl +'/api/products',
+    CREATE_PRODUCT: productsApiUrl +'/api/products',
+    UPDATE_PRODUCT: productsApiUrl +'/api/products',
+    DELETE_PRODUCTS: productsApiUrl +'/api/products',
 
     // Users API
 

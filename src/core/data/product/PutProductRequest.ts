@@ -1,4 +1,4 @@
-export interface GetProductResponse {
+export interface PutProductRequest {
 	id: string;
 	name: string;
 	description: string;
@@ -6,6 +6,4 @@ export interface GetProductResponse {
 	phone_numbers: string[];
     price: number | null;
 	category_id_list: string[];
-	created_at: string;
-	user_id: string;
 }

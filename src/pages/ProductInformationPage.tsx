@@ -15,13 +15,14 @@ import MyLoginModal from "../components/login_modal/MyLoginModal";
 import MyLogoutModal from "../components/logout_modal/MyLogoutModal";
 import MyRegistrationModal from "../components/registration_modal/MyRegistrationModal";
 import NoImage from "../images/noImage.png";
+import ProductInfMenu from "../components/productMenu/ProductInfMenu";
 import ProductItem from "../components/products/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
+import moment from "moment";
 import { prettyDOM } from "@testing-library/react";
 import { useParams } from "react-router-dom";
-import moment from "moment";
 
 export interface IProductInformationPageProps {}
 
@@ -144,150 +145,8 @@ const ProductInformationPage: React.FunctionComponent<
                   <span className="visually-hidden">Загрузка...</span>
                 </div>
               </div>
-            ) : (
-              <div className="d-flex flex-column">
-                <div className="row">
-                  <div className="col">
-                    <div style={{ width: 700 }}>
-                      <Carousel
-                        autoPlay={true}
-                        dynamicHeight={true}
-                        width={700}
-                        showStatus={false}
-                        showArrows={true}
-                        infiniteLoop={true}
-                      >
-                        {product?.images.length == 0
-                          ? [
-                              <div>
-                                <img
-                                  className="rounded"
-                                  src={NoImage}
-                                  alt=""
-                                  onError={(event) => {
-                                    event.currentTarget.src = NoImage;
-                                  }}
-                                />
-                              </div>,
-                            ]
-                          : product?.images.map((url) => (
-                              <div>
-                                <img
-                                  className="rounded"
-                                  src={url}
-                                  alt=""
-                                  onError={(event) => {
-                                    event.currentTarget.src = NoImage;
-                                  }}
-                                />
-                              </div>
-                            ))}
-                      </Carousel>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div>
-                      {product?.price == null ? (
-                        <p style={{ fontSize: 24 }}>
-                          <strong>{`Договорная`}</strong>
-                        </p>
-                      ) : (
-                        <p style={{ fontSize: 24 }}>
-                          <strong>{`${product?.price} р.`}</strong>
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <p style={{ fontSize: 24 }} className="text-break text-">
-                        <strong>{`${product?.name}`}</strong>
-                      </p>
-                    </div>
-                    <hr />
-                    <div>
-                      <p style={{ fontSize: 16 }} className="text-break text-">
-                        {/* const year = date.getFullYear();
-const month = ("0" + (date.getMonth() + 1)).slice(-2);
-const day = ("0" + date.getDate()).slice(-2);
-const hours = ("0" + date.getHours()).slice(-2);
-const minutes = ("0" + date.getMinutes()).slice(-2);
-const seconds = ("0" + date.getSeconds()).slice(-2); */}
-                        {/* {`Дата размещения: ${product?.createdAt.}`} */}
-                        {`Дата размещения: ${
-                          product!.createdAt.toLocaleString("ru-Ru", { 
-                            year: 'numeric', 
-                            month: 'numeric', 
-                            day: 'numeric',  
-                            hour: 'numeric', 
-                            minute: 'numeric'
-                          })
-                        }`}
-                      </p>
-                    </div>
-                    <hr />
-                    {product?.phoneNumbers.length !== 0 && (
-                      <div>
-                        {product?.phoneNumbers.map((phoneNumber) => (
-                          <div>
-                            <p>{phoneNumber}</p>
-                          </div>
-                        ))}
-                        <hr />
-                      </div>
-                    )}
-                    <div className="d-flex justify-content-center">
-                      <button className="btn btn-outline-success w-100">
-                        Написать
-                      </button>
-                      <div
-                        role="button"
-                        className="d-flex justify-content-center align-items-center mx-3"
-                      >
-                        <i className="bi bi-heart-fill text-danger"></i>
-                      </div>
-                    </div>
-                    <div className="d-flex"></div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="d-flex flex-column">
-                    <div className="row">
-                      <div className="d-flex flex-column">
-                        <p>
-                          <strong>Описание</strong>
-                        </p>
-                        <p>{product?.description}</p>
-                      </div>
-                    </div>
-                    <hr />
-                    <div className="row">
-                      <div className="d-flex flex-column">
-                        <div className="row">
-                          <p>
-                            <strong>Категории</strong>
-                          </p>
-                        </div>
-                        <div className="d-flex flex-wrap">
-                          {product?.categoryIdArr.map(
-                            (categoryId) =>
-                              categories.find((t) => t.id == categoryId) !==
-                                null && (
-                                <div className="mx-2">
-                                  <span>
-                                    {
-                                      categories.find(
-                                        (t) => t.id == categoryId
-                                      )!.name
-                                    }
-                                  </span>
-                                </div>
-                              )
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            ) : product != null && (
+              <ProductInfMenu categories={categories} product={product!} showWriteButton={true} />
             )}
           </div>
         </div>
