@@ -22,19 +22,21 @@ function CarouselImage({
           autoPlay={autoPlay}
           dynamicHeight={false}
           showStatus={false}
-          showArrows={true}
+          showArrows={imageUrlArr.length > 0 ? true : false}
           infiniteLoop={true}
+          showThumbs={imageUrlArr.length > 0 ? true : false}
+          showIndicators={imageUrlArr.length > 0 ? true : false}
           onChange={onChangeCarouselIndex}
         >
           {imageUrlArr.length > 0
             ? imageUrlArr.map((url, index) => (
                 <div
                   key={url + index}
-                  className="rounded overflow-hidden"
-                  style={{ maxHeight: 600 }}
+                  className="d-flex "
+                  style={{ height: 600 }}
                 >
                   <img
-                    className="h-100"
+                    className="object-fit-contain rounded"
                     src={url}
                     alt=""
                     onError={(event) => {
@@ -46,7 +48,7 @@ function CarouselImage({
             : [
                 <div
                   key={NoImage + 0}
-                  className="rounded overflow-hidden"
+                  className="rounded overflow-hidden d-flex justify-content-center align-items-center"
                   style={{ maxHeight: 600 }}
                 >
                   <img

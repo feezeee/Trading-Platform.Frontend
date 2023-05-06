@@ -5,6 +5,7 @@ import CategoryEditable from "../category_editable/CategoryEditable";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
 import NoImage from "../../images/noImage.png";
 import TextInputPhoneNumberWithDeleteButton from "../phone_number_editable/TextInputPhoneNumberWithDeleteButton";
+import CarouselImage from "../carousel_image/CarouselImage";
 
 export interface IProductAddMenuProps {
   onSave: (createProduct: CreateProductValues) => void;
@@ -25,9 +26,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
 ) => {
   const [productImageUrls, setProductImageUrls] = useState<string[]>([]);
   const [productImages, setProductImages] = useState<File[]>([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(
-    null
-  );
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   const [productName, setProductName] = useState<string>("");
   const [productNameIsValid, setProductNameIsValid] = useState(false);
@@ -171,9 +170,8 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
         setCurrentImageIndex(0);
       } else if (currentImageIndex === productImagesUrlsArr.length) {
         setCurrentImageIndex(currentImageIndex - 1);
-      }
-      else if (currentImageIndex === 0) {
-        setCurrentImageIndex(null);
+      } else if (currentImageIndex === 0) {
+        setCurrentImageIndex(0);
       }
     }
   };
@@ -183,39 +181,14 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
       <div className="row">
         <div className="col">
           <div className="d-flex justify-content-center">
-            {productImageUrls.length == 0 ? (
-              <div
-                style={{ width: 700, height: 500 }}
-                className="d-flex justify-content-center"
-              >
-                <img className="h-100" src={NoImage} />
-              </div>
-            ) : (
-              <div style={{ width: 500 }}>
-                <Carousel
-                  selectedItem={currentImageIndex!}
-                  autoPlay={false}
-                  dynamicHeight={false}
-                  showStatus={false}
-                  showArrows={true}
-                  infiniteLoop={true}
-                  onChange={handleSlideChange}                  
-                >
-                  {productImageUrls.map((url) => (
-                    <div className="rounded overflow-hidden" style={{maxHeight: 600}}>
-                      <img
-                        className="h-100"
-                        src={url}
-                        alt=""
-                        onError={(event) => {
-                          event.currentTarget.src = NoImage;
-                        }}
-                      />
-                    </div>
-                  ))}
-                </Carousel>
-              </div>
-            )}
+            <CarouselImage
+              autoPlay={false}
+              carouselIndex={currentImageIndex}
+              onChangeCarouselIndex={(index) => {
+                setCurrentImageIndex(index);
+              }}
+              imageUrlArr={productImageUrls}
+            />
           </div>
           <div>
             <div className="d-flex flex-column justify-content-center">
@@ -253,7 +226,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
         <div className="col">
           <div>
             <label className="form-label" htmlFor="inputProductPrice">
-              <strong>Цена</strong>              
+              <strong>Цена</strong>
             </label>
             <input
               id="inputProductPrice"
@@ -269,7 +242,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
           </div>
           <div className="mt-3">
             <label className="form-label" htmlFor="inputProductName">
-              <strong>Название</strong>              
+              <strong>Название</strong>
             </label>
             <input
               id="inputProductName"
@@ -286,7 +259,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
           <hr />
           <div className="mt-3">
             <label className="form-label" htmlFor="inputProductName">
-              <strong>Номер телефона</strong>              
+              <strong>Номер телефона</strong>
             </label>
             {productPhoneNumbers.map((phoneNumber, index) => (
               <div className="mb-3">
@@ -325,7 +298,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
           <div className="row">
             <div className="d-flex flex-column">
               <label className="form-label" htmlFor="inputProductDescription">
-                <strong>Описание</strong>                
+                <strong>Описание</strong>
               </label>
               <textarea
                 style={{ height: "auto" }}
