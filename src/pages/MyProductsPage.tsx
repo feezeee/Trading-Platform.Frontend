@@ -10,7 +10,9 @@ import { useNavigate } from "react-router-dom";
 
 export interface IMyProductsPageProps {}
 
-const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (props) => {
+const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (
+  props
+) => {
   const [isMyContainerLoading, setIsMyContainerLoading] = useState(true);
 
   const [myProducts, setMyProducts] = useState<GetProductEntity[]>([]);
@@ -44,21 +46,26 @@ const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (props) =>
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={(status) => {
-        navigate("/products")
-      }}  
+        navigate("/products");
+      }}
     >
       <div className="d-flex">
         <div className="container-fluid">
-          {myProducts.map((product, index) => (
-            <div key={product.name + index} className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">
-              <ProductItem
-                onClick={(id) => {
-                  navigate(`/products/${id}`);
-                }}
-                product={product}
-              />
-            </div>
-          ))}
+          <div className="row flex-wrap g-3">
+            {myProducts.map((product, index) => (
+              <div
+                key={product.name + index}
+                className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center"
+              >
+                <ProductItem
+                  onClick={(id) => {
+                    navigate(`/products/${id}`);
+                  }}
+                  product={product}
+                />
+              </div>
+            ))}
+          </div>
           <div>
             <FloatRoundedButton onClick={addNewProduct} />
           </div>
