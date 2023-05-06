@@ -20,10 +20,12 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
       <Routes>
         <Route path="/products" element={<ProductPage />} />
         <Route path="/" element={<ProductPage />} />
+        <Route path="/products/:id" element={<ProductInformationPage/>}/>
+        <Route path="/my-products" element={<MyProductsPage/>}/>
+
+
         <Route path="/my-profile" element={<ProfilePage />} />
         <Route path="/products/add" element={<AddProductPage />}/>
-        <Route path="/products/:id" element={<мProductInformationPage/>}/>
-        {/* <Route path="/my-products" element={<ProductsPage/>}/> */}
         <Route path="/my-products/:id" element={<MyProductInfPage/>}/>
       </Routes>
     </BrowserRouter>

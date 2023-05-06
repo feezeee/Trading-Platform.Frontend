@@ -63,7 +63,7 @@ const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
         <div style={{minHeight: "80vh"}} className="container-fluid">
           {productsIsFectching === true ? (
             <div className="position-relative h-100 w-100">
-                <LoadingScreen showBackground={false} zIndex={2000}/>
+                <LoadingScreen showBackground={false} zIndex={2}/>
             </div>
           ) : (            
             <div className="row flex-wrap g-3">

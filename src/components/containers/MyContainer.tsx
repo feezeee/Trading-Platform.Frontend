@@ -93,7 +93,7 @@ function MyContainer({
             checkUser();
             if (onLogout !== undefined) {
               onLogout(true);
-            }               
+            }
           }}
         />
       ) : (
@@ -107,7 +107,7 @@ function MyContainer({
               checkUser();
               if (onLogin !== undefined) {
                 onLogin(true);
-              }               
+              }
             }}
           />
           <MyRegistrationModal
@@ -118,9 +118,11 @@ function MyContainer({
           />
         </div>
       )}
-      <div className="position-relative">
-        {isLoading === true && <LoadingScreen zIndex={2000} />}
-        <div className="container py-3">{children}</div>
+      <div className="d-flex flex-grow-1">
+        <div className="position-relative flex-grow-1">
+          {isLoading === true && <LoadingScreen zIndex={2} />}
+          <div className="container py-3">{children}</div>
+        </div>
       </div>
     </div>
   );
