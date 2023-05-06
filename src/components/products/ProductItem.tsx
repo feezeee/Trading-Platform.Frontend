@@ -18,7 +18,6 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
   const handleImageError = () => {
     setImageSrc(NoImage);
   };
-  const navigate = useNavigate();
 
   const handleClick = () => {
     props.onClick(props.product.id)    
@@ -34,12 +33,9 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
     >
       <div
         style={{ width: "100%", height: 220 }}
-        className="d-flex justify-content-center align-content-center overflow-hidden"
+        className="d-flex justify-content-center align-content-center overflow-hidden rounded-top"
       >
         <img
-          // width={220}
-          // height={220}
-          className="rounded rounded-top"
           src={imageSrc}
           onError={handleImageError}
           alt=""

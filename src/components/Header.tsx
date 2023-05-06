@@ -8,13 +8,14 @@ export interface IHeaderProps {
   searchFieldIsHidden: boolean;
   login: () => void,
   logout: () => void,
-  registration: () => void
+  registration: () => void,
+  onSearch: (query: string) => void;
 }
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
     <header>
-      <Navigation searchFieldIsHidden={props.searchFieldIsHidden} shortUser={props.shortUser} login={props.login} logout={props.logout} registration={props.registration} />
+      <Navigation onSearch={props.onSearch} searchFieldIsHidden={props.searchFieldIsHidden} shortUser={props.shortUser} login={props.login} logout={props.logout} registration={props.registration} />
     </header>
   );
 };

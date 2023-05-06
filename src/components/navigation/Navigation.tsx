@@ -11,9 +11,12 @@ export interface INavbarProps {
   login: () => void;
   logout: () => void;
   registration: () => void;
+  onSearch: (query: string) => void;
 }
 
 const Navbar: React.FC<INavbarProps> = (props) => {
+  const [searchInputValue, setSearchInputValue] = useState("");
+
   return (
     <div className="border-bottom shadow-sm">
       <div className="container">
@@ -30,18 +33,22 @@ const Navbar: React.FC<INavbarProps> = (props) => {
             </a>
             <div className="w-100">
               {!props.searchFieldIsHidden ? (
-                <form className={"d-flex w-100"} role="search">
+                <div className="input-group">
                   <input
                     id="floatSearch"
                     className="form-control"
                     type="search"
                     placeholder="Поиск"
                     aria-label="Поиск"
+                    value={searchInputValue}
+                    onChange={(event) => {
+                      setSearchInputValue(event.target.value)
+                    }}  
                   />
-                  <button className="btn btn-success" type="submit">
+                  <button onClick={() => props.onSearch(searchInputValue)} className="btn btn-success" type="submit">
                     Поиск
                   </button>
-                </form>
+                </div>
               ) : (
                 ""
               )}

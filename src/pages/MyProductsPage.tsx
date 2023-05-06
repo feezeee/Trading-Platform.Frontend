@@ -102,13 +102,13 @@ const MyProductsPage: React.FunctionComponent<IProductPageProps> = (props) => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Header
+      {/* <Header
         searchFieldIsHidden={true}
         shortUser={authorizeShortUser}
         login={() => showLoginModal(!loginModalIsShowed)}
         logout={() => showLogoutModal(!logoutModalIsShowed)}
         registration={() => showRegistrationModal(!registrationModalIsShowed)}
-      />
+      /> */}
       {authorizeShortUser != null ? (
         <MyLogoutModal
           modalShow={logoutModalIsShowed}

@@ -9,7 +9,7 @@ import TextInputPhoneNumberWithDeleteButton from "../phone_number_editable/TextI
 
 export interface IProductEditMenuProps {
   product: GetProductEntity;
-  onSave: (createProduct: UpdateProductValues) => void;
+  onSave: (updateProduct: UpdateProductValues) => void;
   onCancel: () => void;
   categories: GetCategoryEntity[];
 }
@@ -184,245 +184,227 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
       const productImagesUrlsArr = [...productImageUrls];
       productImagesUrlsArr.splice(currentImageIndex, 1);
       setProductImageUrls(productImagesUrlsArr);
-      if (currentImageIndex == 0) {
-        setCurrentImageIndex(null);
-      } else if (currentImageIndex == productImagesUrlsArr.length) {
+      if (currentImageIndex === 0 && productImagesUrlsArr.length > 1) {
+        setCurrentImageIndex(0);
+      } else if (currentImageIndex === productImagesUrlsArr.length) {
         setCurrentImageIndex(currentImageIndex - 1);
+      } else if (currentImageIndex === 0) {
+        setCurrentImageIndex(null);
       }
     }
   };
 
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <div className="container-fluid py-5">
-        <div className="d-flex">
-          <div style={{ minHeight: "80vh" }} className="container-fluid">
-            <div className="d-flex flex-column h-100">
-              <div className="row">
-                <div className="col">
-                  <div>
-                    {productImageUrls.length == 0 ? (
-                      <div
-                        style={{ width: 700, height: 500 }}
-                        className="d-flex justify-content-center"
-                      >
-                        <img className="h-100" src={NoImage} />
-                      </div>
-                    ) : (
-                      <div style={{ width: 700 }}>
-                        <Carousel
-                          selectedItem={currentImageIndex!}
-                          autoPlay={false}
-                          dynamicHeight={true}
-                          width={700}
-                          showStatus={false}
-                          showArrows={true}
-                          infiniteLoop={true}
-                          onChange={handleSlideChange}
-                        >
-                          {productImageUrls.map((url) => (
-                            <div>
-                              <img
-                                className="rounded"
-                                src={url}
-                                alt=""
-                                onError={(event) => {
-                                  event.currentTarget.src = NoImage;
-                                }}
-                              />
-                            </div>
-                          ))}
-                        </Carousel>
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <div className="d-flex flex-column justify-content-center">
-                      <div className="d-flex justify-content-center mt-2">
-                        <input
-                          className="d-none"
-                          id="loadedFile"
-                          type="file"
-                          accept="image/*"
-                          onChange={selectImage}
-                        />
-                        <button
-                          className="btn btn-success my-2"
-                          onClick={() => {
-                            (
-                              document.getElementById(
-                                "loadedFile"
-                              ) as HTMLInputElement
-                            ).click();
-                          }}
-                        >
-                          Добавить изображение
-                        </button>
-                      </div>
-                      <div className="d-flex justify-content-center my-2">
-                        <button
-                          disabled={currentImageIndex !== null ? false : true}
-                          className="btn border-0"
-                          onClick={removeImage}
-                        >
-                          Удалить изображение
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col">
-                  <div>
-                    <label className="form-label" htmlFor="inputProductPrice">
-                      Цена
-                    </label>
-                    <input
-                      id="inputProductPrice"
-                      pattern="^\d+([.]\d{1,2})?$"
-                      className={`form-control ${
-                        productPriceIsValid !== true ? "is-invalid" : "is-valid"
-                      }`}
-                      type="text"
-                      placeholder="Договорная"
-                      value={
-                        productPrice === null ? "" : productPrice.toString()
-                      }
-                      onChange={productPriceChange}
-                    />
-                  </div>
-                  <div className="mt-3">
-                    <label className="form-label" htmlFor="inputProductName">
-                      Название
-                    </label>
-                    <input
-                      id="inputProductName"
-                      className={`form-control ${
-                        productNameIsValid !== true ? "is-invalid" : "is-valid"
-                      }`}
-                      type="text"
-                      required
-                      value={productName}
-                      onChange={productNameChange}
-                    />
-                  </div>
-                  {/* <hr /> */}
-                  <hr />
-                  <div className="mt-3">
-                    <label className="form-label" htmlFor="inputProductName">
-                      Номер телефона
-                    </label>
-                    {productPhoneNumbers.map((phoneNumber, index) => (
-                      <div className="mb-3">
-                        <TextInputPhoneNumberWithDeleteButton
-                          index={index}
-                          value={phoneNumber}
-                          onChange={(value) => {
-                            productPhoneNumberChange(index, value);
-                          }}
-                          onDelete={() => removePhoneNumber(index)}
-                          isValid={productPhoneNumbersIsValid[index]}
-                        />
-                      </div>
-                    ))}
-
-                    <button
-                      disabled={productPhoneNumbers.length > 2}
-                      onClick={addPhoneNumber}
-                      className="btn w-100 border"
-                    >
-                      <div className="d-flex justify-content-center align-items-center">
-                        <i
-                          style={{
-                            fontSize: "2em",
-                            lineHeight: "0.5em",
-                          }}
-                          className="bi bi-plus w-100 h-100"
-                        />
-                      </div>
-                    </button>
-                  </div>
-                </div>
+    <div className="d-flex flex-column">
+      <div className="row">
+        <div className="col">
+          <div className="d-flex justify-content-center">
+            {productImageUrls.length == 0 ? (
+              <div
+                style={{ width: 500, height: 500 }}
+                className="d-flex justify-content-center"
+              >
+                <img className="h-100" src={NoImage} />
               </div>
-              <div className="row h-100">
-                <div className="d-flex flex-column">
-                  <div className="row">
-                    <div className="d-flex flex-column">
-                      <label
-                        className="form-label"
-                        htmlFor="inputProductDescription"
-                      >
-                        Описание
-                      </label>
-                      <textarea
-                        style={{ height: "auto" }}
-                        id="inputProductDescription"
-                        className={`form-control ${
-                          productDescriptionIsValid !== true
-                            ? "is-invalid"
-                            : "is-valid"
-                        }`}
-                        value={productDescription}
-                        required
-                        onChange={productDescriptionChange}
+            ) : (
+              <div style={{ width: 500 }}>
+                <Carousel
+                  selectedItem={currentImageIndex!}
+                  autoPlay={false}
+                  dynamicHeight={false}
+                  showStatus={false}
+                  showArrows={true}
+                  infiniteLoop={true}
+                  onChange={handleSlideChange}
+                >
+                  {productImageUrls.map((url) => (
+                    <div
+                      className="rounded overflow-hidden"
+                      style={{ maxHeight: 600 }}
+                    >
+                      <img
+                        className="h-100"
+                        src={url}
+                        alt=""
+                        onError={(event) => {
+                          event.currentTarget.src = NoImage;
+                        }}
                       />
                     </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="d-flex flex-column">
-                      <div className="row">
-                        <p>
-                          <strong>Категории</strong>
-                        </p>
-                      </div>
-                      <div className="d-flex flex-wrap">
-                        {props.categories.map((category, index) => (
-                          <CategoryEditable
-                            isCheck={
-                              productCategoryIds.find(
-                                (t) => category.id === t
-                              ) !== undefined
-                                ? true
-                                : false
-                            }
-                            categoryId={category.id}
-                            categoryName={category.name}
-                            onClick={categoryClick}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row mt-auto">
-                    <div className="d-flex justify-content-center">
-                      <div className="mt-5 w-50 d-flex justify-content-around">
-                        <button
-                          disabled={
-                            productNameIsValid === true &&
-                            productPriceIsValid === true &&
-                            productPhoneNumbersIsValid.find(
-                              (t) => t == false
-                            ) == undefined &&
-                            productDescriptionIsValid === true &&
-                            productCategoryIds.length > 0
-                              ? false
-                              : true
-                          }
-                          className="btn btn-success"
-                          onClick={updateProductClick}
-                        >
-                          Сохранить
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={props.onCancel}
-                        >
-                          Отмена
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  ))}
+                </Carousel>
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="d-flex flex-column justify-content-center">
+              <div className="d-flex justify-content-center mt-2">
+                <input
+                  className="d-none"
+                  id="loadedFile"
+                  type="file"
+                  accept="image/*"
+                  onChange={selectImage}
+                />
+                <button
+                  className="btn btn-success my-2"
+                  onClick={() => {
+                    (
+                      document.getElementById("loadedFile") as HTMLInputElement
+                    ).click();
+                  }}
+                >
+                  Добавить изображение
+                </button>
+              </div>
+              <div className="d-flex justify-content-center my-2">
+                <button
+                  disabled={currentImageIndex !== null ? false : true}
+                  className="btn border-0"
+                  onClick={removeImage}
+                >
+                  Удалить изображение
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col">
+          <div>
+            <label className="form-label" htmlFor="inputProductPrice">
+              <strong>Цена</strong>
+            </label>
+            <input
+              id="inputProductPrice"
+              pattern="^\d+([.]\d{1,2})?$"
+              className={`form-control ${
+                productPriceIsValid !== true ? "is-invalid" : "is-valid"
+              }`}
+              type="text"
+              placeholder="Договорная"
+              value={productPrice === null ? "" : productPrice.toString()}
+              onChange={productPriceChange}
+            />
+          </div>
+          <div className="mt-3">
+            <label className="form-label" htmlFor="inputProductName">
+              <strong>Название</strong>
+            </label>
+            <input
+              id="inputProductName"
+              className={`form-control ${
+                productNameIsValid !== true ? "is-invalid" : "is-valid"
+              }`}
+              type="text"
+              required
+              value={productName}
+              onChange={productNameChange}
+            />
+          </div>
+          {/* <hr /> */}
+          <hr />
+          <div className="mt-3">
+            <label className="form-label" htmlFor="inputProductName">
+              <strong>Номер телефона</strong>
+            </label>
+            {productPhoneNumbers.map((phoneNumber, index) => (
+              <div className="mb-3">
+                <TextInputPhoneNumberWithDeleteButton
+                  index={index}
+                  value={phoneNumber}
+                  onChange={(value) => {
+                    productPhoneNumberChange(index, value);
+                  }}
+                  onDelete={() => removePhoneNumber(index)}
+                  isValid={productPhoneNumbersIsValid[index]}
+                />
+              </div>
+            ))}
+
+            <button
+              disabled={productPhoneNumbers.length > 2}
+              onClick={addPhoneNumber}
+              className="btn w-100 border"
+            >
+              <div className="d-flex justify-content-center align-items-center">
+                <i
+                  style={{
+                    fontSize: "2em",
+                    lineHeight: "0.5em",
+                  }}
+                  className="bi bi-plus w-100 h-100"
+                />
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="row h-100">
+        <div className="d-flex flex-column">
+          <div className="row">
+            <div className="d-flex flex-column">
+              <label className="form-label" htmlFor="inputProductDescription">
+                <strong>Описание</strong>
+              </label>
+              <textarea
+                style={{ height: "auto" }}
+                id="inputProductDescription"
+                className={`form-control ${
+                  productDescriptionIsValid !== true ? "is-invalid" : "is-valid"
+                }`}
+                value={productDescription}
+                required
+                onChange={productDescriptionChange}
+              />
+            </div>
+          </div>
+          <hr />
+          <div className="row">
+            <div className="d-flex flex-column">
+              <div className="row">
+                <p>
+                  <strong>Категории</strong>
+                </p>
+              </div>
+              <div className="d-flex flex-wrap">
+                {props.categories.map((category, index) => (
+                  <CategoryEditable
+                    isCheck={
+                      productCategoryIds.find((t) => category.id === t) !==
+                      undefined
+                        ? true
+                        : false
+                    }
+                    categoryId={category.id}
+                    categoryName={category.name}
+                    onClick={categoryClick}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="row mt-auto">
+            <div className="d-flex justify-content-center">
+              <div className="mt-5 w-50 d-flex justify-content-around">
+                <button
+                  disabled={
+                    productNameIsValid === true &&
+                    productPriceIsValid === true &&
+                    productPhoneNumbersIsValid.find((t) => t == false) ==
+                      undefined &&
+                    productDescriptionIsValid === true &&
+                    productCategoryIds.length > 0
+                      ? false
+                      : true
+                  }
+                  className="btn btn-success"
+                  onClick={updateProductClick}
+                >
+                  Сохранить
+                </button>
+                <button className="btn btn-danger" onClick={props.onCancel}>
+                  Отмена
+                </button>
               </div>
             </div>
           </div>

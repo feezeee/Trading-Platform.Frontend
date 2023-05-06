@@ -32,7 +32,10 @@ const ModalWithTwoButtons: React.FunctionComponent<
           <strong>{props.text}</strong>
         </p>
         <form
-          onSubmit={props.onSubmit}
+          onSubmit={(event) => {
+            event.preventDefault()
+            props.onSubmit()
+          }}
           style={{ maxWidth: 200 }}
           className="d-flex justify-content-between m-auto"
         >

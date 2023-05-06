@@ -167,23 +167,22 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
       const productImagesUrlsArr = [...productImageUrls];
       productImagesUrlsArr.splice(currentImageIndex, 1);
       setProductImageUrls(productImagesUrlsArr);
-      if (currentImageIndex == 0) {
-        setCurrentImageIndex(null);
-      } else if (currentImageIndex == productImagesUrlsArr.length) {
+      if (currentImageIndex === 0 && productImagesUrlsArr.length > 1) {
+        setCurrentImageIndex(0);
+      } else if (currentImageIndex === productImagesUrlsArr.length) {
         setCurrentImageIndex(currentImageIndex - 1);
+      }
+      else if (currentImageIndex === 0) {
+        setCurrentImageIndex(null);
       }
     }
   };
 
   return (
-    // <div className="d-flex flex-column min-vh-100">
-    //   <div className="container-fluid py-5">
-    //     <div className="d-flex">
-    //       <div style={{ minHeight: "80vh" }} className="container-fluid">
     <div className="d-flex flex-column">
       <div className="row">
         <div className="col">
-          <div>
+          <div className="d-flex justify-content-center">
             {productImageUrls.length == 0 ? (
               <div
                 style={{ width: 700, height: 500 }}
@@ -192,21 +191,20 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
                 <img className="h-100" src={NoImage} />
               </div>
             ) : (
-              <div style={{ width: 700 }}>
+              <div style={{ width: 500 }}>
                 <Carousel
                   selectedItem={currentImageIndex!}
                   autoPlay={false}
-                  dynamicHeight={true}
-                  width={700}
+                  dynamicHeight={false}
                   showStatus={false}
                   showArrows={true}
                   infiniteLoop={true}
-                  onChange={handleSlideChange}
+                  onChange={handleSlideChange}                  
                 >
                   {productImageUrls.map((url) => (
-                    <div>
+                    <div className="rounded overflow-hidden" style={{maxHeight: 600}}>
                       <img
-                        className="rounded"
+                        className="h-100"
                         src={url}
                         alt=""
                         onError={(event) => {
@@ -255,7 +253,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
         <div className="col">
           <div>
             <label className="form-label" htmlFor="inputProductPrice">
-              Цена
+              <strong>Цена</strong>              
             </label>
             <input
               id="inputProductPrice"
@@ -271,7 +269,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
           </div>
           <div className="mt-3">
             <label className="form-label" htmlFor="inputProductName">
-              Название
+              <strong>Название</strong>              
             </label>
             <input
               id="inputProductName"
@@ -288,7 +286,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
           <hr />
           <div className="mt-3">
             <label className="form-label" htmlFor="inputProductName">
-              Номер телефона
+              <strong>Номер телефона</strong>              
             </label>
             {productPhoneNumbers.map((phoneNumber, index) => (
               <div className="mb-3">
@@ -327,7 +325,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
           <div className="row">
             <div className="d-flex flex-column">
               <label className="form-label" htmlFor="inputProductDescription">
-                Описание
+                <strong>Описание</strong>                
               </label>
               <textarea
                 style={{ height: "auto" }}
@@ -389,10 +387,6 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
         </div>
       </div>
     </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

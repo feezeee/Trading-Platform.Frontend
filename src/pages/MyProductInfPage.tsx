@@ -1,3 +1,6 @@
+import ProductEditMenu, {
+  UpdateProductValues,
+} from "../components/productMenu/ProductEditMenu";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -9,13 +12,13 @@ import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
 import Header from "../components/Header";
 import { ImageService } from "../core/services/ImageService";
+import LoadingScreen from "../components/loading_screen/LoadingScreen";
 import ModalWithTwoButtons from "../components/modals/ModalWithTwoButtons";
 import MyLoginModal from "../components/login_modal/MyLoginModal";
 import MyLogoutModal from "../components/logout_modal/MyLogoutModal";
 import MyRegistrationModal from "../components/registration_modal/MyRegistrationModal";
 import NoImage from "../images/noImage.png";
 import { PostProductEntity } from "../core/entities/product/PostProductEntity";
-import ProductEditMenu from "../components/productMenu/ProductEditMenu";
 import ProductInfMenu from "../components/productMenu/ProductInfMenu";
 import { ProductService } from "../core/services/ProductService";
 import TextInputPhoneNumberWithDeleteButton from "../components/phone_number_editable/TextInputPhoneNumberWithDeleteButton";
@@ -104,26 +107,28 @@ const MyProductInfPage: React.FunctionComponent<IAddProductPageProps> = (
 
   const deleteProduct = async () => {
     setShowDeletingLoading(true);
-    if (product === null)
-    {
+    if (product === null) {
       setShowDeletingLoading(false);
       return;
     }
-    await productService.deleteProduct(product.id)
+    const response = await productService.deleteProduct(product.id);
     navigate("/my-products");
-
     setShowDeletingLoading(false);
+  };
+
+  const updateProduct = async (updateProduct: UpdateProductValues) => {
+    console.log("updatePRoduct");
   };
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Header
+      {/* <Header
         searchFieldIsHidden={true}
         shortUser={authorizeShortUser}
         login={() => showLoginModal(!loginModalIsShowed)}
         logout={() => showLogoutModal(!logoutModalIsShowed)}
         registration={() => showRegistrationModal(!registrationModalIsShowed)}
-      />
+      /> */}
       {authorizeShortUser != null ? (
         <MyLogoutModal
           modalShow={logoutModalIsShowed}
@@ -158,24 +163,12 @@ const MyProductInfPage: React.FunctionComponent<IAddProductPageProps> = (
         onSubmit={deleteProduct}
         showLoading={showDeletingLoading}
       />
-      <div className="container py-5">
-        <div className="d-flex">
-          <div style={{ minHeight: "80vh" }} className="container-fluid">
-            {isLoading === true ? (
-              <div
-                style={{ zIndex: 2 }}
-                className="d-flex h-100 w-100 justify-content-center align-items-center"
-              >
-                <div
-                  style={{ width: 100, height: 100 }}
-                  className="spinner-border text-secondary"
-                  role="status"
-                >
-                  <span className="visually-hidden">Загрузка...</span>
-                </div>
-              </div>
-            ) : (
-              product !== null && (
+      <div className="position-relative">
+        {isLoading === true && <LoadingScreen zIndex={2} />}
+        <div className="container py-5">
+          <div className="d-flex">
+            <div style={{ minHeight: "80vh" }} className="container-fluid">
+              {isLoading === false && product !== null && (
                 <div className="d-flex flex-column">
                   <div className="d-flex justify-content-end py-3">
                     <div className="btn-group" role="group">
@@ -207,11 +200,16 @@ const MyProductInfPage: React.FunctionComponent<IAddProductPageProps> = (
                     />
                   )}
                   {isEditable === true && (
-                    <ProductEditMenu product={product} categories={categories} onSave={() => {}} onCancel={() => setIsEditable(false)}/>
+                    <ProductEditMenu
+                      product={product}
+                      categories={categories}
+                      onSave={updateProduct}
+                      onCancel={() => setIsEditable(false)}
+                    />
                   )}
                 </div>
-              )
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
