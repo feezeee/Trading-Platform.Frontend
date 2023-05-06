@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import LoadingScreen from "../components/loading_screen/LoadingScreen";
 import MyContainer from "../components/containers/MyContainer";
-import ProductItem from "../components/products/ProductItem";
+import ProductItem from "../components/product/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import { useNavigate } from "react-router";
 

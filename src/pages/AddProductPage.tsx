@@ -1,6 +1,6 @@
 import ProductAddMenu, {
   CreateProductValues,
-} from "../components/productMenu/ProductAddMenu";
+} from "../components/product_menu/ProductAddMenu";
 import React, { useEffect, useState } from "react";
 
 import { CategoryService } from "../core/services/CategoryService";
@@ -10,7 +10,7 @@ import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { ImageService } from "../core/services/ImageService";
 import MyContainer from "../components/containers/MyContainer";
 import { PostProductEntity } from "../core/entities/product/PostProductEntity";
-import ProductItem from "../components/products/ProductItem";
+import ProductItem from "../components/product/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import localStorageKeys from "../core/localStorageKeys";
 import { useNavigate } from "react-router-dom";

@@ -4,7 +4,7 @@ import { CategoryService } from "../core/services/CategoryService";
 import { GetCategoryEntity } from "../core/entities/category/GetCategoryEntity";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import MyContainer from "../components/containers/MyContainer";
-import ProductInfMenu from "../components/productMenu/ProductInfMenu";
+import ProductInfMenu from "../components/product_menu/ProductInfMenu";
 import { ProductService } from "../core/services/ProductService";
 import { useParams } from "react-router";
 

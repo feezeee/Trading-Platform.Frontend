@@ -1,6 +1,6 @@
 import ProductEditMenu, {
   UpdateProductValues,
-} from "../components/productMenu/ProductEditMenu";
+} from "../components/product_menu/ProductEditMenu";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -19,7 +19,7 @@ import MyLogoutModal from "../components/logout_modal/MyLogoutModal";
 import MyRegistrationModal from "../components/registration_modal/MyRegistrationModal";
 import NoImage from "../images/noImage.png";
 import { PostProductEntity } from "../core/entities/product/PostProductEntity";
-import ProductInfMenu from "../components/productMenu/ProductInfMenu";
+import ProductInfMenu from "../components/product_menu/ProductInfMenu";
 import { ProductService } from "../core/services/ProductService";
 import TextInputPhoneNumberWithDeleteButton from "../components/phone_number_editable/TextInputPhoneNumberWithDeleteButton";
 import localStorageKeys from "../core/localStorageKeys";

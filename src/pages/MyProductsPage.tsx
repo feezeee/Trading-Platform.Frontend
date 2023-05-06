@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import FloatRoundedButton from "../components/float_rounded_button/FloatRoundedButton";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import MyContainer from "../components/containers/MyContainer";
-import ProductItem from "../components/products/ProductItem";
+import ProductItem from "../components/product/ProductItem";
 import { ProductService } from "../core/services/ProductService";
 import localStorageKeys from "../core/localStorageKeys";
 import { useNavigate } from "react-router-dom";
