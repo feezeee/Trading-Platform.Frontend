@@ -4,7 +4,8 @@ export interface IProfileMenuProps {
   // productCount: number;
   messageCount: number;
   ariaLabelledby: string;
-  logout: () => void
+  logout: () => void;
+  roles: string[];
 }
 
 const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
@@ -22,39 +23,54 @@ const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
       <li>
         <hr className="dropdown-divider" />
       </li>
-      <li>
-        <a className="dropdown-item" href="/my-messages">
-          <span className="pe-2">Мои сообщения</span>
-          {props.messageCount > 1 && (
-            <span className="badge bg-danger">
-              {props.messageCount > 99 ? "+99" : props.messageCount}
-            </span>
-          )}
-        </a>
-      </li>
-      <li>
-        <a className="dropdown-item" href="/my-products">
-          <span className="pe-2">Мои товары</span>
-          {/* {props.productCount > 1 && (
+      {(props.roles.includes("user") || props.roles.includes("admin")) && (
+        <li>
+          <a className="dropdown-item" href="/my-messages">
+            <span className="pe-2">Мои сообщения</span>
+            {props.messageCount > 1 && (
+              <span className="badge bg-danger">
+                {props.messageCount > 99 ? "+99" : props.messageCount}
+              </span>
+            )}
+          </a>
+        </li>
+      )}
+      {(props.roles.includes("user") || props.roles.includes("admin")) && (
+        <li>
+          <a className="dropdown-item" href="/my-products">
+            <span className="pe-2">Мои товары</span>
+            {/* {props.productCount > 1 && (
             <span className="badge bg-danger">
               {props.productCount > 99 ? "+99" : props.productCount}
             </span>
           )} */}
+          </a>
+        </li>
+      )}
+      {props.roles.includes("admin") && [
+        <li>
+          <hr className="dropdown-divider" />
+        </li>,
+        <li>
+          <a className="dropdown-item" href="/categories">
+            <span className="pe-2">Категории</span>
+          </a>
+        </li>,
+        <li>
+        <a className="dropdown-item" href="/roles">
+          <span className="pe-2">Права доступа</span>
         </a>
-      </li>
+      </li>,
+      ]}
+
       <li>
         <hr className="dropdown-divider" />
       </li>
       <li>
-        <div
-          role="button"
-          className="dropdown-item"
-          onClick={props.logout}
-        >
+        <div role="button" className="dropdown-item" onClick={props.logout}>
           Выход
-        </div>        
+        </div>
       </li>
-      
     </ul>
   );
 };

@@ -57,6 +57,7 @@ function MyContainer({
         logout={() => showLogoutModal(!logoutModalIsShowed)}
         registration={() => showRegistrationModal(!registrationModalIsShowed)}
         onSearch={onSearch}
+        roles={authorizeUser === null ? ["user"] : authorizeUser.roles.map((item) => (item.name))}
       />
       {authorizeUser != null ? (
         <MyLogoutModal

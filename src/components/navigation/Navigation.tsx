@@ -12,6 +12,7 @@ export interface INavbarProps {
   logout: () => void;
   registration: () => void;
   onSearch: (query: string) => void;
+  roles: string[];
 }
 
 const Navbar: React.FC<INavbarProps> = (props) => {
@@ -88,6 +89,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                   messageCount={12}
                   ariaLabelledby="dropdownMenuProfile"
                   logout={props.logout}
+                  roles={props.roles}
                 />
               </div>
             ) : (

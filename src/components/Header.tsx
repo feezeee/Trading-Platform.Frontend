@@ -4,18 +4,27 @@ import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
 import Navigation from "./navigation/Navigation";
 
 export interface IHeaderProps {
-  shortUser: GetFullUserEntity | null
+  shortUser: GetFullUserEntity | null;
   searchFieldIsHidden: boolean;
-  login: () => void,
-  logout: () => void,
-  registration: () => void,
+  login: () => void;
+  logout: () => void;
+  registration: () => void;
   onSearch: (query: string) => void;
+  roles: string[];
 }
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
     <header>
-      <Navigation onSearch={props.onSearch} searchFieldIsHidden={props.searchFieldIsHidden} shortUser={props.shortUser} login={props.login} logout={props.logout} registration={props.registration} />
+      <Navigation
+        onSearch={props.onSearch}
+        searchFieldIsHidden={props.searchFieldIsHidden}
+        shortUser={props.shortUser}
+        login={props.login}
+        logout={props.logout}
+        registration={props.registration}
+        roles={props.roles}
+      />
     </header>
   );
 };
