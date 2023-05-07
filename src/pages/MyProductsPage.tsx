@@ -59,7 +59,7 @@ const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (
               >
                 <ProductItem
                   onClick={(id) => {
-                    navigate(`/products/${id}`);
+                    navigate(`/my-products/${id}`);
                   }}
                   product={product}
                 />

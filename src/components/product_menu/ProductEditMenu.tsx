@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Carousel } from "react-responsive-carousel";
+import CarouselImage from "../carousel_image/CarouselImage";
 import CategoryEditable from "../category_editable/CategoryEditable";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
@@ -34,7 +35,7 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
   const [productImages, setProductImages] = useState<File[]>(
     Array.from({ length: props.product.images.length }, () => new File([], ""))
   );
-  const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   const [productName, setProductName] = useState<string>(props.product.name);
   const [productNameIsValid, setProductNameIsValid] = useState(true);
@@ -171,10 +172,6 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
     event.target.value = "";
   };
 
-  const handleSlideChange = (index: number) => {
-    setCurrentImageIndex(index);
-  };
-
   const removeImage = () => {
     if (currentImageIndex != null) {
       const productImagesArr = [...productImages];
@@ -189,7 +186,7 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
       } else if (currentImageIndex === productImagesUrlsArr.length) {
         setCurrentImageIndex(currentImageIndex - 1);
       } else if (currentImageIndex === 0) {
-        setCurrentImageIndex(null);
+        setCurrentImageIndex(0);
       }
     }
   };
@@ -198,43 +195,15 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
     <div className="d-flex flex-column">
       <div className="row">
         <div className="col">
-          <div className="d-flex justify-content-center">
-            {productImageUrls.length == 0 ? (
-              <div
-                style={{ width: 500, height: 500 }}
-                className="d-flex justify-content-center"
-              >
-                <img className="h-100" src={NoImage} />
-              </div>
-            ) : (
-              <div style={{ width: 500 }}>
-                <Carousel
-                  selectedItem={currentImageIndex!}
-                  autoPlay={false}
-                  dynamicHeight={false}
-                  showStatus={false}
-                  showArrows={true}
-                  infiniteLoop={true}
-                  onChange={handleSlideChange}
-                >
-                  {productImageUrls.map((url) => (
-                    <div
-                      className="rounded overflow-hidden"
-                      style={{ maxHeight: 600 }}
-                    >
-                      <img
-                        className="h-100"
-                        src={url}
-                        alt=""
-                        onError={(event) => {
-                          event.currentTarget.src = NoImage;
-                        }}
-                      />
-                    </div>
-                  ))}
-                </Carousel>
-              </div>
-            )}
+        <div className="d-flex justify-content-center">
+            <CarouselImage
+              autoPlay={true}
+              carouselIndex={currentImageIndex}
+              onChangeCarouselIndex={(index) => {
+                setCurrentImageIndex(index);
+              }}
+              imageUrlArr={productImageUrls}
+            />
           </div>
           <div>
             <div className="d-flex flex-column justify-content-center">
@@ -259,7 +228,7 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
               </div>
               <div className="d-flex justify-content-center my-2">
                 <button
-                  disabled={currentImageIndex !== null ? false : true}
+                  disabled={(productImageUrls.length === 0 && productImages.length === 0) ? true : false}
                   className="btn border-0"
                   onClick={removeImage}
                 >

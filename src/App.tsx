@@ -5,6 +5,7 @@ import React, { useState } from "react";
 
 import AddProductPage from "./pages/AddProductPage";
 import MyProductInfPage from "./pages/MyProductInfPage";
+import MyProductInformationPage from "./pages/MyProductInformationPage";
 import MyProductsPage from "./pages/MyProductsPage";
 import ProductInformationPage from "./pages/ProductInformationPage";
 import ProductsPage from "./pages/ProductsPage";
@@ -21,9 +22,9 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
         <Route path="/products/:id" element={<ProductInformationPage/>}/>
         <Route path="/my-products" element={<MyProductsPage/>}/>
         <Route path="/products/add" element={<AddProductPage />}/>
+        <Route path="/my-products/:id" element={<MyProductInformationPage/>}/>
 
         <Route path="/my-profile" element={<ProfilePage />} />        
-        <Route path="/my-products/:id" element={<MyProductInfPage/>}/>
       </Routes>
     </BrowserRouter>
   );

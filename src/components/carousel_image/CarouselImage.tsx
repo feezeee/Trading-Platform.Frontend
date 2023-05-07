@@ -48,11 +48,11 @@ function CarouselImage({
             : [
                 <div
                   key={NoImage + 0}
-                  className="rounded overflow-hidden d-flex justify-content-center align-items-center"
-                  style={{ maxHeight: 600 }}
+                  className="d-flex"
+                  style={{ height: 600 }}
                 >
                   <img
-                    className="h-100"
+                    className="object-fit-contain rounded"
                     src={NoImage}
                     alt=""
                     onError={(event) => {

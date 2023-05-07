@@ -120,7 +120,7 @@ function MyContainer({
       )}
       <div className="d-flex flex-grow-1">
         <div className="position-relative flex-grow-1">
-          {isLoading === true && <LoadingScreen zIndex={2} />}
+          {isLoading === true && <LoadingScreen zIndex={10} />}
           <div className="container py-3">{children}</div>
         </div>
       </div>
