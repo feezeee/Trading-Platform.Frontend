@@ -22,7 +22,8 @@ const API_URLS = {
 
     USER_REGISTRATION: usersApiUrl + '/api/registration',
 
-    NICKNAME_IS_FREE: usersApiUrl + '/api/nickname/is-free',
+    USERS_SHORT_INFORMATION: usersApiUrl + '/api/users/short-information',
+    USERS_FULL_INFORMATION: usersApiUrl + '/api/users/full-information',
 
     // Images API
 

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { CategoryService } from "../core/services/CategoryService";
 import FloatRoundedButton from "../components/float_rounded_button/FloatRoundedButton";
 import { GetCategoryEntity } from "../core/entities/category/GetCategoryEntity";
+import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import { ImageService } from "../core/services/ImageService";
 import MyContainer from "../components/containers/MyContainer";
@@ -27,7 +28,11 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
   const productService = new ProductService();
   const imageService = new ImageService();
   const categoryService = new CategoryService();
-  const userId = localStorage.getItem(localStorageKeys.userId);
+
+  const userJson = localStorage.getItem(localStorageKeys.user);
+  const userLocalStorage: GetFullUserEntity | null = userJson === null ? null : JSON.parse(userJson);
+  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +43,7 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
   }, []);
 
   const addProductClick = async (createProduct: CreateProductValues) => {
-    if (userId === null) {
+    if (userLocalStorage === null) {
         navigate("/products");
         return;
     }
@@ -56,7 +61,7 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
     }
 
     const postProduct: PostProductEntity = {
-      userId: userId,
+      userId: userLocalStorage.id,
       categories: createProduct.categoryIdArr,
       description: createProduct.description,
       name: createProduct.name,

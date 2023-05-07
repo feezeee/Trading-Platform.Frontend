@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
+import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
 import MyContainer from "../components/containers/MyContainer";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
@@ -11,18 +11,21 @@ export interface IProfilePageProps {}
 const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
   const [isMyContainerLoading, setIsMyContainerLoading] = useState(true);
 
-  const [user, setUser] = useState<GetUserShortEntity | null>(null);
-  const userId = localStorage.getItem(localStorageKeys.userId);
+  const [user, setUser] = useState<GetFullUserEntity | null>(null);
+
+  const userJson = localStorage.getItem(localStorageKeys.user);
+  const userLocalStorage: GetFullUserEntity | null = userJson === null ? null : JSON.parse(userJson);
+  
 
   const userService = new UserService();
   const navigate = useNavigate();
-  if (userId === null) {
+  if (userLocalStorage === null) {
     navigate("/products");
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      setUser(await userService.getUserById(userId!));
+      setUser(await userService.getUserById(userLocalStorage!.id));
     };
     fetchData();
   }, []);
@@ -32,6 +35,9 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
       onSearch={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
+      onLogout={() => {
+        navigate("/products");
+      }}
     >
       <div className="container-fluid">
         {user !== null && (

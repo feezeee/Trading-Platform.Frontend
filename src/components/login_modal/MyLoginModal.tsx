@@ -50,27 +50,10 @@ const MyLoginModal: React.FunctionComponent<ILoginProps> = (props) => {
         userToken.refreshToken
       );
 
-      var shortUserEntity = await userService.getShortUserByToken(
+      var user = await userService.getFullUserByToken(
         userToken.accessToken
       );
-
-      localStorage.setItem(localStorageKeys.userId, shortUserEntity!.id);
-      localStorage.setItem(
-        localStorageKeys.nickname,
-        shortUserEntity!.nickname
-      );
-      localStorage.setItem(
-        localStorageKeys.firstName,
-        shortUserEntity!.firstName
-      );
-      localStorage.setItem(
-        localStorageKeys.lastName,
-        shortUserEntity!.lastName
-      );
-      localStorage.setItem(
-        localStorageKeys.registrationDate,
-        shortUserEntity!.registrationDate
-      );
+      localStorage.setItem(localStorageKeys.user, JSON.stringify(user))
       props.hideModal();
       props.successLogin();
     } else {

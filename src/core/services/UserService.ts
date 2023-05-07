@@ -1,7 +1,7 @@
 import {
   toAuthorizeUserRequest,
   toCreateUserRequest,
-  toGetShortUserEntity,
+  toGetFullUserEntity,
   toGetUserTokenEntity,
 } from "./../mapper/user/UserMapper";
 
@@ -9,8 +9,8 @@ import API_URLS from "../apiUrls";
 import { AuthorizeUserEntity } from "../entities/user/AuthorizeUserEntity";
 import { CreateUserEntity } from "../entities/user/CreateUserEntity";
 import { CreateUserRequest } from "../data/user/CreateUserRequest";
-import { GetUserShortEntity } from "./../entities/user/GetUserShortEntity";
-import { GetUserShortResponse } from "../data/user/GetUserShortResponse";
+import { GetFullUserEntity } from "../entities/user/GetFullUserEntity";
+import { GetFullUserResponse } from "../data/user/GetFullUserResponse";
 import { GetUserTokenEntity } from "../entities/user/GetUserTokenEntity";
 import { GetUserTokenResponse } from "../data/user/GetUserTokenResponse";
 import { NicknameIsFreeEntity } from "../entities/nickname/NicknameIsFreeEntity";
@@ -21,24 +21,21 @@ import { toNicknameIsFreeEntity } from "../mapper/nickname/NicknameMapper";
 export class UserService {
   public getUserById = async (
     id: string
-  ): Promise<GetUserShortEntity | null> => {
-    const user: GetUserShortEntity = {
-      id: id,
-      firstName: "Денис",
-      lastName: "Скурат",
-      nickname: "feeze",
-      registrationDate: "18.02.2002",
-    };
-    return user;
-    // const response = await axios.get<GetProductResponse[]>(
-    //   API_URLS.GET_PRODUCTS
-    // );
-    // console.info("qwe");
-    // console.log(response.data);
-    // console.log("response.data");
-    // return response.data.map((getProductResponse: GetProductResponse) =>
-    //   toGetProductEntity(getProductResponse)
-    // );
+  ): Promise<GetFullUserEntity | null> => {
+    try {
+      const response = await axios.get<GetFullUserResponse | null>(
+        API_URLS.USERS_FULL_INFORMATION + `/${id}`
+      );
+      if (response.status !== 200) {
+        return null;
+      }
+      if (response.data === null) {
+        return null;
+      }
+      return toGetFullUserEntity(response.data);
+    } catch (error) {
+      return null;
+    }
   };
 
   public authorizeUser = async (
@@ -58,12 +55,12 @@ export class UserService {
     }
   };
 
-  public getShortUserByToken = async (
+  public getFullUserByToken = async (
     accessToken: string
-  ): Promise<GetUserShortEntity | null> => {
+  ): Promise<GetFullUserEntity | null> => {
     try {
-      const response = await axios.get<GetUserShortResponse>(
-        API_URLS.CURRENT_USER_SHORT_INFORMATION,
+      const response = await axios.get<GetFullUserResponse>(
+        API_URLS.CURRENT_USER_FULL_INFORMATION,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -73,7 +70,7 @@ export class UserService {
       if (response.status !== 200) {
         return null;
       }
-      return toGetShortUserEntity(response.data);
+      return toGetFullUserEntity(response.data);
     } catch (error) {
       return null;
     }
@@ -84,30 +81,29 @@ export class UserService {
   ): Promise<NicknameIsFreeEntity | null> => {
     try {
       const response = await axios.get<NicknameIsFreeResponse>(
-        API_URLS.NICKNAME_IS_FREE,{
+        API_URLS.USER_NICKNAME_IS_FREE,
+        {
           params: {
-            "nickname" : nickname
-          }
+            nickname: nickname,
+          },
         }
-      )
-      if (response.status !== 200){
+      );
+      if (response.status !== 200) {
         return null;
       }
       return toNicknameIsFreeEntity(response.data);
     } catch (error) {
-      return null
+      return null;
     }
   };
 
-  public registrateUser = async (
-    user: CreateUserEntity
-  ): Promise<boolean> => {
+  public registrateUser = async (user: CreateUserEntity): Promise<boolean> => {
     try {
       const response = await axios.post<CreateUserRequest>(
         API_URLS.USER_REGISTRATION,
         toCreateUserRequest(user)
-      )
-      if (response.status !== 201){
+      );
+      if (response.status !== 201) {
         return false;
       }
       return true;

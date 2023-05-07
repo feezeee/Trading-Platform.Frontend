@@ -1,4 +1,4 @@
-export interface GetUserShortEntity {
+export interface GetShortUserEntity {
 	id: string;
 	firstName: string;
 	lastName: string;

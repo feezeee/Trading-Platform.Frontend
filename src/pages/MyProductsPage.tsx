@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import FloatRoundedButton from "../components/float_rounded_button/FloatRoundedButton";
+import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
 import MyContainer from "../components/containers/MyContainer";
 import ProductItem from "../components/product/ProductItem";
@@ -19,17 +20,19 @@ const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (
 
   const productService = new ProductService();
 
-  const userId = localStorage.getItem(localStorageKeys.userId);
+  const userJson = localStorage.getItem(localStorageKeys.user);
+  const userLocalStorage: GetFullUserEntity | null = userJson === null ? null : JSON.parse(userJson);
+  
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      if (userId == null) {
+      if (userLocalStorage == null) {
         navigate("/products");
         return;
       }
-      setMyProducts(await productService.getProducts(userId));
+      setMyProducts(await productService.getProducts(userLocalStorage.id));
       setIsMyContainerLoading(false);
     };
     setIsMyContainerLoading(true);

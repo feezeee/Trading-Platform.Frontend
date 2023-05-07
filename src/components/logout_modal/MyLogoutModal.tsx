@@ -20,11 +20,7 @@ const MyLogoutModal: React.FunctionComponent<IMyLogoutModalProps> = (props) => {
     setLogotProcess(true);
     localStorage.removeItem(localStorageKeys.accessToken);
     localStorage.removeItem(localStorageKeys.refreshToken);
-    localStorage.removeItem(localStorageKeys.userId);
-    localStorage.removeItem(localStorageKeys.nickname);
-    localStorage.removeItem(localStorageKeys.firstName);
-    localStorage.removeItem(localStorageKeys.lastName);
-    localStorage.removeItem(localStorageKeys.registrationDate);
+    localStorage.removeItem(localStorageKeys.user);
     props.hideModal();
     props.successLogout();
   };

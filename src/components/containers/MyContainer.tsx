@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { GetUserShortEntity } from "../../core/entities/user/GetUserShortEntity";
+import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import Header from "../Header";
 import LoadingScreen from "../loading_screen/LoadingScreen";
 import MyLoginModal from "../login_modal/MyLoginModal";
@@ -26,47 +26,22 @@ function MyContainer({
   onLogin,
   onLogout,
 }: IMyContainerProps) {
-  const [authorizeShortUser, setAuthorizeShortUser] =
-    useState<GetUserShortEntity | null>(null);
+  const [authorizeUser, setAuthorizeUser] =
+    useState<GetFullUserEntity | null>(null);
 
   const [loginModalIsShowed, showLoginModal] = useState(false);
   const [registrationModalIsShowed, showRegistrationModal] = useState(false);
 
   const [logoutModalIsShowed, showLogoutModal] = useState(false);
 
-  const checkUser = async () => {
-    const userId: string | null = localStorage.getItem(localStorageKeys.userId);
-    const firstName: string | null = localStorage.getItem(
-      localStorageKeys.firstName
-    );
-    const lastName: string | null = localStorage.getItem(
-      localStorageKeys.lastName
-    );
-    const nickname: string | null = localStorage.getItem(
-      localStorageKeys.nickname
-    );
-    const registrationDate: string | null = localStorage.getItem(
-      localStorageKeys.registrationDate
-    );
-
-    if (
-      userId == null ||
-      firstName == null ||
-      lastName == null ||
-      nickname == null ||
-      registrationDate == null
-    ) {
-      setAuthorizeShortUser(null);
-    } else {
-      const shortUserEntity: GetUserShortEntity = {
-        id: userId,
-        firstName: firstName,
-        lastName: lastName,
-        nickname: nickname,
-        registrationDate: registrationDate,
-      };
-      setAuthorizeShortUser(shortUserEntity);
+  const checkUser = () => {
+    const userJson = localStorage.getItem(localStorageKeys.user);
+    if (userJson === null) {
+      setAuthorizeUser(null);
+      return;
     }
+    const user: GetFullUserEntity = JSON.parse(userJson);
+    setAuthorizeUser(user)
   };
 
   useEffect(() => {
@@ -77,13 +52,13 @@ function MyContainer({
     <div className="d-flex flex-column min-vh-100">
       <Header
         searchFieldIsHidden={searchFieldIsHidden}
-        shortUser={authorizeShortUser}
+        shortUser={authorizeUser}
         login={() => showLoginModal(!loginModalIsShowed)}
         logout={() => showLogoutModal(!logoutModalIsShowed)}
         registration={() => showRegistrationModal(!registrationModalIsShowed)}
         onSearch={onSearch}
       />
-      {authorizeShortUser != null ? (
+      {authorizeUser != null ? (
         <MyLogoutModal
           modalShow={logoutModalIsShowed}
           hideModal={() => {

@@ -2,10 +2,13 @@ import { AuthorizeUserEntity } from "../../entities/user/AuthorizeUserEntity";
 import { AuthorizeUserRequest } from "../../data/user/AuthorizeUserRequest";
 import { CreateUserEntity } from "../../entities/user/CreateUserEntity";
 import { CreateUserRequest } from "../../data/user/CreateUserRequest";
-import { GetUserShortEntity } from "../../entities/user/GetUserShortEntity";
-import { GetUserShortResponse } from "../../data/user/GetUserShortResponse";
+import { GetFullUserEntity } from "../../entities/user/GetFullUserEntity";
+import { GetFullUserResponse } from "../../data/user/GetFullUserResponse";
+import { GetShortUserEntity } from "../../entities/user/GetShortUserEntity";
+import { GetShortUserResponse } from "../../data/user/GetShortUserResponse";
 import { GetUserTokenEntity } from "../../entities/user/GetUserTokenEntity";
 import { GetUserTokenResponse } from "../../data/user/GetUserTokenResponse";
+import { toGetRoleEntity } from "../role/RoleMapper";
 
 export const toGetUserTokenEntity = (
   apiResponse: GetUserTokenResponse
@@ -28,10 +31,25 @@ export const toAuthorizeUserRequest = (
   return authorizeUser;
 };
 
+export const toGetFullUserEntity = (
+  apiResponse: GetFullUserResponse
+): GetFullUserEntity => {
+  const data: GetFullUserEntity = {
+    id: apiResponse.id,
+    firstName: apiResponse.first_name,
+    lastName: apiResponse.last_name,
+    nickname: apiResponse.nickname,
+    registrationDate: apiResponse.registration_date,
+    roles: apiResponse.roles.map((role) => (toGetRoleEntity(role)))
+  };
+  return data;
+};
+
+
 export const toGetShortUserEntity = (
-  apiResponse: GetUserShortResponse
-): GetUserShortEntity => {
-  const data: GetUserShortEntity = {
+  apiResponse: GetShortUserResponse
+): GetShortUserEntity => {
+  const data: GetShortUserEntity = {
     id: apiResponse.id,
     firstName: apiResponse.first_name,
     lastName: apiResponse.last_name,

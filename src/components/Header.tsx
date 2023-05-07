@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { GetUserShortEntity } from "../core/entities/user/GetUserShortEntity";
+import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
 import Navigation from "./navigation/Navigation";
 
 export interface IHeaderProps {
-  shortUser: GetUserShortEntity | null
+  shortUser: GetFullUserEntity | null
   searchFieldIsHidden: boolean;
   login: () => void,
   logout: () => void,

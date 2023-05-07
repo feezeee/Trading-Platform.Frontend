@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import { GetUserShortEntity } from "../../core/entities/user/GetUserShortEntity";
+import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import ProfileMenu from "../profile_menu/ProfileMenu";
 import logo from "../../images/logo.png";
 import profileIcon from "../../images/profile-icon.png";
 
 export interface INavbarProps {
-  shortUser: GetUserShortEntity | null;
+  shortUser: GetFullUserEntity | null;
   searchFieldIsHidden: boolean;
   login: () => void;
   logout: () => void;
