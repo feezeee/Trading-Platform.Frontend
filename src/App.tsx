@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import React, { useState } from "react";
 
 import AddProductPage from "./pages/AddProductPage";
-import MyProductInfPage from "./pages/MyProductInfPage";
 import MyProductInformationPage from "./pages/MyProductInformationPage";
 import MyProductsPage from "./pages/MyProductsPage";
 import ProductInformationPage from "./pages/ProductInformationPage";
