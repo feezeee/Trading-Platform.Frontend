@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Carousel } from "react-responsive-carousel";
 import CarouselImage from "../carousel_image/CarouselImage";
-import CategoryEditable from "../category_editable/CategoryEditable";
+import CategoryClickable from "../category_editable/CategoryClickable";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
 import NoImage from "../../images/noImage.png";
@@ -337,7 +337,7 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
               </div>
               <div className="d-flex flex-wrap">
                 {props.categories.map((category, index) => (
-                  <CategoryEditable
+                  <CategoryClickable
                     isCheck={
                       productCategoryIds.find((t) => category.id === t) !==
                       undefined

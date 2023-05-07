@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export interface ICategoryEditableProps {
+export interface ICategoryClickableProps {
   categoryId: string;
   categoryName: string;
   onClick: (categoryId: string, isCheck: boolean) => void;
@@ -10,8 +10,8 @@ export interface ICategoryEditableProps {
   // isValid: boolean;
 }
 
-const CategoryEditable: React.FunctionComponent<
-  ICategoryEditableProps
+const CategoryClickable: React.FunctionComponent<
+  ICategoryClickableProps
 > = (props) => {
   // const [productPhoneNumbersIsValid, setProductPhoneNumbersIsValid] = useState<boolean>(false);
 
@@ -33,4 +33,4 @@ const CategoryEditable: React.FunctionComponent<
   );
 };
 
-export default CategoryEditable;
+export default CategoryClickable;

@@ -31,6 +31,11 @@ const API_URLS = {
 
     // Categories API
     GET_CATEGORIES: categoriesApiUrl + '/api/categories',
+    POST_CATEGORIES: categoriesApiUrl + '/api/categories',
+    PUT_CATEGORIES: categoriesApiUrl + '/api/categories',
+    DELETE_CATEGORIES: categoriesApiUrl + '/api/categories',
+    CATEGORY_IS_FREE: categoriesApiUrl + '/api/category-name-is-free',
+    
     
     REACT_APP_USERS_API_URL: usersApiUrl,
     REACT_APP_PRODUCTS_API_URL: productsApiUrl,

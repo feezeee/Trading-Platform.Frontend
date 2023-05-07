@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import { Carousel } from "react-responsive-carousel";
-import CategoryEditable from "../category_editable/CategoryEditable";
+import CarouselImage from "../carousel_image/CarouselImage";
+import CategoryClickable from "../category_editable/CategoryClickable";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
 import NoImage from "../../images/noImage.png";
 import TextInputPhoneNumberWithDeleteButton from "../phone_number_editable/TextInputPhoneNumberWithDeleteButton";
-import CarouselImage from "../carousel_image/CarouselImage";
 
 export interface IProductAddMenuProps {
   onSave: (createProduct: CreateProductValues) => void;
@@ -322,7 +322,7 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
               </div>
               <div className="d-flex flex-wrap">
                 {props.categories.map((category, index) => (
-                  <CategoryEditable
+                  <CategoryClickable
                     isCheck={
                       productCategoryIds.find((t) => category.id === t) !==
                       undefined
