@@ -5,12 +5,12 @@ import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntit
 import ModalWithTwoButtons from "../modals/ModalWithTwoButtons";
 import { PutCategoryEntity } from "../../core/entities/category/PutCategoryEntity";
 
-export interface ICategoryItemAdminProps {
+export interface ICategoryItemAdminUpdateProps {
   category: GetCategoryEntity;
   reloadCategories: () => void
 }
 
-const CategoryItemAdmin: React.FunctionComponent<ICategoryItemAdminProps> = (
+const CategoryItemAdminUpdate: React.FunctionComponent<ICategoryItemAdminUpdateProps> = (
   props
 ) => {
   const [category, setCategory] = useState(props.category);
@@ -135,4 +135,4 @@ const CategoryItemAdmin: React.FunctionComponent<ICategoryItemAdminProps> = (
   );
 };
 
-export default CategoryItemAdmin;
+export default CategoryItemAdminUpdate;
