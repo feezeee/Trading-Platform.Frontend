@@ -84,7 +84,7 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
       }}
     >
       <div className="d-flex">
-        <div className="container-fluid">
+        <div className="container-fluid p-3">
           <ProductAddMenu categories={categories} onSave={addProductClick} />
         </div>
       </div>

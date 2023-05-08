@@ -101,7 +101,7 @@ const MyProductInformationPage: React.FunctionComponent<
       }}
     >
       <div className="d-flex">
-        <div className="container-fluid">
+        <div className="container-fluid p-3">
           <ModalWithTwoButtons
             text="Вы уверены, что хотите удалить?"
             cancelText="Нет"

@@ -53,7 +53,7 @@ const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (
       }}
     >
       <div className="d-flex">
-        <div className="container-fluid">
+        <div className="container-fluid p-3">
           <div className="row flex-wrap g-3">
             {myProducts.map((product, index) => (
               <div
