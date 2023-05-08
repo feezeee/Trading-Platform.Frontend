@@ -15,6 +15,8 @@ import { UpdateUserEntity } from "../core/entities/user/UpdateUserEntity";
 import { UserService } from "../core/services/UserService";
 import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 import localStorageKeys from "../core/localStorageKeys";
+import { GetRoleEntity } from "../core/entities/role/GetRoleEntity";
+import { RoleService } from "../core/services/RoleService";
 
 export interface IProfilePageProps {}
 
@@ -24,6 +26,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
 
   const [user, setUser] = useState<GetFullUserEntity | null>(null);
   const [countOfProducts, setCountOfProducts] = useState(0);
+  const [roles, setRoles] = useState<GetRoleEntity[]>([]);
 
   const userJson = localStorage.getItem(localStorageKeys.user);
   const userLocalStorage: GetFullUserEntity | null =
@@ -32,30 +35,34 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
   const userService = new UserService();
   const productService = new ProductService();
   const imageService = new ImageService();
+  const roleService = new RoleService();
   const navigate = useNavigate();
 
   if (userLocalStorage === null) {
     navigate("/products");
   }
 
+  const fetchRoles = async () => {
+    setRoles(await roleService.getAll());
+  };
+
   const fetchUser = async () => {
-    setIsMyContainerLoading(true);
-    setUser(await userService.getUserById(id!));    
-    setIsMyContainerLoading(false);
+    setUser(await userService.getUserById(id!));
   };
 
-  const fetchCountOfPRoducts = async () => {    
-    setIsMyContainerLoading(true);
-    setCountOfProducts((await productService.getProducts(id!)).length);    
-    setIsMyContainerLoading(false);
+  const fetchCountOfPRoducts = async () => {
+    setCountOfProducts((await productService.getProducts(id!)).length);
   };
 
   useEffect(() => {
-    fetchCountOfPRoducts();
-  }, [user !== null]);
-
-  useEffect(() => {
-    fetchUser();
+    const fetch = async () => {
+      setIsMyContainerLoading(true);
+      await fetchUser();
+      await fetchRoles();
+      await fetchCountOfPRoducts();
+      setIsMyContainerLoading(false);
+    };
+    fetch();
   }, []);
 
   const [isEditable, setIsEditable] = useState(false);
@@ -66,32 +73,34 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
 
     let newImagesUrl: string | null = editUserProfile.profileImageUrl;
 
-    if (editUserProfile.profileImageFile !== null){
+    if (editUserProfile.profileImageFile !== null) {
       const response = await imageService.uploadImage(
         editUserProfile.profileImageFile,
         null
       );
       if (response != null) {
-        newImagesUrl = response.imageUrl
+        newImagesUrl = response.imageUrl;
       }
     }
 
-    const updateUser:  UpdateUserEntity = {
+    const updateUser: UpdateUserEntity = {
       id: editUserProfile.userId,
       firstName: editUserProfile.firstName,
       lastName: editUserProfile.lastName,
       nickname: editUserProfile.nickname,
       profileImageUrl: newImagesUrl,
-    }
+    };
 
     const response = await userService.updateUser(updateUser);
     setIsMyContainerLoading(false);
     if (response === true) {
       setIsEditable(false);
-      setIsMyContainerLoading(true)
+      setIsMyContainerLoading(true);
       await fetchUser();
-      setIsMyContainerLoading(false)
-    }    
+      await fetchRoles();
+      await fetchCountOfPRoducts();
+      setIsMyContainerLoading(false);
+    }
   };
 
   return (
@@ -141,7 +150,11 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
             </div>
           </div>
           {user !== null && isEditable === false && (
-            <ProfileInf user={user} countOfProducts={countOfProducts} />
+            <ProfileInf
+              user={user}
+              countOfProducts={countOfProducts}
+              roles={roles}
+            />
           )}
           {user !== null && isEditable === true && (
             <ProfileEdit
