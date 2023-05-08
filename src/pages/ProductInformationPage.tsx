@@ -38,7 +38,7 @@ const ProductInformationPage: React.FunctionComponent<IProductInformationPagePro
       searchFieldIsHidden={true}
     >
       <div className="d-flex">
-        <div className="container-fluid">
+        <div className="container-fluid p-3">
           {isMyContainerLoading === true ? (
             <ProductInfMenu
               categories={[]}
