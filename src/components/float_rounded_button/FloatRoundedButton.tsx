@@ -11,7 +11,7 @@ const FloatRoundedButton: React.FunctionComponent<IFloatRoundedButtonProps> = (
   const backgroundColor = "#292929";
 
   return (
-    <div className="container position-fixed" style={{ bottom: 20 }}>
+    <div className="container position-fixed" style={{ bottom: 20, zIndex: 2 }}>
       <div className="w-100 d-flex justify-content-end">
         <div
           style={{
