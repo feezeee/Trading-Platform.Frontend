@@ -50,9 +50,12 @@ const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={false}
     >
-      <div className="d-flex">
+      <div className="d-flex p-3">
         <div style={{ minWidth: 250 }}></div>
-        <div style={{ width: 250 }} className="position-fixed">
+        <div
+          style={{ width: 250 }}
+          className="position-fixed p-2 rounded shadow"
+        >
           <Filter
             isDisabled={productsIsFectching}
             onShowByFilters={(res) => {
@@ -60,12 +63,8 @@ const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
             }}
           />
         </div>
-        <div style={{minHeight: "80vh"}} className="container-fluid">
-          {productsIsFectching === true ? (
-            <div className="position-relative h-100 w-100">
-                <LoadingScreen showBackground={false} zIndex={2}/>
-            </div>
-          ) : (            
+        <div className="container-fluid">
+          {productsIsFectching === false && (
             <div className="row flex-wrap g-3">
               {products.map((product) => (
                 <div className="d-flex col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center">

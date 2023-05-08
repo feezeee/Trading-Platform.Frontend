@@ -101,7 +101,7 @@ function MyContainer({
       <div className="d-flex flex-grow-1">
         <div className="position-relative flex-grow-1 p-3">
           {isLoading === true && <LoadingScreen zIndex={10} />}
-          <div style={{backgroundColor: 'rgba(255, 255, 255,  0.9)'}} className="container p-0 rounded shadow overflow-hidden">{children}</div>
+          <div style={{backgroundColor: 'rgba(255, 255, 255,  0.9)'}} className="container p-0 rounded shadow overflow-hidden h-100">{children}</div>
         </div>
       </div>
     </div>

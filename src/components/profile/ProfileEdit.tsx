@@ -62,7 +62,7 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
       return;
     }
     if (newNickname === props.user.nickname) {
-      setNicknameIsFree(null);
+      setNicknameIsFree(true);
       return;
     }
     const isFree = await userService.nicknameIsFree(newNickname);
@@ -105,9 +105,9 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
   };
 
   return (
-    <div className="d-flex flex-column">      
+    <div className="d-flex flex-column h-100">
       <div className="row">
-        <div className="col-auto p-2">
+        <div className="col-auto">
           <div className="d-flex flex-column justify-content-center w-auto">
             <CarouselImage
               width={250}
@@ -163,9 +163,9 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
             </div>
           </div>
         </div>
-        <div className="col p-2">
+        <div className="col">
           <div className="row">
-            <div className="col-xl-6 p-2">
+            <div className="col-xl-6">
               <label className="form-label" htmlFor="inputLastName">
                 <strong>Фамилия</strong>
               </label>
@@ -181,7 +181,7 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
                 onChange={(e) => lastNameOnChange(e.target.value)}
               />
             </div>
-            <div className="col-xl-6 p-2">
+            <div className="col-xl-6">
               <label className="form-label" htmlFor="inputFirstName">
                 <strong>Имя</strong>
               </label>
@@ -199,7 +199,7 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
             </div>
           </div>
           <div className="row">
-            <div className="col p-2">
+            <div className="col">
               <label className="form-label" htmlFor="inputLastName">
                 <strong>Псевдоним</strong>
               </label>
@@ -207,7 +207,6 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
                 id="inputLastName"
                 className={`form-control ${
                   nicknameIsFree !== null &&
-                  nickname !== props.user.nickname &&
                   (nicknameIsFree === true && nickname.length > 0
                     ? "is-valid"
                     : "is-invalid")
@@ -222,8 +221,8 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
           </div>
         </div>
       </div>
-      <div className="row mt-3">
-        <div className="col p-2 d-flex">
+      <div className="row mt-auto">
+        <div className="col d-flex">
           <button
             disabled={
               nicknameIsFree === false ||
@@ -236,7 +235,7 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
             Сохранить
           </button>
         </div>
-        <div className="col p-2 d-flex">
+        <div className="col p-0 d-flex">
           <button className="btn btn-danger m-auto" onClick={props.onCancel}>
             Отмена
           </button>

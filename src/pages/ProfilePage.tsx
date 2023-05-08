@@ -105,11 +105,11 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
         navigate("/products");
       }}
     >
-      <div className="container-fluid p-0 position-relative">
+      <div className="container-fluid p-0 position-relative h-100">
         {isLoadingSaving === true && (
           <LoadingScreen zIndex={200} showBackground={true} />
         )}
-        <div className="p-3">
+        <div className="p-3 h-100 d-flex flex-column w-100">
           <div className="d-flex justify-content-end">
             <div className="btn-group" role="group">
               {userLocalStorage !== null &&
