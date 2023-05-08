@@ -26,8 +26,9 @@ function MyContainer({
   onLogin,
   onLogout,
 }: IMyContainerProps) {
-  const [authorizeUser, setAuthorizeUser] =
-    useState<GetFullUserEntity | null>(null);
+  const [authorizeUser, setAuthorizeUser] = useState<GetFullUserEntity | null>(
+    null
+  );
 
   const [loginModalIsShowed, showLoginModal] = useState(false);
   const [registrationModalIsShowed, showRegistrationModal] = useState(false);
@@ -41,14 +42,19 @@ function MyContainer({
       return;
     }
     const user: GetFullUserEntity = JSON.parse(userJson);
-    setAuthorizeUser(user)
+    setAuthorizeUser(user);
   };
 
   useEffect(() => {
     checkUser();
   }, []);
 
-  function rgba(arg0: number, arg1: number, arg2: number, arg3: number): import("csstype").Property.BackgroundColor | undefined {
+  function rgba(
+    arg0: number,
+    arg1: number,
+    arg2: number,
+    arg3: number
+  ): import("csstype").Property.BackgroundColor | undefined {
     throw new Error("Function not implemented.");
   }
 
@@ -61,7 +67,11 @@ function MyContainer({
         logout={() => showLogoutModal(!logoutModalIsShowed)}
         registration={() => showRegistrationModal(!registrationModalIsShowed)}
         onSearch={onSearch}
-        roles={authorizeUser === null ? ["user"] : authorizeUser.roles.map((item) => (item.name))}
+        roles={
+          authorizeUser === null
+            ? ["user"]
+            : authorizeUser.roles.map((item) => item.name)
+        }
       />
       {authorizeUser != null ? (
         <MyLogoutModal
@@ -99,9 +109,14 @@ function MyContainer({
         </div>
       )}
       <div className="d-flex flex-grow-1">
-        <div className="position-relative flex-grow-1 p-3">
-          {isLoading === true && <LoadingScreen zIndex={10} />}
-          <div style={{backgroundColor: 'rgba(255, 255, 255,  0.9)'}} className="container p-0 rounded shadow overflow-hidden h-100">{children}</div>
+        <div className="flex-grow-1 p-3">
+          <div
+            style={{ backgroundColor: "rgba(255, 255, 255,  0.9)" }}
+            className="container p-0 rounded shadow overflow-hidden h-100 position-relative"
+          >
+            {isLoading === true && <LoadingScreen zIndex={10} />}
+            {children}
+          </div>
         </div>
       </div>
     </div>

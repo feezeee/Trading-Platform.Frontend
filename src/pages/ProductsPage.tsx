@@ -2,7 +2,6 @@ import Filter, { FilterValues } from "../components/filters/Filter";
 import React, { useEffect, useState } from "react";
 
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
-import LoadingScreen from "../components/loading_screen/LoadingScreen";
 import MyContainer from "../components/containers/MyContainer";
 import ProductItem from "../components/product/ProductItem";
 import { ProductService } from "../core/services/ProductService";
@@ -11,7 +10,6 @@ import { useNavigate } from "react-router";
 export interface IProductsPageProps {}
 
 const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
-  const [isMyContainerLoading, setIsMyContainerLoading] = useState(false);
 
   const [productsIsFectching, setProductsIsFectching] = useState(true);
 
@@ -47,7 +45,7 @@ const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
   return (
     <MyContainer
       onSearch={() => {}}
-      isLoading={isMyContainerLoading}
+      isLoading={productsIsFectching}
       searchFieldIsHidden={false}
     >
       <div className="d-flex p-3">
