@@ -5,11 +5,14 @@ import CarouselImage from "../carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import LoadingScreen from "../loading_screen/LoadingScreen";
 import { UserService } from "../../core/services/UserService";
+import { GetRoleEntity } from "../../core/entities/role/GetRoleEntity";
+import RoleClickable from "../role_clickable/RoleClickable";
 
 export interface IProfileEditProps {
   user: GetFullUserEntity;
   onCancel: () => void;
-  onSave: (profileEdit: ProfileEditResult) => void;
+  onSave: (profileEdit: ProfileEditResult) => void;  
+  roles: GetRoleEntity[]
 }
 
 export interface ProfileEditResult {
@@ -19,6 +22,7 @@ export interface ProfileEditResult {
   firstName: string;
   lastName: string;
   nickname: string;
+  roleIdArr: string[];
 }
 
 const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
@@ -100,8 +104,21 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
       nickname: nickname,
       profileImageFile: profileImageFile,
       profileImageUrl: profileImageUrl,
+      roleIdArr: editRoles
     };
     props.onSave(editUserProfile);
+  };
+
+  const [editRoles, setEditRoles] = useState<string []>(props.user.roles.map((it) => it.id))
+
+  const roleClick = (id: string, isCheck: boolean) => {
+    if (isCheck === true) {
+      setEditRoles([...editRoles, id]);
+    } else {
+      const newRoles = [...editRoles];
+      newRoles.splice(newRoles.indexOf(id), 1);
+      setEditRoles(newRoles);
+    }
   };
 
   return (
@@ -217,6 +234,30 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
                 value={nickname}
                 onChange={(e) => nicknameOnChange(e.target.value)}
               />
+            </div>
+          </div>
+          <div className="row">
+            <div className="d-flex flex-column">
+              <div className="row">
+                <p className="py-2 m-0">
+                  <strong>Роли</strong>
+                </p>
+              </div>
+              <div className="d-flex flex-wrap">
+                {props.roles.map((role, index) => (
+                  <RoleClickable
+                    isCheck={
+                      editRoles.find((t) => role.id === t) !==
+                      undefined
+                        ? true
+                        : false
+                    }
+                    roleId={role.id}
+                    roleName={role.name}
+                    onClick={roleClick}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -91,9 +91,10 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
       profileImageUrl: newImagesUrl,
     };
 
-    const response = await userService.updateUser(updateUser);
+    const responseUpdating = await userService.updateUser(updateUser);
+    const responseSetupRoles = await roleService.setUpRoles(editUserProfile.userId, editUserProfile.roleIdArr);
     setIsMyContainerLoading(false);
-    if (response === true) {
+    if (responseUpdating === true && responseSetupRoles === true) {
       setIsEditable(false);
       setIsMyContainerLoading(true);
       await fetchUser();
@@ -163,6 +164,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
               onCancel={() => {
                 setIsEditable(false);
               }}
+              roles={roles}
             />
           )}
         </div>
