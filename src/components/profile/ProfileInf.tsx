@@ -10,13 +10,13 @@ export interface IProfileInfProps {
 
 const ProfileInf: React.FunctionComponent<IProfileInfProps> = (props) => {
   return (
-    <div className="d-flex flex-column">
+    <div className="d-flex flex-column h-100">
       <div className="row">
-        <div className="col-auto p-2">
+        <div className="col-auto">
           <div className="d-flex flex-column justify-content-center">
             <CarouselImage
-              width={250}
-              height={300}
+              width={500}
+              height={600}
               onChangeCarouselIndex={() => {}}
               autoPlay={false}
               carouselIndex={0}
@@ -31,7 +31,7 @@ const ProfileInf: React.FunctionComponent<IProfileInfProps> = (props) => {
             />
           </div>
         </div>
-        <div className="col p-2">
+        <div className="col">
           <div className="row">
             <p className="text-break">
               <strong>

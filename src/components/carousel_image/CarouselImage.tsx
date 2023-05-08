@@ -20,7 +20,7 @@ function CarouselImage({
 }: ICarouselImageProps) {
   return (
     <div className="d-flex justify-content-center">
-      <div style={{ width: width }}>
+      <div style={{ width: width }} className="border rounded overflow-hidden">
         <Carousel
           selectedItem={carouselIndex}
           autoPlay={autoPlay}

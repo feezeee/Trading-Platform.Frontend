@@ -54,7 +54,7 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
   };
 
   const [nickname, setNickname] = useState<string>(props.user.nickname);
-  const [nicknameIsFree, setNicknameIsFree] = useState<boolean | null>(null);
+  const [nicknameIsFree, setNicknameIsFree] = useState<boolean>(true);
 
   const checkNickname = async (newNickname: string) => {
     if (newNickname.length === 0) {
@@ -67,7 +67,7 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
     }
     const isFree = await userService.nicknameIsFree(newNickname);
     if (isFree === null) {
-      setNicknameIsFree(null);
+      setNicknameIsFree(false);
     } else {
       setNicknameIsFree(isFree.isFree);
     }
@@ -110,8 +110,8 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
         <div className="col-auto">
           <div className="d-flex flex-column justify-content-center w-auto">
             <CarouselImage
-              width={250}
-              height={300}
+              width={500}
+              height={600}
               onChangeCarouselIndex={() => {}}
               autoPlay={false}
               carouselIndex={0}
