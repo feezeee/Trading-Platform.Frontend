@@ -23,72 +23,44 @@ const UsersPage: React.FunctionComponent<IRolesPageProps> = (props) => {
   const userLocalStorage: GetFullUserEntity | null =
     userJson === null ? null : JSON.parse(userJson);
 
-  const checkUser = () => {
-    if (userLocalStorage === null) {
-      navigate("/products");
-    }
-  };
-
-  const roleService = new RoleService();
-
-  const fetchRoles = async () => {
-    setRoles(await roleService.getAll());
-  };
-
   const userService = new UserService();
 
   const fetchUsers = async () => {
+    setIsMyContainerLoading(true);
     setUsers(await userService.getAllFullInformation());
+    setIsMyContainerLoading(false);
   };
 
   useEffect(() => {
-    setIsMyContainerLoading(true);
-    checkUser();
-    fetchRoles();
     fetchUsers();
-    setIsMyContainerLoading(false);
   }, []);
 
-  const [editableUser, setEditableUser] = useState<GetFullUserEntity | null>(
-    null
-  );
-
-  const [showUserRolesModal, setShowUserRolesModal] = useState(false);
-  
-  const [showUserRolesModalIsLoading, setShowUserRolesModalIsLoading] = useState(false);
-
   const onUserClick = (user: GetFullUserEntity) => {
-    setEditableUser(user)
-    setShowUserRolesModal(true)
-  }
-
-  const hideUserRolesModal = () => {
-    setEditableUser(null)
-    setShowUserRolesModal(false)
-  }
+    navigate(`/profile/${user.id}`)
+  };
 
   return (
     <MyContainer
       onSearch={() => {}}
       isLoading={isMyContainerLoading}
-      searchFieldIsHidden={false}
+      searchFieldIsHidden={true}
       onLogout={(status) => {
         navigate("/products");
       }}
     >
       <div className="d-flex">
-        {editableUser !== null && (
-            <div></div>
-        )}
-
-        <div className="container-fluid">
+        <div className="container-fluid p-3">
           <div className="row flex-wrap g-3">
             {users.map((item, index) => (
               <div
                 key={item.id + index}
                 className="d-flex col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-x-12 justify-content-center"
               >
-                <div onClick={() => onUserClick(item)} role="btn" className="btn border d-flex w-100">
+                <div
+                  onClick={() => onUserClick(item)}
+                  role="btn"
+                  className="btn border d-flex w-100"
+                >
                   <span>{item.nickname}</span>
                 </div>
               </div>
