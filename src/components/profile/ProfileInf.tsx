@@ -1,13 +1,15 @@
 import API_URLS from "../../core/apiUrls";
 import CarouselImage from "../carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GetRoleEntity } from "../../core/entities/role/GetRoleEntity";
+import localStorageKeys from "../../core/localStorageKeys";
 
 export interface IProfileInfProps {
   user: GetFullUserEntity;
+  currentUser: GetFullUserEntity;
   countOfProducts: number;
-  roles: GetRoleEntity[]
+  roles: GetRoleEntity[];
 }
 
 const ProfileInf: React.FunctionComponent<IProfileInfProps> = (props) => {
@@ -67,27 +69,30 @@ const ProfileInf: React.FunctionComponent<IProfileInfProps> = (props) => {
               <strong>{props.countOfProducts}</strong>
             </div>
           </div>
-          <div className="row">
-            <div className="d-flex flex-column">
-              <div className="row">
-                <p className="py-2 m-0">
-                  <strong>Роли</strong>
-                </p>
-              </div>
-              <div className="d-flex flex-wrap">
-                {props.user.roles.map(
-                  (role, index) =>
-                    props.roles.find((t) => t.id === role.id) !== undefined && (
-                      <div id={role.id} className="me-2">
-                        <span>
-                          {props.roles.find((t) => t.id === role.id)!.name}
-                        </span>
-                      </div>
-                    )
-                )}
+          {props.currentUser.roles.find((role) => role.name === "admin") && (
+            <div className="row">
+              <div className="d-flex flex-column">
+                <div className="row">
+                  <p className="py-2 m-0">
+                    <strong>Роли</strong>
+                  </p>
+                </div>
+                <div className="d-flex flex-wrap">
+                  {props.user.roles.map(
+                    (role, index) =>
+                      props.roles.find((t) => t.id === role.id) !==
+                        undefined && (
+                        <div id={role.id} className="me-2">
+                          <span>
+                            {props.roles.find((t) => t.id === role.id)!.name}
+                          </span>
+                        </div>
+                      )
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

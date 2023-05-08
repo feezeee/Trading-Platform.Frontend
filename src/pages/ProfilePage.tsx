@@ -28,9 +28,8 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
   const [countOfProducts, setCountOfProducts] = useState(0);
   const [roles, setRoles] = useState<GetRoleEntity[]>([]);
 
-  const userJson = localStorage.getItem(localStorageKeys.user);
-  const userLocalStorage: GetFullUserEntity | null =
-    userJson === null ? null : JSON.parse(userJson);
+  const [currentUserFromLocalStorage, setCurrentUserFromLocalStorage] =
+    useState<GetFullUserEntity | null>(null);
 
   const userService = new UserService();
   const productService = new ProductService();
@@ -38,9 +37,15 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
   const roleService = new RoleService();
   const navigate = useNavigate();
 
-  if (userLocalStorage === null) {
-    navigate("/products");
-  }
+  const fetchCurrentUserFromLocalStorage = () => {
+    const userJson = localStorage.getItem(localStorageKeys.user);
+    const userLocalStorage: GetFullUserEntity | null =
+      userJson === null ? null : JSON.parse(userJson);
+    if (userLocalStorage === null) {
+      navigate("/products");
+    }
+    setCurrentUserFromLocalStorage(userLocalStorage);
+  };
 
   const fetchRoles = async () => {
     setRoles(await roleService.getAll());
@@ -60,6 +65,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
       await fetchUser();
       await fetchRoles();
       await fetchCountOfPRoducts();
+      fetchCurrentUserFromLocalStorage();
       setIsMyContainerLoading(false);
     };
     fetch();
@@ -92,7 +98,10 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
     };
 
     const responseUpdating = await userService.updateUser(updateUser);
-    const responseSetupRoles = await roleService.setUpRoles(editUserProfile.userId, editUserProfile.roleIdArr);
+    const responseSetupRoles = await roleService.setUpRoles(
+      editUserProfile.userId,
+      editUserProfile.roleIdArr
+    );
     setIsMyContainerLoading(false);
     if (responseUpdating === true && responseSetupRoles === true) {
       setIsEditable(false);
@@ -117,13 +126,13 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
         <div className="p-3 h-100 d-flex flex-column w-100">
           <div className="d-flex justify-content-end">
             <div className="btn-group" role="group">
-              {userLocalStorage !== null &&
+              {currentUserFromLocalStorage !== null &&
                 user !== null &&
                 isEditable === false &&
-                (userLocalStorage.roles.find(
+                (currentUserFromLocalStorage.roles.find(
                   (item) => item.name === "admin"
                 ) !== undefined ||
-                  userLocalStorage.id === id) && (
+                  currentUserFromLocalStorage.id === id) && (
                   <button
                     onClick={() => setIsEditable(true)}
                     className="btn btn-outline-success"
@@ -133,12 +142,10 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
                     </div>
                   </button>
                 )}
-              {userLocalStorage !== null &&
-                user !== null &&
-                (userLocalStorage.roles.find(
+              {currentUserFromLocalStorage !== null &&
+                currentUserFromLocalStorage.roles.find(
                   (item) => item.name === "admin"
-                ) !== undefined ||
-                  userLocalStorage.id === id) && (
+                ) !== undefined && (
                   <button
                     onClick={() => setIsDelete(true)}
                     className="btn btn-outline-danger"
@@ -150,23 +157,29 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
                 )}
             </div>
           </div>
-          {user !== null && isEditable === false && (
-            <ProfileInf
-              user={user}
-              countOfProducts={countOfProducts}
-              roles={roles}
-            />
-          )}
-          {user !== null && isEditable === true && (
-            <ProfileEdit
-              user={user}
-              onSave={onSaveEdits}
-              onCancel={() => {
-                setIsEditable(false);
-              }}
-              roles={roles}
-            />
-          )}
+          {currentUserFromLocalStorage !== null &&
+            user !== null &&
+            isEditable === false && (
+              <ProfileInf
+                user={user}
+                countOfProducts={countOfProducts}
+                roles={roles}
+                currentUser={currentUserFromLocalStorage}
+              />
+            )}
+          {currentUserFromLocalStorage !== null &&
+            user !== null &&
+            isEditable === true && (
+              <ProfileEdit
+                user={user}
+                onSave={onSaveEdits}
+                onCancel={() => {
+                  setIsEditable(false);
+                }}
+                roles={roles}
+                currentUser={currentUserFromLocalStorage}
+              />
+            )}
         </div>
       </div>
     </MyContainer>
