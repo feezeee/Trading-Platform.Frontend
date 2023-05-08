@@ -39,32 +39,30 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
   }
 
   const fetchUser = async () => {
-    setUser(await userService.getUserById(id!));
+    setIsMyContainerLoading(true);
+    setUser(await userService.getUserById(id!));    
+    setIsMyContainerLoading(false);
   };
 
-  const fetchCountOfPRoducts = async () => {
-    setCountOfProducts((await productService.getProducts(id!)).length);
+  const fetchCountOfPRoducts = async () => {    
+    setIsMyContainerLoading(true);
+    setCountOfProducts((await productService.getProducts(id!)).length);    
+    setIsMyContainerLoading(false);
   };
 
   useEffect(() => {
-    setIsMyContainerLoading(true);
     fetchCountOfPRoducts();
-    setIsMyContainerLoading(false);
   }, [user !== null]);
 
   useEffect(() => {
-    setIsMyContainerLoading(true);
     fetchUser();
-    setIsMyContainerLoading(false);
   }, []);
 
   const [isEditable, setIsEditable] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
-  const [isLoadingSaving, setIsLoadingSaving] = useState(false);
-
   const onSaveEdits = async (editUserProfile: ProfileEditResult) => {
-    setIsLoadingSaving(true);
+    setIsMyContainerLoading(true);
 
     let newImagesUrl: string | null = editUserProfile.profileImageUrl;
 
@@ -87,7 +85,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
     }
 
     const response = await userService.updateUser(updateUser);
-    setIsLoadingSaving(false);
+    setIsMyContainerLoading(false);
     if (response === true) {
       setIsEditable(false);
       setIsMyContainerLoading(true)
@@ -106,9 +104,6 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
       }}
     >
       <div className="container-fluid p-0 position-relative h-100">
-        {isLoadingSaving === true && (
-          <LoadingScreen zIndex={200} showBackground={true} />
-        )}
         <div className="p-3 h-100 d-flex flex-column w-100">
           <div className="d-flex justify-content-end">
             <div className="btn-group" role="group">
