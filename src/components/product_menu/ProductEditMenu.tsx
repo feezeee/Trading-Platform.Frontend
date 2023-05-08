@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Carousel } from "react-responsive-carousel";
 import CarouselImage from "../carousel_image/CarouselImage";
-import CategoryClickable from "../category_editable/CategoryClickable";
+import CategoryClickable from "../category_clickable/CategoryClickable";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
 import NoImage from "../../images/noImage.png";

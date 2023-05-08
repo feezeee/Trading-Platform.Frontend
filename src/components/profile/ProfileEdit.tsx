@@ -221,6 +221,9 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
           </div>
         </div>
       </div>
+      <div className="row py-3">
+
+      </div>
       <div className="row mt-auto">
         <div className="col d-flex">
           <button

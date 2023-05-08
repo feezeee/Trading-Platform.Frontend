@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 
-import CategoryClickable from "../category_editable/CategoryClickable";
+import CategoryClickable from "../category_clickable/CategoryClickable";
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import { GetRoleEntity } from "../../core/entities/role/GetRoleEntity";
 import { Modal } from "react-bootstrap";
