@@ -6,6 +6,7 @@ export interface IProfileMenuProps {
   ariaLabelledby: string;
   logout: () => void;
   roles: string[];
+  userId: string;
 }
 
 const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
@@ -16,7 +17,7 @@ const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
       aria-labelledby={props.ariaLabelledby}
     >
       <li>
-        <a className="dropdown-item" href="/my-profile">
+        <a className="dropdown-item" href={`/profile/${props.userId}`}>
           Мой профиль
         </a>
       </li>
@@ -57,8 +58,8 @@ const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
           </a>
         </li>,
         <li>
-        <a className="dropdown-item" href="/roles">
-          <span className="pe-2">Права доступа</span>
+        <a className="dropdown-item" href="/users">
+          <span className="pe-2">Пользователи</span>
         </a>
       </li>,
       ]}

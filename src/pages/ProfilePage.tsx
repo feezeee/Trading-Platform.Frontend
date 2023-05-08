@@ -1,34 +1,100 @@
+import ProfileEdit, {
+  ProfileEditResult,
+} from "../components/profile/ProfileEdit";
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
+import CarouselImage from "../components/carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
+import { ImageService } from "../core/services/ImageService";
+import LoadingScreen from "../components/loading_screen/LoadingScreen";
 import MyContainer from "../components/containers/MyContainer";
+import { ProductService } from "../core/services/ProductService";
+import ProfileInf from "../components/profile/ProfileInf";
+import { UpdateUserEntity } from "../core/entities/user/UpdateUserEntity";
 import { UserService } from "../core/services/UserService";
+import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 import localStorageKeys from "../core/localStorageKeys";
-import { useNavigate } from "react-router-dom";
 
 export interface IProfilePageProps {}
 
 const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
+  const { id } = useParams();
   const [isMyContainerLoading, setIsMyContainerLoading] = useState(true);
 
   const [user, setUser] = useState<GetFullUserEntity | null>(null);
+  const [countOfProducts, setCountOfProducts] = useState(0);
 
   const userJson = localStorage.getItem(localStorageKeys.user);
-  const userLocalStorage: GetFullUserEntity | null = userJson === null ? null : JSON.parse(userJson);
-  
+  const userLocalStorage: GetFullUserEntity | null =
+    userJson === null ? null : JSON.parse(userJson);
 
   const userService = new UserService();
+  const productService = new ProductService();
+  const imageService = new ImageService();
   const navigate = useNavigate();
+
   if (userLocalStorage === null) {
     navigate("/products");
   }
 
+  const fetchUser = async () => {
+    setUser(await userService.getUserById(id!));
+  };
+
+  const fetchCountOfPRoducts = async () => {
+    setCountOfProducts((await productService.getProducts(id!)).length);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setUser(await userService.getUserById(userLocalStorage!.id));
-    };
-    fetchData();
+    setIsMyContainerLoading(true);
+    fetchCountOfPRoducts();
+    setIsMyContainerLoading(false);
+  }, [user !== null]);
+
+  useEffect(() => {
+    setIsMyContainerLoading(true);
+    fetchUser();
+    setIsMyContainerLoading(false);
   }, []);
+
+  const [isEditable, setIsEditable] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+
+  const [isLoadingSaving, setIsLoadingSaving] = useState(false);
+
+  const onSaveEdits = async (editUserProfile: ProfileEditResult) => {
+    setIsLoadingSaving(true);
+
+    let newImagesUrl: string | null = editUserProfile.profileImageUrl;
+
+    if (editUserProfile.profileImageFile !== null){
+      const response = await imageService.uploadImage(
+        editUserProfile.profileImageFile,
+        null
+      );
+      if (response != null) {
+        newImagesUrl = response.imageUrl
+      }
+    }
+
+    const updateUser:  UpdateUserEntity = {
+      id: editUserProfile.userId,
+      firstName: editUserProfile.firstName,
+      lastName: editUserProfile.lastName,
+      nickname: editUserProfile.nickname,
+      profileImageUrl: newImagesUrl,
+    }
+
+    const response = await userService.updateUser(updateUser);
+    setIsLoadingSaving(false);
+    if (response === true) {
+      setIsEditable(false);
+      setIsMyContainerLoading(true)
+      await fetchUser();
+      setIsMyContainerLoading(false)
+    }    
+  };
 
   return (
     <MyContainer
@@ -39,97 +105,61 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
         navigate("/products");
       }}
     >
-      <div className="container-fluid">
-        {user !== null && (
-          <div className="d-flex">
-            <div className="d-flex flex-column">
-              <img
-                width="280px"
-                className="rounded"
-                height="310px"
-                src="https://mobimg.b-cdn.net/v3/fetch/1b/1bbe0c30fd8b9cd89656e6dc6d5e59a7.jpeg"
-              />
-              <button type="button" className="btn mt-3">
-                Изменить фото
-              </button>
-            </div>
-            <div className="w-100 ps-5">
-              <div className="row">
-                <p className="text-break">
-                  <strong>{user.lastName + " " + user.firstName}</strong>
-                </p>
-              </div>
-              <div className="row">
-                <div>
-                  <span>Псевдоним: </span>
-                  <strong>{user.nickname}</strong>
-                </div>
-              </div>
-              <div className="row">
-                <div>
-                  <span>Дата регистрации: </span>
-                  <strong>{user.registrationDate}</strong>
-                </div>
-              </div>
-              <div className="row">
-                <div>
-                  <span>Количество размещенных объявлений: </span>
-                  <strong>0</strong>
-                </div>
-              </div>
+      <div className="container-fluid p-0 position-relative">
+        {isLoadingSaving === true && (
+          <LoadingScreen zIndex={200} showBackground={true} />
+        )}
+        <div className="p-3">
+          <div className="d-flex justify-content-end">
+            <div className="btn-group" role="group">
+              {userLocalStorage !== null &&
+                user !== null &&
+                isEditable === false &&
+                (userLocalStorage.roles.find(
+                  (item) => item.name === "admin"
+                ) !== undefined ||
+                  userLocalStorage.id === id) && (
+                  <button
+                    onClick={() => setIsEditable(true)}
+                    className="btn btn-outline-success"
+                  >
+                    <div className="d-flex justify-content-center align-items-center">
+                      <i className="bi bi-pencil"></i>
+                    </div>
+                  </button>
+                )}
+              {userLocalStorage !== null &&
+                user !== null &&
+                (userLocalStorage.roles.find(
+                  (item) => item.name === "admin"
+                ) !== undefined ||
+                  userLocalStorage.id === id) && (
+                  <button
+                    onClick={() => setIsDelete(true)}
+                    className="btn btn-outline-danger"
+                  >
+                    <div className="d-flex justify-content-center align-items-center">
+                      <i className="bi bi-trash"></i>
+                    </div>
+                  </button>
+                )}
             </div>
           </div>
-        )}
+          {user !== null && isEditable === false && (
+            <ProfileInf user={user} countOfProducts={countOfProducts} />
+          )}
+          {user !== null && isEditable === true && (
+            <ProfileEdit
+              user={user}
+              onSave={onSaveEdits}
+              onCancel={() => {
+                setIsEditable(false);
+              }}
+            />
+          )}
+        </div>
       </div>
     </MyContainer>
-
-    // <div className="d-flex flex-column min-vh-100">
-    //   {/* <Header hideSearchField={true} isAuthorize={true}/> */}
-    //   <div className="container py-5">
-    // {user != null ? (
-    //   <div className="d-flex">
-    //     <div className="d-flex flex-column">
-    //       <img
-    //         width="280px"
-    //         className="rounded"
-    //         height="310px"
-    //         src="https://mobimg.b-cdn.net/v3/fetch/1b/1bbe0c30fd8b9cd89656e6dc6d5e59a7.jpeg"
-    //       />
-    //       <button type="button" className="btn mt-3">Изменить фото</button>
-    //     </div>
-
-    //     <div className="w-100 ps-5">
-    //       <div className="row">
-    //         <p className="text-break">
-    //           <strong>{user.lastName + " " + user.firstName}</strong>
-    //         </p>
-    //       </div>
-    //       <div className="row">
-    //         <div>
-    //           <span>Псевдоним: </span>
-    //           <strong>{user.nickname}</strong>
-    //         </div>
-    //       </div>
-    //       <div className="row">
-    //         <div>
-    //           <span>Дата регистрации: </span>
-    //           <strong>{user.registrationDate}</strong>
-    //         </div>
-    //       </div>
-    //       <div className="row">
-    //         <div>
-    //           <span>Количество размещенных объявлений: </span>
-    //           <strong>0</strong>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    //     ) : (
-    //       ""
-    //     )}
-    //   </div>
-    //   {/* <Footer /> */}
-    // </div>
   );
 };
 

@@ -15,11 +15,11 @@ export interface IHeaderProps {
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
-    <header>
+    <header className="bg-white rounded-bottom-4">
       <Navigation
         onSearch={props.onSearch}
         searchFieldIsHidden={props.searchFieldIsHidden}
-        shortUser={props.shortUser}
+        user={props.shortUser}
         login={props.login}
         logout={props.logout}
         registration={props.registration}

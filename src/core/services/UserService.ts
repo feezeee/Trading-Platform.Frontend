@@ -3,6 +3,7 @@ import {
   toCreateUserRequest,
   toGetFullUserEntity,
   toGetUserTokenEntity,
+  toUpdateUserRequest,
 } from "./../mapper/user/UserMapper";
 
 import API_URLS from "../apiUrls";
@@ -15,10 +16,25 @@ import { GetUserTokenEntity } from "../entities/user/GetUserTokenEntity";
 import { GetUserTokenResponse } from "../data/user/GetUserTokenResponse";
 import { NicknameIsFreeEntity } from "../entities/nickname/NicknameIsFreeEntity";
 import { NicknameIsFreeResponse } from "../data/nickname/NicknameIsFreeResponse";
+import { UpdateUserEntity } from "../entities/user/UpdateUserEntity";
 import axios from "axios";
 import { toNicknameIsFreeEntity } from "../mapper/nickname/NicknameMapper";
 
 export class UserService {
+  public getAllFullInformation = async (): Promise<GetFullUserEntity[]> => {
+    try {
+      const response = await axios.get<GetFullUserResponse[]>(
+        API_URLS.GET_USERS_FULL_INFORMATION
+      );
+      if (response.status !== 200) {
+        return [];
+      }
+      return response.data.map((item) => toGetFullUserEntity(item));
+    } catch (error) {
+      return [];
+    }
+  };
+
   public getUserById = async (
     id: string
   ): Promise<GetFullUserEntity | null> => {
@@ -104,6 +120,21 @@ export class UserService {
         toCreateUserRequest(user)
       );
       if (response.status !== 201) {
+        return false;
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  public updateUser = async (user: UpdateUserEntity): Promise<boolean> => {
+    try {
+      const response = await axios.put(
+        API_URLS.USER_UPDATE,
+        toUpdateUserRequest(user)
+      );
+      if (response.status !== 200) {
         return false;
       }
       return true;

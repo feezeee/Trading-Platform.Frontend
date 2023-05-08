@@ -6,7 +6,7 @@ import logo from "../../images/logo.png";
 import profileIcon from "../../images/profile-icon.png";
 
 export interface INavbarProps {
-  shortUser: GetFullUserEntity | null;
+  user: GetFullUserEntity | null;
   searchFieldIsHidden: boolean;
   login: () => void;
   logout: () => void;
@@ -19,7 +19,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
   const [searchInputValue, setSearchInputValue] = useState("");
 
   return (
-    <div className="border-bottom shadow-sm">
+    <div className="">
       <div className="container">
         <nav className="navbar navbar-expand">
           <div className="container-fluid justify-content-start">
@@ -43,10 +43,14 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                     aria-label="Поиск"
                     value={searchInputValue}
                     onChange={(event) => {
-                      setSearchInputValue(event.target.value)
-                    }}  
+                      setSearchInputValue(event.target.value);
+                    }}
                   />
-                  <button onClick={() => props.onSearch(searchInputValue)} className="btn btn-success" type="submit">
+                  <button
+                    onClick={() => props.onSearch(searchInputValue)}
+                    className="btn btn-success"
+                    type="submit"
+                  >
                     Поиск
                   </button>
                 </div>
@@ -54,11 +58,11 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                 ""
               )}
             </div>
-            {props.shortUser != null ? (
+            {props.user != null ? (
               <div className="w-25 ms-3 marquee">
-                {props.shortUser.firstName.length > 0 ? (
+                {props.user.firstName.length > 0 ? (
                   <span>
-                    {"Добро пожаловать, " + props.shortUser.firstName + "!"}
+                    {"Добро пожаловать, " + props.user.firstName + "!"}
                   </span>
                 ) : (
                   <span>{"Добро пожаловать"}</span>
@@ -67,7 +71,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
             ) : (
               ""
             )}
-            {props.shortUser != null ? (
+            {props.user != null ? (
               <div className="btn-group rounded-circle border text-center ms-3 p-0">
                 <div
                   role="button"
@@ -85,6 +89,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                   </div>
                 </div>
                 <ProfileMenu
+                  userId={props.user.id}
                   // productCount={100}
                   messageCount={12}
                   ariaLabelledby="dropdownMenuProfile"

@@ -3,5 +3,6 @@ export interface GetShortUserResponse {
 	first_name: string;
 	last_name: string;
 	nickname: string;
-    registration_date: string
+    registration_date: string;
+	profile_image_url: string | null;
 }

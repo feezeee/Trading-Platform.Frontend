@@ -3,5 +3,6 @@ export interface GetShortUserEntity {
 	firstName: string;
 	lastName: string;
 	nickname: string;
-    registrationDate: string
+    registrationDate: Date;
+	profileImageUrl: string | null;
 }

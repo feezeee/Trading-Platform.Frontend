@@ -7,4 +7,5 @@ export interface GetFullUserResponse {
 	nickname: string;
     registration_date: string;
 	roles: GetRoleResponse[];
+	profile_image_url: string | null;
 }

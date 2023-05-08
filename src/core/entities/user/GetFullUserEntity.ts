@@ -5,6 +5,7 @@ export interface GetFullUserEntity {
 	firstName: string;
 	lastName: string;
 	nickname: string;
-    registrationDate: string;
+    registrationDate: Date;
 	roles: GetRoleEntity[];
+	profileImageUrl: string | null;
 }

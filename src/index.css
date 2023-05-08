@@ -5,10 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-image: url('./images/fon.jpg');
-  background-size: cover;
-  background-repeat: repeat;
-  background-position: center center; */
+  background-color: rgb(154, 203, 255) !important;
 }
 
 /* #root {

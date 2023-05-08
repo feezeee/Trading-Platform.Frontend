@@ -21,7 +21,7 @@ export class ImageService {
       }
 
       let image = toGetImageEntity(response.data)
-      image.imageUrl = `${API_URLS.REACT_APP_IMAGES_API_URL}/${image.imageUrl}`
+      // image.imageUrl = `${API_URLS.REACT_APP_IMAGES_API_URL}/${image.imageUrl}`
       return image;
     }
     catch(error){

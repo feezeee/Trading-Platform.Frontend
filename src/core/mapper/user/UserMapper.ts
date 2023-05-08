@@ -8,6 +8,8 @@ import { GetShortUserEntity } from "../../entities/user/GetShortUserEntity";
 import { GetShortUserResponse } from "../../data/user/GetShortUserResponse";
 import { GetUserTokenEntity } from "../../entities/user/GetUserTokenEntity";
 import { GetUserTokenResponse } from "../../data/user/GetUserTokenResponse";
+import { UpdateUserEntity } from './../../entities/user/UpdateUserEntity';
+import { UpdateUserRequest } from './../../data/user/UpdateUserRequest';
 import { toGetRoleEntity } from "../role/RoleMapper";
 
 export const toGetUserTokenEntity = (
@@ -39,8 +41,9 @@ export const toGetFullUserEntity = (
     firstName: apiResponse.first_name,
     lastName: apiResponse.last_name,
     nickname: apiResponse.nickname,
-    registrationDate: apiResponse.registration_date,
-    roles: apiResponse.roles.map((role) => (toGetRoleEntity(role)))
+    registrationDate: new Date(apiResponse.registration_date),
+    roles: apiResponse.roles.map((role) => (toGetRoleEntity(role))),
+    profileImageUrl: apiResponse.profile_image_url
   };
   return data;
 };
@@ -54,7 +57,8 @@ export const toGetShortUserEntity = (
     firstName: apiResponse.first_name,
     lastName: apiResponse.last_name,
     nickname: apiResponse.nickname,
-    registrationDate: apiResponse.registration_date,
+    registrationDate: new Date(apiResponse.registration_date),
+    profileImageUrl: apiResponse.profile_image_url
   };
   return data;
 };
@@ -71,3 +75,16 @@ export const toCreateUserRequest = (
   };
   return res;
 };
+
+export const toUpdateUserRequest = (
+  entity: UpdateUserEntity
+): UpdateUserRequest => {
+  const res: UpdateUserRequest = {
+    id: entity.id,
+    first_name: entity.firstName,
+    last_name: entity.lastName,
+    nickname: entity.nickname,
+    profile_image_url: entity.profileImageUrl
+  }
+  return res;
+}

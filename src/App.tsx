@@ -10,6 +10,7 @@ import MyProductsPage from "./pages/MyProductsPage";
 import ProductInformationPage from "./pages/ProductInformationPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProfilePage from "./pages/ProfilePage";
+import UsersPage from "./pages/UsersPage";
 
 export interface IAppProps {}
 
@@ -23,10 +24,10 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
         <Route path="/my-products" element={<MyProductsPage/>}/>
         <Route path="/products/add" element={<AddProductPage />}/>
         <Route path="/my-products/:id" element={<MyProductInformationPage/>}/>
-
         <Route path="/categories" element={<CategoriesPage/>}/>
+        <Route path="/users" element={<UsersPage/>}/>
 
-        <Route path="/my-profile" element={<ProfilePage />} />        
+        <Route path="/profile/:id" element={<ProfilePage />} />        
       </Routes>
     </BrowserRouter>
   );

@@ -25,6 +25,15 @@ const API_URLS = {
     USERS_SHORT_INFORMATION: usersApiUrl + '/api/users/short-information',
     USERS_FULL_INFORMATION: usersApiUrl + '/api/users/full-information',
 
+    USER_UPDATE: usersApiUrl + '/api/users',
+
+    GET_USERS_FULL_INFORMATION: usersApiUrl + '/api/users/full-information',
+
+    // Roles
+    GET_ROLES: usersApiUrl + '/api/roles',
+    ROLES_SET_UP: usersApiUrl + '/api/roles/set-up',
+
+
     // Images API
 
     UPLOAD_IMAGE: imagesApiUrl + '/api/images',

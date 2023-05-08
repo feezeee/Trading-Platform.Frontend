@@ -48,6 +48,10 @@ function MyContainer({
     checkUser();
   }, []);
 
+  function rgba(arg0: number, arg1: number, arg2: number, arg3: number): import("csstype").Property.BackgroundColor | undefined {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <Header
@@ -95,9 +99,9 @@ function MyContainer({
         </div>
       )}
       <div className="d-flex flex-grow-1">
-        <div className="position-relative flex-grow-1">
+        <div className="position-relative flex-grow-1 p-3">
           {isLoading === true && <LoadingScreen zIndex={10} />}
-          <div className="container py-3">{children}</div>
+          <div style={{backgroundColor: 'rgba(255, 255, 255,  0.9)'}} className="container p-0 rounded shadow overflow-hidden">{children}</div>
         </div>
       </div>
     </div>
