@@ -113,7 +113,7 @@ const CategoriesPage: React.FunctionComponent<IMyProductsPageProps> = (
           onSubmit={(categoryName) => addNewCategory(categoryName)}
           showLoading={createCategoryModalLoading}
         />
-        <div className="container-fluid">
+        <div className="container-fluid p-3">
           <div className="row flex-wrap g-3">
             {categories.map((category, index) => (
               <div
