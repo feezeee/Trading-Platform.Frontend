@@ -120,7 +120,7 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
               <div className="d-flex flex-wrap">
                 {product.categoryIdArr.map(
                   (categoryId) =>
-                    categories.find((t) => t.id == categoryId) !== null && (
+                    categories.find((t) => t.id == categoryId) !== undefined && (
                       <div id={categoryId} className="mx-2">
                         <span>
                           {categories.find((t) => t.id == categoryId)!.name}
