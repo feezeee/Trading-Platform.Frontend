@@ -63,7 +63,7 @@ const ProductInformationPage: React.FunctionComponent<
       fetchUserFromLocalStorage();
       setIsMyContainerLoading(false);
     };
-    fetch()
+    fetch();
   }, []);
 
   const [isEditable, setIsEditable] = useState(false);
@@ -111,7 +111,8 @@ const ProductInformationPage: React.FunctionComponent<
 
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText=""
+      onChangeSearchText={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={(status) => {

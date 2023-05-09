@@ -11,13 +11,13 @@ export interface INavbarProps {
   login: () => void;
   logout: () => void;
   registration: () => void;
-  onSearch: (query: string) => void;
+  searchInputValue: string;
+  onChangeSearchInputValue: (newValue: string) => void;
   roles: string[];
   changePassword: () => void;
 }
 
 const Navbar: React.FC<INavbarProps> = (props) => {
-  const [searchInputValue, setSearchInputValue] = useState("");
 
   return (
     <div className="">
@@ -42,18 +42,11 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                     type="search"
                     placeholder="Поиск"
                     aria-label="Поиск"
-                    value={searchInputValue}
+                    value={props.searchInputValue}
                     onChange={(event) => {
-                      setSearchInputValue(event.target.value);
+                      props.onChangeSearchInputValue(event.target.value);
                     }}
                   />
-                  <button
-                    onClick={() => props.onSearch(searchInputValue)}
-                    className="btn btn-success"
-                    type="submit"
-                  >
-                    Поиск
-                  </button>
                 </div>
               ) : (
                 ""

@@ -6,18 +6,18 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import CarouselImage from "../components/carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
+import { GetRoleEntity } from "../core/entities/role/GetRoleEntity";
 import { ImageService } from "../core/services/ImageService";
 import LoadingScreen from "../components/loading_screen/LoadingScreen";
+import ModalWithTwoButtons from "../components/modals/ModalWithTwoButtons";
 import MyContainer from "../components/containers/MyContainer";
 import { ProductService } from "../core/services/ProductService";
 import ProfileInf from "../components/profile/ProfileInf";
+import { RoleService } from "../core/services/RoleService";
 import { UpdateUserEntity } from "../core/entities/user/UpdateUserEntity";
 import { UserService } from "../core/services/UserService";
 import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 import localStorageKeys from "../core/localStorageKeys";
-import { GetRoleEntity } from "../core/entities/role/GetRoleEntity";
-import { RoleService } from "../core/services/RoleService";
-import ModalWithTwoButtons from "../components/modals/ModalWithTwoButtons";
 
 export interface IProfilePageProps {}
 
@@ -114,21 +114,22 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
     }
   };
 
-  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const deleteUser = async () => {
-    setDeleteLoading(true)
+    setDeleteLoading(true);
     const response = await userService.deleteUser(id!);
-    setDeleteLoading(false)
-    if (response === true){
-      setIsDelete(false)
-      navigate("/products")
+    setDeleteLoading(false);
+    if (response === true) {
+      setIsDelete(false);
+      navigate("/products");
     }
-  }
+  };
 
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText=""
+      onChangeSearchText={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={() => {
@@ -136,14 +137,15 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
       }}
     >
       <div className="container-fluid p-0 position-relative h-100">
-        <ModalWithTwoButtons 
-        text="Вы уверены, что хотите удалить пользователя?"
-        cancelText="Нет"
-        submitText="Да"
-        showLoading={deleteLoading}
-        modalShow={isDelete}
-        onCancel={()=>setIsDelete(false)}
-        onSubmit={deleteUser}/>
+        <ModalWithTwoButtons
+          text="Вы уверены, что хотите удалить пользователя?"
+          cancelText="Нет"
+          submitText="Да"
+          showLoading={deleteLoading}
+          modalShow={isDelete}
+          onCancel={() => setIsDelete(false)}
+          onSubmit={deleteUser}
+        />
         <div className="p-3 h-100 d-flex flex-column w-100">
           <div className="d-flex justify-content-end">
             <div className="btn-group" role="group">

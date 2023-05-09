@@ -21,8 +21,8 @@ const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (
   const productService = new ProductService();
 
   const userJson = localStorage.getItem(localStorageKeys.user);
-  const userLocalStorage: GetFullUserEntity | null = userJson === null ? null : JSON.parse(userJson);
-  
+  const userLocalStorage: GetFullUserEntity | null =
+    userJson === null ? null : JSON.parse(userJson);
 
   const navigate = useNavigate();
 
@@ -45,7 +45,8 @@ const MyProductsPage: React.FunctionComponent<IMyProductsPageProps> = (
 
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText=""
+      onChangeSearchText={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={(status) => {

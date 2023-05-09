@@ -30,8 +30,8 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
   const categoryService = new CategoryService();
 
   const userJson = localStorage.getItem(localStorageKeys.user);
-  const userLocalStorage: GetFullUserEntity | null = userJson === null ? null : JSON.parse(userJson);
-  
+  const userLocalStorage: GetFullUserEntity | null =
+    userJson === null ? null : JSON.parse(userJson);
 
   const navigate = useNavigate();
 
@@ -44,11 +44,11 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
 
   const addProductClick = async (createProduct: CreateProductValues) => {
     if (userLocalStorage === null) {
-        navigate("/products");
-        return;
+      navigate("/products");
+      return;
     }
     setIsMyContainerLoading(true);
-    
+
     let newImagesUrls: string[] = [];
     for (let i = 0; i < createProduct.imageFileArr.length; i++) {
       const response = await imageService.uploadImage(
@@ -76,7 +76,8 @@ const AddProductPage: React.FunctionComponent<IAddProductPageProps> = (
 
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText=""
+      onChangeSearchText={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={(status) => {

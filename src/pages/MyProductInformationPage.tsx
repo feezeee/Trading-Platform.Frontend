@@ -93,7 +93,8 @@ const MyProductInformationPage: React.FunctionComponent<
 
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText=""
+      onChangeSearchText={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={(status) => {

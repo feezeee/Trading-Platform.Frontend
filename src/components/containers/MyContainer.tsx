@@ -16,18 +16,20 @@ interface IMyContainerProps {
   isLoading: boolean;
   searchFieldIsHidden: boolean;
   children: React.ReactNode;
-  onSearch: (query: string) => void;
   onLogin?: (status: boolean) => void;
   onLogout?: (status: boolean) => void;
+  searchText: string;
+  onChangeSearchText: (text: string) => void
 }
 
 function MyContainer({
   isLoading,
   searchFieldIsHidden,
   children,
-  onSearch,
   onLogin,
   onLogout,
+  onChangeSearchText,
+  searchText
 }: IMyContainerProps) {
   const [authorizeUser, setAuthorizeUser] = useState<GetFullUserEntity | null>(
     null
@@ -89,7 +91,8 @@ function MyContainer({
         login={() => showLoginModal(!loginModalIsShowed)}
         logout={() => showLogoutModal(!logoutModalIsShowed)}
         registration={() => showRegistrationModal(!registrationModalIsShowed)}
-        onSearch={onSearch}
+        onChangeSearchText={onChangeSearchText}
+        searchText={searchText}
         roles={
           authorizeUser === null
             ? ["user"]

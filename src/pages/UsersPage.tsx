@@ -41,7 +41,8 @@ const UsersPage: React.FunctionComponent<IRolesPageProps> = (props) => {
 
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText=""
+      onChangeSearchText={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={(status) => {

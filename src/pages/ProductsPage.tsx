@@ -10,10 +10,11 @@ import { useNavigate } from "react-router";
 export interface IProductsPageProps {}
 
 const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
-
   const [productsIsFectching, setProductsIsFectching] = useState(true);
 
   const [products, setProducts] = useState<GetProductEntity[]>([]);
+
+  const [searchText, setSearchText] = useState("")
 
   const productService = new ProductService();
 
@@ -25,7 +26,8 @@ const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
         res.fromPrice,
         res.toPrice,
         res.priceIsSet,
-        res.imagesAreSet
+        res.imagesAreSet,
+        searchText === "" ? undefined : searchText
       )
     );
     setProductsIsFectching(false);
@@ -42,9 +44,12 @@ const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
     fetchData();
   }, []);
 
+  
+
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText={searchText}
+      onChangeSearchText={(text) => setSearchText(text)}
       isLoading={productsIsFectching}
       searchFieldIsHidden={false}
     >

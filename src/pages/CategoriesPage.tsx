@@ -45,7 +45,7 @@ const CategoriesPage: React.FunctionComponent<IMyProductsPageProps> = (
     setCategories(await categoryService.getCategories());
     setIsMyContainerLoading(false);
   };
-  useEffect(() => {    
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -74,7 +74,7 @@ const CategoriesPage: React.FunctionComponent<IMyProductsPageProps> = (
     if (response !== null) {
       setCreateCategoryModalLoading(false);
       cancelCreatingCategory();
-      await fetchData()
+      await fetchData();
     } else {
       setCreateCategoryModalLoading(false);
     }
@@ -94,7 +94,8 @@ const CategoriesPage: React.FunctionComponent<IMyProductsPageProps> = (
 
   return (
     <MyContainer
-      onSearch={() => {}}
+      searchText=""
+      onChangeSearchText={() => {}}
       isLoading={isMyContainerLoading}
       searchFieldIsHidden={true}
       onLogout={(status) => {

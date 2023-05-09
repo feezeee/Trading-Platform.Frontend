@@ -17,7 +17,8 @@ export class ProductService {
     fromPrice: number | undefined = undefined,
     toPrice: number | undefined = undefined,
     priceIsSet: boolean | undefined = undefined,
-    imagesAreSet: boolean | undefined = undefined
+    imagesAreSet: boolean | undefined = undefined,
+    text: string | undefined = undefined,
   ): Promise<GetProductEntity[]> => {
     try {
       const params = {
@@ -26,6 +27,7 @@ export class ProductService {
         toPrice: toPrice,
         priceIsSet: priceIsSet,
         imagesAreSet: imagesAreSet,
+        text: text
       };
 
       const response = await axios.get<GetProductResponse[]>(

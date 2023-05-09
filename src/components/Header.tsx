@@ -9,16 +9,16 @@ export interface IHeaderProps {
   login: () => void;
   logout: () => void;
   registration: () => void;
-  onSearch: (query: string) => void;
   roles: string[];
   changePassword: () => void;
+  searchText: string;
+  onChangeSearchText: (newSearchText: string) => void;
 }
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
     <header className="bg-white rounded-bottom-4">
       <Navigation
-        onSearch={props.onSearch}
         searchFieldIsHidden={props.searchFieldIsHidden}
         user={props.shortUser}
         login={props.login}
@@ -26,6 +26,8 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
         registration={props.registration}
         roles={props.roles}
         changePassword={props.changePassword}
+        searchInputValue={props.searchText}
+        onChangeSearchInputValue={(text) => props.onChangeSearchText(text)}
       />
     </header>
   );
