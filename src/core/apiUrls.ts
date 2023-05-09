@@ -3,6 +3,7 @@ const usersApiUrl = process.env.REACT_APP_USERS_API_URL;
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 const imagesApiUrl = process.env.REACT_APP_IMAGES_API_URL;
 const categoriesApiUrl = process.env.REACT_APP_CATEGORIES_API_URL
+const chatsApiUrl = process.env.REACT_APP_CHATS_API_URL
 
 
 const API_URLS = {
@@ -51,11 +52,15 @@ const API_URLS = {
     DELETE_CATEGORIES: categoriesApiUrl + '/api/categories',
     CATEGORY_IS_FREE: categoriesApiUrl + '/api/category-name-is-free',
     
+
+    // Chats API
+    GET_CHATS: chatsApiUrl + '/api/messages',
     
     REACT_APP_USERS_API_URL: usersApiUrl,
     REACT_APP_PRODUCTS_API_URL: productsApiUrl,
     REACT_APP_IMAGES_API_URL: imagesApiUrl,
-    REACT_APP_CATEGORIES_API_URL: categoriesApiUrl
+    REACT_APP_CATEGORIES_API_URL: categoriesApiUrl,
+    REACT_APP_CHATS_API_URL: chatsApiUrl
 }
 
 export default API_URLS;

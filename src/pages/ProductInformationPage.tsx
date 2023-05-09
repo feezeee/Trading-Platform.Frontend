@@ -166,7 +166,7 @@ const ProductInformationPage: React.FunctionComponent<
               <ProductInfMenu
                 categories={categories}
                 product={product}
-                showWriteButton={false}
+                showWriteButton={true}
               />
             )}
             {product !== null && isEditable === true && (

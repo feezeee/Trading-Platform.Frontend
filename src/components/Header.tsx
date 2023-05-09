@@ -17,7 +17,7 @@ export interface IHeaderProps {
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
-    <header className="bg-white rounded-bottom-4">
+    <header className="bg-white">
       <Navigation
         searchFieldIsHidden={props.searchFieldIsHidden}
         user={props.shortUser}
