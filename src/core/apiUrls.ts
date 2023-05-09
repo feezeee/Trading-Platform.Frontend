@@ -14,6 +14,8 @@ const API_URLS = {
 
     // Users API
 
+    USER_REFRESH_TOKENS: usersApiUrl + '/api/refresh-token',
+
     USER_AUTHORIZATION: usersApiUrl + '/api/authorization',
     USER_NICKNAME_IS_FREE: usersApiUrl + '/api/nickname/is-free',
 
@@ -30,6 +32,8 @@ const API_URLS = {
     DELETE_USER: usersApiUrl + '/api/users',
 
     GET_USERS_FULL_INFORMATION: usersApiUrl + '/api/users/full-information',
+
+    CHANGE_USER_PASSWORD: usersApiUrl + '/api/current-user/change-password',
 
     // Roles
     GET_ROLES: usersApiUrl + '/api/roles',

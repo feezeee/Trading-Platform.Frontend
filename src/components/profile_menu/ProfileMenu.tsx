@@ -7,6 +7,7 @@ export interface IProfileMenuProps {
   logout: () => void;
   roles: string[];
   userId: string;
+  changePassword: () => void;
 }
 
 const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
@@ -63,6 +64,14 @@ const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
         </a>
       </li>,
       ]}
+      <li>
+        <hr className="dropdown-divider" />
+      </li>
+      <li>
+        <div role="button" className="dropdown-item" onClick={props.changePassword}>
+          Сменить пароль
+        </div>
+      </li>
 
       <li>
         <hr className="dropdown-divider" />

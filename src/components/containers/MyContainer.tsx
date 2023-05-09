@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useState } from "react";
 
+import ChangePasswordModal from "../modals/ChangePasswordModal";
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import Header from "../Header";
 import LoadingScreen from "../loading_screen/LoadingScreen";
 import MyLoginModal from "../login_modal/MyLoginModal";
 import MyLogoutModal from "../logout_modal/MyLogoutModal";
 import MyRegistrationModal from "../registration_modal/MyRegistrationModal";
+import { RefreshTokensService } from "../../core/services/RefreshTokensService";
+import { UserService } from "../../core/services/UserService";
 import localStorageKeys from "../../core/localStorageKeys";
 import { useNavigate } from "react-router";
 
@@ -58,6 +61,26 @@ function MyContainer({
     throw new Error("Function not implemented.");
   }
 
+  const [isChangePassword, setIsChangePassword] = useState(false);
+
+  const [showChangingPasswordLoading, setShowChangingPasswordLoading] = useState(false)
+
+  const userService = new UserService();
+  const refreshTokensService = new RefreshTokensService();
+
+  const changePassword = async (newPassword: string) => {
+    setShowChangingPasswordLoading(true)
+    let response = await userService.changePassword(newPassword)
+    if (response === false){
+      await refreshTokensService.refreshTokens()
+      response = await userService.changePassword(newPassword)
+    }
+    setShowChangingPasswordLoading(false)
+    if (response === true){
+      setIsChangePassword(false)
+    }
+  }
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <Header
@@ -72,6 +95,9 @@ function MyContainer({
             ? ["user"]
             : authorizeUser.roles.map((item) => item.name)
         }
+        changePassword={() => {
+          setIsChangePassword(true);
+        }}
       />
       {authorizeUser != null ? (
         <MyLogoutModal
@@ -108,6 +134,12 @@ function MyContainer({
           />
         </div>
       )}
+      <ChangePasswordModal
+        modalShow={isChangePassword}
+        onCancel={() => setIsChangePassword(false)}
+        onSubmit={(newPassword) => {changePassword(newPassword)}}
+        showLoading={showChangingPasswordLoading}
+      />
       <div className="d-flex flex-grow-1">
         <div className="flex-grow-1 p-3">
           <div

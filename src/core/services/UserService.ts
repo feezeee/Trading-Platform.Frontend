@@ -1,3 +1,4 @@
+import axios, { Axios, AxiosResponse } from "axios";
 import {
   toAuthorizeUserRequest,
   toCreateUserRequest,
@@ -16,8 +17,10 @@ import { GetUserTokenEntity } from "../entities/user/GetUserTokenEntity";
 import { GetUserTokenResponse } from "../data/user/GetUserTokenResponse";
 import { NicknameIsFreeEntity } from "../entities/nickname/NicknameIsFreeEntity";
 import { NicknameIsFreeResponse } from "../data/nickname/NicknameIsFreeResponse";
+import { RefreshTokensService } from "./RefreshTokensService";
 import { UpdateUserEntity } from "../entities/user/UpdateUserEntity";
-import axios from "axios";
+import { error } from "console";
+import localStorageKeys from "../localStorageKeys";
 import { toNicknameIsFreeEntity } from "../mapper/nickname/NicknameMapper";
 
 export class UserService {
@@ -143,18 +146,42 @@ export class UserService {
     }
   };
 
-  public deleteUser = async (id: string) : Promise<boolean> => {
-    try{
-      const response = await axios.delete(
-        API_URLS.DELETE_USER + `/${id}`
-      )
-      if (response.status !== 200){
-        return false
+  public deleteUser = async (id: string): Promise<boolean> => {
+    try {
+      const response = await axios.delete(API_URLS.DELETE_USER + `/${id}`);
+      if (response.status !== 200) {
+        return false;
       }
-      return true
-    }
-    catch(error){
+      return true;
+    } catch (error) {
       return false;
     }
-  }
+  };
+
+  public changePassword = async (newPassword: string): Promise<boolean> => {
+    try {
+      const accessToken =
+        localStorage.getItem(localStorageKeys.accessToken) ?? "";
+
+      const response = await axios.post(
+        API_URLS.CHANGE_USER_PASSWORD,
+        {
+          password: newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        return false;
+      }
+
+      return true;
+    } catch {
+      return false;
+    }
+  };
 }

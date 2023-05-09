@@ -11,6 +11,7 @@ export interface IHeaderProps {
   registration: () => void;
   onSearch: (query: string) => void;
   roles: string[];
+  changePassword: () => void;
 }
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
@@ -24,6 +25,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
         logout={props.logout}
         registration={props.registration}
         roles={props.roles}
+        changePassword={props.changePassword}
       />
     </header>
   );
