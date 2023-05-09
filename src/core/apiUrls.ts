@@ -27,6 +27,8 @@ const API_URLS = {
 
     USER_UPDATE: usersApiUrl + '/api/users',
 
+    DELETE_USER: usersApiUrl + '/api/users',
+
     GET_USERS_FULL_INFORMATION: usersApiUrl + '/api/users/full-information',
 
     // Roles

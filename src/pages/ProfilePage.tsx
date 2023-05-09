@@ -17,6 +17,7 @@ import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 import localStorageKeys from "../core/localStorageKeys";
 import { GetRoleEntity } from "../core/entities/role/GetRoleEntity";
 import { RoleService } from "../core/services/RoleService";
+import ModalWithTwoButtons from "../components/modals/ModalWithTwoButtons";
 
 export interface IProfilePageProps {}
 
@@ -113,6 +114,18 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
     }
   };
 
+  const [deleteLoading, setDeleteLoading] = useState(false)
+
+  const deleteUser = async () => {
+    setDeleteLoading(true)
+    const response = await userService.deleteUser(id!);
+    setDeleteLoading(false)
+    if (response === true){
+      setIsDelete(false)
+      navigate("/products")
+    }
+  }
+
   return (
     <MyContainer
       onSearch={() => {}}
@@ -123,6 +136,14 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (props) => {
       }}
     >
       <div className="container-fluid p-0 position-relative h-100">
+        <ModalWithTwoButtons 
+        text="Вы уверены, что хотите удалить пользователя?"
+        cancelText="Нет"
+        submitText="Да"
+        showLoading={deleteLoading}
+        modalShow={isDelete}
+        onCancel={()=>setIsDelete(false)}
+        onSubmit={deleteUser}/>
         <div className="p-3 h-100 d-flex flex-column w-100">
           <div className="d-flex justify-content-end">
             <div className="btn-group" role="group">

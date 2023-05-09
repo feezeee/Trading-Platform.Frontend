@@ -142,4 +142,19 @@ export class UserService {
       return false;
     }
   };
+
+  public deleteUser = async (id: string) : Promise<boolean> => {
+    try{
+      const response = await axios.delete(
+        API_URLS.DELETE_USER + `/${id}`
+      )
+      if (response.status !== 200){
+        return false
+      }
+      return true
+    }
+    catch(error){
+      return false;
+    }
+  }
 }
