@@ -2,13 +2,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { Modal } from "react-bootstrap";
-import { UserService } from "../../core/services/UserService";
-import localStorageKeys from "../../core/localStorageKeys";
+import CarouselImage from "../carousel_image/CarouselImage";
+import { CreateUserEntity } from "../../core/entities/user/CreateUserEntity";
 import { GetImageEntity } from "../../core/entities/image/GetImageEntity";
 import { ImageService } from "../../core/services/ImageService";
+import { Modal } from "react-bootstrap";
 import NoImage from "../../images/noImage.png";
-import { CreateUserEntity } from "../../core/entities/user/CreateUserEntity";
+import { UserService } from "../../core/services/UserService";
+import localStorageKeys from "../../core/localStorageKeys";
 
 export interface IMyRegistrationModalProps {
   modalShow: boolean;
@@ -130,14 +131,15 @@ const MyRegistrationModal: React.FunctionComponent<
         <div className="d-flex">
           <div className="d-flex flex-column justify-content-center">
             <div>
-              <img
+              <CarouselImage autoPlay={false} carouselIndex={0} imageUrlArr={[currentImageUrl]} height={438} width={329} onChangeCarouselIndex={() => {}}/>
+              {/* <img
                 className="rounded"
                 width={329}
                 height={438}
                 src={currentImageUrl}
                 onError={previewImageError}
                 alt=""
-              />
+              /> */}
             </div>
             <div className="d-flex justify-content-center my-3">
               <input

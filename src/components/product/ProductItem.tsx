@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import API_URLS from "../../core/apiUrls";
 import { Console } from "console";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
 import NoImage from "../../images/noImage.png";
@@ -36,7 +37,7 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
         className="d-flex justify-content-center align-content-center overflow-hidden rounded-top"
       >
         <img
-          src={imageSrc}
+          src={API_URLS.REACT_APP_IMAGES_API_URL + imageSrc}
           onError={handleImageError}
           alt=""
         />
@@ -63,7 +64,7 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
             role="button"
             className="d-flex justify-content-center align-items-center"
           >
-            <i className="bi bi-heart-fill text-danger"></i>
+            {/* <i className="bi bi-heart-fill text-danger"></i> */}
           </div>
         </div>
 

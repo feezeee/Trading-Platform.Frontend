@@ -64,13 +64,14 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
     .then(() => console.log("Connected!"))
     .catch((error) => console.log(error));
 
-  connection.on("Notify", (message: string) => {
+  connection.on("Notify", (userId: string) => {
     const fetch = async () => {
-      await fetchChats();
-      await fetchUsers();
+      if (userId === currentUser?.id){
+        await fetchChats();
+        await fetchUsers();
+      }      
     }
     fetch();
-    // здесь можно сделать что-то с полученным сообщением
   });
 
   useEffect(() => {

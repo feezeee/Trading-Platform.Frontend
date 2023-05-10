@@ -39,8 +39,8 @@ const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
       <div className="h-100 w-100 d-flex flex-column">
         <div className="flex-grow-1 position-relative">
           <div className="position-absolute w-100 h-100">
-            <div className="d-flex flex-column h-100">
-              <div ref={divRef} className="overflow-auto">
+            <div className="d-flex flex-column h-100 w-100">
+              <div ref={divRef} className="overflow-y-scroll">
                 <div className="p-3 d-flex flex-column-reverse">
                   {props.messages.map((message, index) =>
                     message.userId === props.currentUser.id

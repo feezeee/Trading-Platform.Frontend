@@ -29,11 +29,6 @@ const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
         <li>
           <a className="dropdown-item" href="/my-messages">
             <span className="pe-2">Мои сообщения</span>
-            {props.messageCount > 1 && (
-              <span className="badge bg-danger">
-                {props.messageCount > 99 ? "+99" : props.messageCount}
-              </span>
-            )}
           </a>
         </li>
       )}
@@ -41,11 +36,6 @@ const ProfileMenu: React.FunctionComponent<IProfileMenuProps> = (props) => {
         <li>
           <a className="dropdown-item" href="/my-products">
             <span className="pe-2">Мои товары</span>
-            {/* {props.productCount > 1 && (
-            <span className="badge bg-danger">
-              {props.productCount > 99 ? "+99" : props.productCount}
-            </span>
-          )} */}
           </a>
         </li>
       )}

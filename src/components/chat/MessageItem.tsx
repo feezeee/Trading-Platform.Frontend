@@ -8,9 +8,9 @@ export interface IMessageItemProps {
 
 const MessageItem: React.FunctionComponent<IMessageItemProps> = (props) => {
   return (
-    <div className="d-flex bg-white rounded p-3">
-      <div className="d-flex flex-column">
-        <span>{props.text}</span>
+    <div className="d-flex bg-white rounded p-3 w-100">
+      <div className="d-flex flex-column w-100">
+        <span className="text-break">{props.text}</span>
         <div className="w-100 d-flex">
           <div style={{ fontSize: 10 }} className="ms-auto mt-2">
             {props.date.toLocaleString("ru-Ru", {

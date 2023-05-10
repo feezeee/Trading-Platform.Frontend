@@ -4,15 +4,15 @@ import { useState } from "react";
 
 export interface IChatItemProps {
   select: boolean;
-  onClick: (index: number) => void;
-  index: number;
+  onClick: (chatId: string) => void;
+  chatId: string;
   user: GetFullUserEntity;
 }
 
 const ChatItem: React.FunctionComponent<IChatItemProps> = (props) => {
   return (
     <div
-      onClick={() => props.onClick(props.index)}
+      onClick={() => props.onClick(props.chatId)}
       style={{
         cursor: "pointer",
         backgroundColor: props.select === true ? "#cdfde5" : undefined,

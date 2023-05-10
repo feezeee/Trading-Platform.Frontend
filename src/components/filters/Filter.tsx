@@ -72,10 +72,11 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
                   className="form-check-input"
                   type="radio"
                   name="priceIsSet"
+                  id="priceIsSetId"
                   value="true"
                   onChange={handleInputChange}
                 />
-                <label className="form-check-label" htmlFor="priceSet">
+                <label className="form-check-label" htmlFor="priceIsSetId">
                   Цена указана
                 </label>
               </div>
@@ -85,10 +86,11 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
                   className="form-check-input"
                   type="radio"
                   name="priceIsSet"
+                  id="priceIsNotSetId"
                   value="false"
                   onChange={handleInputChange}
                 />
-                <label className="form-check-label" htmlFor="priceNotSet">
+                <label className="form-check-label" htmlFor="priceIsNotSetId">
                   Цена не указана
                 </label>
               </div>
@@ -98,11 +100,12 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
                   className="form-check-input"
                   type="radio"
                   name="priceIsSet"
+                  id="priceIsSetOrNotId"
                   value={undefined}
                   defaultChecked
                   onChange={handleInputChange}
                 />
-                <label className="form-check-label" htmlFor="priceSetOrNot">
+                <label className="form-check-label" htmlFor="priceIsSetOrNotId">
                   Неважно
                 </label>
               </div>
@@ -119,10 +122,11 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
                   className="form-check-input"
                   type="radio"
                   name="imagesAreSet"
+                  id="imagesAreSetId"
                   value="true"
                   onChange={handleInputChange}
                 />
-                <label className="form-check-label" htmlFor="imageExist">
+                <label className="form-check-label" htmlFor="imagesAreSetId">
                   Только с фото
                 </label>
               </div>
@@ -132,10 +136,11 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
                   className="form-check-input"
                   type="radio"
                   name="imagesAreSet"
+                  id="imagesAreNotSetId"
                   value="false"
                   onChange={handleInputChange}
                 />
-                <label className="form-check-label" htmlFor="imageNotExist">
+                <label className="form-check-label" htmlFor="imagesAreNotSetId">
                   Только без фото
                 </label>
               </div>
@@ -145,11 +150,12 @@ const Filter: React.FunctionComponent<IFilterProps> = (props) => {
                   className="form-check-input"
                   type="radio"
                   name="imagesAreSet"
+                  id="imagesAreSetOrNotId"
                   value={undefined}
                   defaultChecked
                   onChange={handleInputChange}
                 />
-                <label className="form-check-label" htmlFor="imageExistOrNot">
+                <label className="form-check-label" htmlFor="imagesAreSetOrNotId">
                   Неважно
                 </label>
               </div>

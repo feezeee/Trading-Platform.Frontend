@@ -14,28 +14,28 @@ export interface IChatMenuProps {
 }
 
 const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
-  const [selectedChatItemIndex, setSelectedChatItemIndex] = useState<
-    number | null
+  const [selectedChatItemId, setSelectedChatItemId] = useState<
+    string | null
   >(null);
 
   const getMessages = (): GetMessageEntity[] | null => {
-    if (selectedChatItemIndex === null) {
+    if (selectedChatItemId === null) {
       return null;
     }
-    if (selectedChatItemIndex > props.chats.length) {
+    if (props.chats.find((chat) => chat.id === selectedChatItemId) === undefined) {
       return null;
     }
-    return props.chats[selectedChatItemIndex].messageArr;
+    return props.chats.find((chat) => chat.id === selectedChatItemId)!.messageArr;
   };
 
   const getRemoteUser = (): GetFullUserEntity | null => {
-    if (selectedChatItemIndex === null) {
+    if (selectedChatItemId === null) {
       return null;
     }
-    if (selectedChatItemIndex > props.chats.length) {
+    if (props.chats.find((chat) => chat.id === selectedChatItemId) === undefined) {
       return null;
     }
-    const remoteUserId = props.chats[selectedChatItemIndex].userIdArr.find(
+    const remoteUserId = props.chats.find((chat) => chat.id === selectedChatItemId)!.userIdArr.find(
       (userId) => userId !== props.currentUser.id
     );
     if (remoteUserId === undefined) {
@@ -48,11 +48,11 @@ const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
     return remoteUser;
   };
 
-  const chatItemOnClick = (index: number) => {
-    if (selectedChatItemIndex === index) {
-      setSelectedChatItemIndex(null);
+  const chatItemOnClick = (chatId: string) => {
+    if (selectedChatItemId === chatId) {
+      setSelectedChatItemId(null);
     } else {
-      setSelectedChatItemIndex(index);
+      setSelectedChatItemId(chatId);
     }
   };
 
@@ -61,9 +61,9 @@ const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
   }
 
   return (
-    <div className="d-flex h-100">
+    <div className="d-flex h-100 w-100">
       <div style={{ width: 300 }} className="h-100 position-relative">
-        <div className="h-100 d-flex flex-column position-absolute overflow-auto w-100">
+        <div className="h-100 d-flex flex-column position-absolute overflow-y-scroll w-100">
           {props.chats.map(
             (chat, index) =>
               chat.userIdArr.find((t) => t !== props.currentUser.id) !==
@@ -74,8 +74,8 @@ const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
                   chat.userIdArr.find((t) => t !== props.currentUser.id)!
               ) !== undefined && [
                 <ChatItem
-                  select={selectedChatItemIndex === index}
-                  index={index}
+                  select={selectedChatItemId === chat.id}
+                  chatId={chat.id}
                   onClick={chatItemOnClick}
                   user={
                     props.users.find(
@@ -91,9 +91,9 @@ const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
         </div>
       </div>
       <div className="flex-grow-1">
-        {getMessages() !== null && getRemoteUser() !== null ? (
+        {selectedChatItemId !== null && getMessages() !== null && getRemoteUser() !== null ? (
           <ChatSendingMenu
-            chatId={props.chats[selectedChatItemIndex!].id}
+            chatId={selectedChatItemId}
             currentUser={props.currentUser}
             messages={getMessages()!}
             remoteUser={getRemoteUser()!}
