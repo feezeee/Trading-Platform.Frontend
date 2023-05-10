@@ -20,7 +20,7 @@ export const toGetMessageEntity = (
   const entity: GetMessageEntity = {
     id: apiResponse.id,
     chatId: apiResponse.chat_id,
-    createdDate: apiResponse.created_date,
+    createdDate: new Date(apiResponse.created_date),
     message: apiResponse.message,
     userId: apiResponse.user_id,
   };
