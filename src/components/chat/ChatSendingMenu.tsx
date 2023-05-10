@@ -1,13 +1,15 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import { GetMessageEntity } from "../../core/entities/chat/GetMessageEntity";
 import MessageItem from "./MessageItem";
 
 export interface IChatSendingMenuProps {
+  chatId: string
   currentUser: GetFullUserEntity;
   messages: GetMessageEntity[];
   remoteUser: GetFullUserEntity;
+  sendMessage: (message: string, fromUser: GetFullUserEntity, toUSer: GetFullUserEntity, chatId: string) => void
 }
 
 const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
@@ -19,6 +21,15 @@ const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
       divRef.current.scrollTop = divRef.current.scrollHeight;
     }
   }, []);
+
+  const [message, setMessage] = useState("")
+
+  const sendMessage = () => {    
+    if (message.length > 0){
+      props.sendMessage(message, props.currentUser, props.remoteUser, props.chatId)
+      setMessage("")
+    }   
+  }
 
   return (
     <div
@@ -72,8 +83,8 @@ const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
           className="p-2"
         >
           <div className="d-flex">
-            <input type="text" className="form-control" />
-            <button className="btn">
+            <input on value={message} onChange={(e) => setMessage(e.target.value)} type="text" className="form-control" />
+            <button disabled={message.length > 0 ? false : true } onClick={() => {sendMessage()}} className="btn border-0">
               <i className="bi bi-send"></i>
             </button>
           </div>
