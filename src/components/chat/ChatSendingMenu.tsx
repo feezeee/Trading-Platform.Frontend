@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import { GetMessageEntity } from "../../core/entities/chat/GetMessageEntity";
@@ -16,12 +16,19 @@ const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
   props
 ) => {
   const divRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (divRef !== null && divRef.current !== null) {
       divRef.current.scrollTop = divRef.current.scrollHeight;
     }
-  });
+  }, [divRef.current?.scrollHeight]);
 
+
+  // const measuredRef = useCallback((node: HTMLDivElement) => {
+  //   if (node !== null) {
+  //     node.scrollTop = node.scrollHeight;
+  //   }
+  // }, []);
   const [message, setMessage] = useState("")
 
   const sendMessage = () => {    
@@ -40,7 +47,7 @@ const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
         <div className="flex-grow-1 position-relative">
           <div className="position-absolute w-100 h-100">
             <div className="d-flex flex-column h-100 w-100">
-              <div ref={divRef} className="overflow-y-scroll">
+              <div ref={divRef} className="overflow-auto" >
                 <div className="p-3 d-flex flex-column-reverse">
                   {props.messages.map((message, index) =>
                     message.userId === props.currentUser.id
