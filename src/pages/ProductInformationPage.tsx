@@ -4,6 +4,8 @@ import ProductEditMenu, {
 import React, { useEffect, useState } from "react";
 
 import { CategoryService } from "../core/services/CategoryService";
+import ChatModal from "../components/chat/ChatModal";
+import { ChatService } from "../core/services/ChatService";
 import { GetCategoryEntity } from "../core/entities/category/GetCategoryEntity";
 import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
 import { GetProductEntity } from "../core/entities/product/GetProductEntity";
@@ -105,9 +107,34 @@ const ProductInformationPage: React.FunctionComponent<
     };
     const product = await productService.updateProduct(putProduct);
     setProduct(product);
+    setRemoteUserId(product?.userId ?? null);
     setIsMyContainerLoading(false);
     setIsEditable(false);
   };
+
+  const [remoteUserId, setRemoteUserId] = useState<string | null>(null);
+
+  const [sendMessageModalIsShow, setSendMessageModalIsShow] = useState(false);
+
+  const [messageIsSending, setMessageIsSending] = useState(false)
+
+  const chatService = new ChatService();
+
+  const sendMessage = async (message: string) => {
+    setMessageIsSending(true)
+    if (user !== null && remoteUserId !== null) {
+      await chatService.sendMessage(message, user.id, remoteUserId);
+    }
+    setMessageIsSending(false)
+    setSendMessageModalIsShow(false)
+  };
+
+  const onClickSendMessageButton = () => {
+    setRemoteUserId(product!.userId)
+    setSendMessageModalIsShow(true);
+  };
+
+
 
   return (
     <MyContainer
@@ -130,6 +157,17 @@ const ProductInformationPage: React.FunctionComponent<
             onSubmit={deleteProduct}
             showLoading={showDeletingLoading}
           />
+          {user !== null && remoteUserId !== null && (
+            <ChatModal
+              currentUserId={user.id}
+              modalShow={sendMessageModalIsShow}
+              onCancel={() => setSendMessageModalIsShow(false)}
+              onSubmit={sendMessage}
+              remoteUserId={remoteUserId}
+              showLoading={messageIsSending}
+            />
+          )}
+
           <div className="d-flex flex-column">
             <div className="d-flex justify-content-end">
               <div className="btn-group" role="group">
@@ -159,14 +197,19 @@ const ProductInformationPage: React.FunctionComponent<
                   ]}
               </div>
             </div>
-            {product === null && (
-              <ProductInfMenu categories={[]} showWriteButton={false} />
+            {(product === null || user === null) &&  (
+              <ProductInfMenu
+                categories={[]}
+                showWriteButton={false}
+                onClickWriteButton={() => {}}
+              />
             )}
-            {product !== null && isEditable === false && (
+            {product !== null && user !== null && isEditable === false && (
               <ProductInfMenu
                 categories={categories}
                 product={product}
-                showWriteButton={true}
+                showWriteButton={user.id !== product.userId}
+                onClickWriteButton={() => onClickSendMessageButton()}
               />
             )}
             {product !== null && isEditable === true && (

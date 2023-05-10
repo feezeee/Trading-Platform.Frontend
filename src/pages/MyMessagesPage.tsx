@@ -75,7 +75,7 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
 
     chat.messageArr = [newMessageEntity, ...chat.messageArr]
     setChats(newChats)
-    const response = await chatService.sendMessage(message, fromUser, toUser)
+    const response = await chatService.sendMessage(message, fromUser.id, toUser.id)
   }
 
   return (

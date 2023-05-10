@@ -8,6 +8,7 @@ export interface IProductInfMenuProps {
   product?: GetProductEntity;
   categories: GetCategoryEntity[];
   showWriteButton: boolean;
+  onClickWriteButton: () => void;
 }
 
 const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
@@ -24,6 +25,7 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
     phoneNumbers: [],
     userId: "",
   },
+  onClickWriteButton,
 }) => {
   const [carouselImgIndex, setCarouselImgIndex] = useState<number>(0);
 
@@ -84,15 +86,9 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
           )}
           {showWriteButton === true && (
             <div className="d-flex justify-content-center">
-              <button className="btn btn-outline-success w-100">
+              <button onClick={() => onClickWriteButton()} className="btn btn-outline-success w-100">
                 Написать
               </button>
-              <div
-                role="button"
-                className="d-flex justify-content-center align-items-center mx-3"
-              >
-                <i className="bi bi-heart-fill text-danger"></i>
-              </div>
             </div>
           )}
 

@@ -136,13 +136,18 @@ const MyProductInformationPage: React.FunctionComponent<
               </div>
             </div>
             {product === null && (
-              <ProductInfMenu categories={[]} showWriteButton={false} />
+              <ProductInfMenu
+                categories={[]}
+                showWriteButton={false}
+                onClickWriteButton={() => {}}
+              />
             )}
             {product !== null && isEditable === false && (
               <ProductInfMenu
                 categories={categories}
                 product={product}
                 showWriteButton={false}
+                onClickWriteButton={() => {}}
               />
             )}
             {product !== null && isEditable === true && (

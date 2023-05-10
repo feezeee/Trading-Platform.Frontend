@@ -30,13 +30,13 @@ export class ChatService {
     }
   };
 
-  public sendMessage = async (message: string, fromUser: GetFullUserEntity, toUser: GetFullUserEntity): Promise<boolean> => {
+  public sendMessage = async (message: string, fromUserId: string, toUserId: string): Promise<boolean> => {
     try{
       const response = await axios.post(
         API_URLS.POST_MESSAGE,
         {
-          from_user_id: fromUser.id,
-          to_user_id: toUser.id,
+          from_user_id: fromUserId,
+          to_user_id: toUserId,
           message: message
         }
       )
