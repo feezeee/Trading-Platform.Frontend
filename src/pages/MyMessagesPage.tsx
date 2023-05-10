@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import ChatItem from "../components/chat/ChatItem";
 import ChatMenu from "../components/chat/ChatMenu";
-import ChatSendingMenu from "../components/chat/ChatSendingMenu";
 import { ChatService } from "../core/services/ChatService";
 import { GetChatEntity } from "../core/entities/chat/GetChatEntity";
 import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
+import { GetMessageEntity } from "../core/entities/chat/GetMessageEntity";
 import MyContainer from "../components/containers/MyContainer";
 import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
@@ -59,6 +58,26 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
     fetch();
   }, []);
 
+  const sendMessage = async (message: string, fromUser: GetFullUserEntity, toUser: GetFullUserEntity, chatId: string) => { 
+    
+    const newChats = [...chats]
+    const chat = newChats.find((chat) => chat.id === chatId)
+    if (chat === undefined) {
+      return
+    }
+    const newMessageEntity: GetMessageEntity = {
+      id: "qwe",
+      chatId: chatId,
+      createdDate: new Date(),
+      message: message,
+      userId: fromUser.id
+    }
+
+    chat.messageArr = [newMessageEntity, ...chat.messageArr]
+    setChats(newChats)
+    const response = await chatService.sendMessage(message, fromUser, toUser)
+  }
+
   return (
     <MyContainer
       searchText=""
@@ -71,7 +90,7 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
     >
       {currentUser !== null && (
         <div className="h-100">
-          <ChatMenu chats={chats} users={users} currentUser={currentUser} />
+          <ChatMenu chats={chats} users={users} currentUser={currentUser} sendMessage={sendMessage} />
         </div>
       )}
     </MyContainer>

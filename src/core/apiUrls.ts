@@ -55,6 +55,7 @@ const API_URLS = {
 
     // Chats API
     GET_CHATS: chatsApiUrl + '/api/messages',
+    POST_MESSAGE: chatsApiUrl + '/api/messages/new-message',
     
     REACT_APP_USERS_API_URL: usersApiUrl,
     REACT_APP_PRODUCTS_API_URL: productsApiUrl,

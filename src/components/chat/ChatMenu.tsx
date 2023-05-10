@@ -10,6 +10,7 @@ export interface IChatMenuProps {
   users: GetFullUserEntity[];
   chats: GetChatEntity[];
   currentUser: GetFullUserEntity;
+  sendMessage: (message: string, fromUser: GetFullUserEntity, toUser: GetFullUserEntity, chatId: string) => void;
 }
 
 const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
@@ -55,6 +56,10 @@ const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
     }
   };
 
+  const sendMessage = (message: string, fromUser: GetFullUserEntity, toUser: GetFullUserEntity, chatId: string) => {
+    props.sendMessage(message, fromUser, toUser, chatId)
+  }
+
   return (
     <div className="d-flex h-100">
       <div style={{ width: 300 }} className="h-100 position-relative">
@@ -88,9 +93,11 @@ const ChatMenu: React.FunctionComponent<IChatMenuProps> = (props) => {
       <div className="flex-grow-1">
         {getMessages() !== null && getRemoteUser() !== null ? (
           <ChatSendingMenu
+            chatId={props.chats[selectedChatItemIndex!].id}
             currentUser={props.currentUser}
             messages={getMessages()!}
             remoteUser={getRemoteUser()!}
+            sendMessage={sendMessage}
           />
         ) : (
           <div

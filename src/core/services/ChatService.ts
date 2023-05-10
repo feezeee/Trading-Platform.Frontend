@@ -29,4 +29,24 @@ export class ChatService {
       return [];
     }
   };
+
+  public sendMessage = async (message: string, fromUser: GetFullUserEntity, toUser: GetFullUserEntity): Promise<boolean> => {
+    try{
+      const response = await axios.post(
+        API_URLS.POST_MESSAGE,
+        {
+          from_user_id: fromUser.id,
+          to_user_id: toUser.id,
+          message: message
+        }
+      )
+      if (response.status !== 200){
+        return false;
+      }
+      return true;
+    }
+    catch{
+      return false;
+    }
+  }
 }
