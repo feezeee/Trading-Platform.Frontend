@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import API_URLS from "../../core/apiUrls";
 import CarouselImage from "../carousel_image/CarouselImage";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
@@ -40,7 +41,7 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
               onChangeCarouselIndex={(index) => {
                 setCarouselImgIndex(index);
               }}
-              imageUrlArr={product.images}
+              imageUrlArr={product.images.map((image) => (API_URLS.REACT_APP_IMAGES_API_URL + image))}
             />
           </div>
         </div>

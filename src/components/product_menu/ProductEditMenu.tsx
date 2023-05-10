@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import API_URLS from "../../core/apiUrls";
 import { Carousel } from "react-responsive-carousel";
 import CarouselImage from "../carousel_image/CarouselImage";
 import CategoryClickable from "../category_clickable/CategoryClickable";
@@ -33,7 +34,8 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
     props.product.images
   );
   const [productImages, setProductImages] = useState<File[]>(
-    Array.from({ length: props.product.images.length }, () => new File([], ""))
+    []
+    // Array.from({ length: props.product.images.length }, () => new File([], ""))
   );
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
@@ -164,30 +166,55 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
 
       setProductImages([...productImages, selectedFiles?.[0]]);
 
-      setProductImageUrls([
-        ...productImageUrls,
-        URL.createObjectURL(selectedFiles?.[0]),
-      ]);
+      // setProductImageUrls([
+      //   ...productImageUrls,
+      //   URL.createObjectURL(selectedFiles?.[0]),
+      // ]);
     }
     event.target.value = "";
   };
 
   const removeImage = () => {
-    if (currentImageIndex != null) {
+    if (currentImageIndex !== null) {
       const productImagesArr = [...productImages];
-      productImagesArr.splice(currentImageIndex, 1);
-      setProductImages(productImagesArr);
-
       const productImagesUrlsArr = [...productImageUrls];
-      productImagesUrlsArr.splice(currentImageIndex, 1);
-      setProductImageUrls(productImagesUrlsArr);
-      if (currentImageIndex === 0 && productImagesUrlsArr.length > 1) {
-        setCurrentImageIndex(0);
-      } else if (currentImageIndex === productImagesUrlsArr.length) {
-        setCurrentImageIndex(currentImageIndex - 1);
-      } else if (currentImageIndex === 0) {
-        setCurrentImageIndex(0);
+      if (currentImageIndex > productImageUrls.length - 1) {
+        const newIndex = currentImageIndex - productImageUrls.length;
+        productImagesArr.splice(newIndex, 1);
+        setProductImages(productImagesArr);
+      } else if (currentImageIndex <= productImageUrls.length - 1) {
+        productImagesUrlsArr.splice(currentImageIndex, 1);
+        setProductImageUrls(productImagesUrlsArr);
       }
+
+      let newIndex = 0;
+      const totalSize = productImagesUrlsArr.length + productImagesArr.length;
+      if (currentImageIndex > totalSize - 1) {
+        newIndex = totalSize - 1;
+      }
+      if (newIndex < 0) {
+        newIndex = 0;
+      }
+      setCurrentImageIndex(newIndex);
+
+      // if (currentImageIndex === 0 && (productImageUrls.length > 1 || productImages.length > 1 )) {
+      //   setCurrentImageIndex(0);
+      // }
+      // else if (currentImageIndex === 0 && (productImageUrls.length === 0 && productImages.length > 1 )) {
+      //   setCurrentImageIndex(0);
+      // }
+      // else if (currentImageIndex === 0 && (productImageUrls.length > 1 && productImages.length === 0 )) {
+      //   setCurrentImageIndex(0);
+      // }
+      // else if (currentImageIndex === productImageUrls.length && productImages.length === 0) {
+      //   setCurrentImageIndex(currentImageIndex - 1);
+      // }
+      // else if (currentImageIndex === productImages.length && productImageUrls.length === 0) {
+      //   setCurrentImageIndex(currentImageIndex - 1);
+      // }
+      // else if (currentImageIndex === 0) {
+      //   setCurrentImageIndex(0)
+      // }
     }
   };
 
@@ -195,14 +222,19 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
     <div className="d-flex flex-column">
       <div className="row">
         <div className="col">
-        <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center">
             <CarouselImage
               autoPlay={true}
               carouselIndex={currentImageIndex}
               onChangeCarouselIndex={(index) => {
                 setCurrentImageIndex(index);
               }}
-              imageUrlArr={productImageUrls}
+              imageUrlArr={[
+                ...productImageUrls.map(
+                  (image) => API_URLS.REACT_APP_IMAGES_API_URL + image
+                ),
+                ...productImages.map((file) => URL.createObjectURL(file)),
+              ]}
             />
           </div>
           <div>
@@ -228,7 +260,11 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
               </div>
               <div className="d-flex justify-content-center my-2">
                 <button
-                  disabled={(productImageUrls.length === 0 && productImages.length === 0) ? true : false}
+                  disabled={
+                    productImageUrls.length === 0 && productImages.length === 0
+                      ? true
+                      : false
+                  }
                   className="btn border-0"
                   onClick={removeImage}
                 >
