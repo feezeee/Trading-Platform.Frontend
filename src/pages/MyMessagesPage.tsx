@@ -29,11 +29,18 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
   const chatService = new ChatService();
 
   const fetchChats = async () => {
-    setChats(await chatService.getChatsForUser());
+    const response = await chatService.getChatsForUser();
+    if (chats !== response) {
+      setChats(response);
+    }    
   };
 
   const fetchUsers = async () => {
-    setUsers(await userService.getAllFullInformation());
+    const response = await userService.getAllFullInformation()
+    if (users !== response) {
+      setUsers(response);
+    }  
+    
   };
 
   const fetchCurrentUser = () => {
@@ -57,6 +64,15 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
     };
     fetch();
   }, []);
+
+  // useEffect(() => {
+  //   const fetch = async () => { 
+  //     await fetchChats();
+  //     await fetchUsers();
+  //   };
+
+  //   fetch();
+  // });
 
   const sendMessage = async (message: string, fromUser: GetFullUserEntity, toUser: GetFullUserEntity, chatId: string) => { 
     

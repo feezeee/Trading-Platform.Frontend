@@ -20,7 +20,7 @@ const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
     if (divRef !== null && divRef.current !== null) {
       divRef.current.scrollTop = divRef.current.scrollHeight;
     }
-  }, []);
+  });
 
   const [message, setMessage] = useState("")
 
