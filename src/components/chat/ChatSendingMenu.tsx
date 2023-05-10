@@ -83,7 +83,7 @@ const ChatSendingMenu: React.FunctionComponent<IChatSendingMenuProps> = (
           className="p-2"
         >
           <div className="d-flex">
-            <input on value={message} onChange={(e) => setMessage(e.target.value)} type="text" className="form-control" />
+            <input value={message} onChange={(e) => setMessage(e.target.value)} type="text" className="form-control" />
             <button disabled={message.length > 0 ? false : true } onClick={() => {sendMessage()}} className="btn border-0">
               <i className="bi bi-send"></i>
             </button>
