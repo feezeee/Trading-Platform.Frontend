@@ -1,5 +1,7 @@
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import React, { useEffect, useState } from "react";
 
+import API_URLS from "../core/apiUrls";
 import ChatMenu from "../components/chat/ChatMenu";
 import { ChatService } from "../core/services/ChatService";
 import { GetChatEntity } from "../core/entities/chat/GetChatEntity";
@@ -32,15 +34,14 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
     const response = await chatService.getChatsForUser();
     if (chats !== response) {
       setChats(response);
-    }    
+    }
   };
 
   const fetchUsers = async () => {
-    const response = await userService.getAllFullInformation()
+    const response = await userService.getAllFullInformation();
     if (users !== response) {
       setUsers(response);
-    }  
-    
+    }
   };
 
   const fetchCurrentUser = () => {
@@ -50,14 +51,32 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
       navigate("/products");
       return;
     }
-    const userParse: GetFullUserEntity = JSON.parse(user)
-    setCurrentUser(userParse)
+    const userParse: GetFullUserEntity = JSON.parse(user);
+    setCurrentUser(userParse);
   };
+
+  const connection: HubConnection = new HubConnectionBuilder()
+    .withUrl(API_URLS.REACT_APP_CHATS_API_URL + "/chat")
+    .build();
+
+  connection
+    .start()
+    .then(() => console.log("Connected!"))
+    .catch((error) => console.log(error));
+
+  connection.on("Notify", (message: string) => {
+    const fetch = async () => {
+      await fetchChats();
+      await fetchUsers();
+    }
+    fetch();
+    // здесь можно сделать что-то с полученным сообщением
+  });
 
   useEffect(() => {
     const fetch = async () => {
-      setIsMyContainerLoading(true);      
-      fetchCurrentUser()
+      setIsMyContainerLoading(true);
+      fetchCurrentUser();
       await fetchChats();
       await fetchUsers();
       setIsMyContainerLoading(false);
@@ -65,34 +84,33 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
     fetch();
   }, []);
 
-  // useEffect(() => {
-  //   const fetch = async () => { 
-  //     await fetchChats();
-  //     await fetchUsers();
-  //   };
-
-  //   fetch();
-  // });
-
-  const sendMessage = async (message: string, fromUser: GetFullUserEntity, toUser: GetFullUserEntity, chatId: string) => { 
-    
-    const newChats = [...chats]
-    const chat = newChats.find((chat) => chat.id === chatId)
+  const sendMessage = async (
+    message: string,
+    fromUser: GetFullUserEntity,
+    toUser: GetFullUserEntity,
+    chatId: string
+  ) => {
+    const newChats = [...chats];
+    const chat = newChats.find((chat) => chat.id === chatId);
     if (chat === undefined) {
-      return
+      return;
     }
     const newMessageEntity: GetMessageEntity = {
       id: "qwe",
       chatId: chatId,
       createdDate: new Date(),
       message: message,
-      userId: fromUser.id
-    }
+      userId: fromUser.id,
+    };
 
-    chat.messageArr = [newMessageEntity, ...chat.messageArr]
-    setChats(newChats)
-    const response = await chatService.sendMessage(message, fromUser.id, toUser.id)
-  }
+    chat.messageArr = [newMessageEntity, ...chat.messageArr];
+    setChats(newChats);
+    const response = await chatService.sendMessage(
+      message,
+      fromUser.id,
+      toUser.id
+    );
+  };
 
   return (
     <MyContainer
@@ -106,7 +124,12 @@ const MyMessagesPage: React.FunctionComponent<IMyMessagesPageProps> = (
     >
       {currentUser !== null && (
         <div className="h-100">
-          <ChatMenu chats={chats} users={users} currentUser={currentUser} sendMessage={sendMessage} />
+          <ChatMenu
+            chats={chats}
+            users={users}
+            currentUser={currentUser}
+            sendMessage={sendMessage}
+          />
         </div>
       )}
     </MyContainer>
