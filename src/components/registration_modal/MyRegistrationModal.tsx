@@ -131,7 +131,7 @@ const MyRegistrationModal: React.FunctionComponent<
         <div className="d-flex">
           <div className="d-flex flex-column justify-content-center">
             <div>
-              <CarouselImage autoPlay={false} carouselIndex={0} imageUrlArr={[currentImageUrl]} height={438} width={329} onChangeCarouselIndex={() => {}}/>
+              <CarouselImage autoPlay={false} carouselIndex={0} imageUrlArr={[currentImageUrl]} height={480} width={330} onChangeCarouselIndex={() => {}}/>
               {/* <img
                 className="rounded"
                 width={329}
@@ -254,7 +254,7 @@ const MyRegistrationModal: React.FunctionComponent<
               <div className="row mt-3">
                 <div className="d-flex justify-content-center">
                   <button className="btn btn-success" type="submit">
-                    Зарегестрироваться
+                    Зарегистрироваться
                   </button>
                 </div>
               </div>

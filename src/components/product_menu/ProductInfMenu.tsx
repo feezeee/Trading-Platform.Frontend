@@ -3,13 +3,16 @@ import React, { useState } from "react";
 import API_URLS from "../../core/apiUrls";
 import CarouselImage from "../carousel_image/CarouselImage";
 import { GetCategoryEntity } from "../../core/entities/category/GetCategoryEntity";
+import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import { GetProductEntity } from "../../core/entities/product/GetProductEntity";
+import NoImage from "../../images/noImage.png";
 
 export interface IProductInfMenuProps {
   product?: GetProductEntity;
   categories: GetCategoryEntity[];
   showWriteButton: boolean;
   onClickWriteButton: () => void;
+  remoteUser?: GetFullUserEntity;
 }
 
 const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
@@ -27,6 +30,7 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
     userId: "",
   },
   onClickWriteButton,
+  remoteUser = null,
 }) => {
   const [carouselImgIndex, setCarouselImgIndex] = useState<number>(0);
 
@@ -41,7 +45,11 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
               onChangeCarouselIndex={(index) => {
                 setCarouselImgIndex(index);
               }}
-              imageUrlArr={product.images.map((image) => (API_URLS.REACT_APP_IMAGES_API_URL + image))}
+              imageUrlArr={product.images.map(
+                (image) => API_URLS.REACT_APP_IMAGES_API_URL + image
+              )}
+              width={640}
+              height={480}
             />
           </div>
         </div>
@@ -85,9 +93,34 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
               <hr />
             </div>
           )}
+          {remoteUser !== null && (
+            <div className="d-flex p-2">
+              <div>
+                <CarouselImage
+                  autoPlay={false}
+                  carouselIndex={0}
+                  imageUrlArr={[
+                    remoteUser!.profileImageUrl === null
+                      ? NoImage
+                      : API_URLS.REACT_APP_IMAGES_API_URL +
+                        remoteUser!.profileImageUrl,
+                  ]}
+                  onChangeCarouselIndex={() => {}}
+                  height={120}
+                  width={83}
+                />
+              </div>
+              <div className="d-flex ms-2">
+                <p className="text-truncate m-auto">{`${remoteUser!.lastName} ${remoteUser!.firstName}`}</p>
+              </div>
+            </div>
+          )}
           {showWriteButton === true && (
             <div className="d-flex justify-content-center">
-              <button onClick={() => onClickWriteButton()} className="btn btn-outline-success w-100">
+              <button
+                onClick={() => onClickWriteButton()}
+                className="btn btn-outline-success w-100"
+              >
                 Написать
               </button>
             </div>
@@ -117,7 +150,8 @@ const ProductInfMenu: React.FunctionComponent<IProductInfMenuProps> = ({
               <div className="d-flex flex-wrap">
                 {product.categoryIdArr.map(
                   (categoryId) =>
-                    categories.find((t) => t.id == categoryId) !== undefined && (
+                    categories.find((t) => t.id == categoryId) !==
+                      undefined && (
                       <div id={categoryId} className="mx-2">
                         <span>
                           {categories.find((t) => t.id == categoryId)!.name}

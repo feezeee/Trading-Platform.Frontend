@@ -8,21 +8,21 @@ import { useNavigate } from "react-router-dom";
 
 export interface IProductItemProps {
   product: GetProductEntity;
-  onClick: (id: string) => void
+  onClick: (id: string) => void;
 }
 
 const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
   console.log((props.product.images || [])[0]);
   const [imageSrc, setImageSrc] = useState<string>(
-    props.product.images[0] ?? ""
+    props.product.images[0] !== null ? API_URLS.REACT_APP_IMAGES_API_URL + props.product.images[0] : ""
   );
   const handleImageError = () => {
     setImageSrc(NoImage);
   };
 
   const handleClick = () => {
-    props.onClick(props.product.id)    
-  }
+    props.onClick(props.product.id);
+  };
 
   return (
     <div
@@ -37,7 +37,7 @@ const ProductItem: React.FunctionComponent<IProductItemProps> = (props) => {
         className="d-flex justify-content-center align-content-center overflow-hidden rounded-top"
       >
         <img
-          src={API_URLS.REACT_APP_IMAGES_API_URL + imageSrc}
+          src={imageSrc}
           onError={handleImageError}
           alt=""
         />

@@ -15,6 +15,7 @@ import MyContainer from "../components/containers/MyContainer";
 import ProductInfMenu from "../components/product_menu/ProductInfMenu";
 import { ProductService } from "../core/services/ProductService";
 import { PutProductEntity } from "../core/entities/product/PutProductEntity";
+import { UserService } from "../core/services/UserService";
 import localStorageKeys from "../core/localStorageKeys";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
@@ -114,6 +115,16 @@ const ProductInformationPage: React.FunctionComponent<
 
   const [remoteUserId, setRemoteUserId] = useState<string | null>(null);
 
+  const [remoteUser, setRemoteUser] = useState<GetFullUserEntity | null>(null)
+
+  const userService = new UserService()
+  useEffect(() => {
+    const fetch = async () => {
+      setRemoteUser(await userService.getUserById(product!.userId!))
+    }
+    fetch()
+  }, [product !== null && product.userId !== null])
+
   const [sendMessageModalIsShow, setSendMessageModalIsShow] = useState(false);
 
   const [messageIsSending, setMessageIsSending] = useState(false)
@@ -197,19 +208,20 @@ const ProductInformationPage: React.FunctionComponent<
                   ]}
               </div>
             </div>
-            {(product === null || user === null) &&  (
+            {(product === null || user === null || remoteUser === null) &&  (
               <ProductInfMenu
                 categories={[]}
                 showWriteButton={false}
                 onClickWriteButton={() => {}}
               />
             )}
-            {product !== null && user !== null && isEditable === false && (
+            {product !== null && user !== null && isEditable === false && remoteUser !== null &&  (
               <ProductInfMenu
                 categories={categories}
                 product={product}
                 showWriteButton={user.id !== product.userId}
                 onClickWriteButton={() => onClickSendMessageButton()}
+                remoteUser={remoteUser}
               />
             )}
             {product !== null && isEditable === true && (

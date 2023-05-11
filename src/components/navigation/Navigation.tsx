@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import API_URLS from "../../core/apiUrls";
+import CarouselImage from "../carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
 import ProfileMenu from "../profile_menu/ProfileMenu";
 import logo from "../../images/logo.png";
@@ -105,7 +107,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
                   className="ms-3 btn btn-outline-success"
                   onClick={props.registration}
                 >
-                  Регситрация
+                  Регистрация
                 </button>
               </div>
             )}

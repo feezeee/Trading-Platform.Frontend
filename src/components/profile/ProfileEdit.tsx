@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import API_URLS from "../../core/apiUrls";
 import CarouselImage from "../carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
-import LoadingScreen from "../loading_screen/LoadingScreen";
-import { UserService } from "../../core/services/UserService";
 import { GetRoleEntity } from "../../core/entities/role/GetRoleEntity";
+import LoadingScreen from "../loading_screen/LoadingScreen";
 import RoleClickable from "../role_clickable/RoleClickable";
+import { UserService } from "../../core/services/UserService";
 
 export interface IProfileEditProps {
   user: GetFullUserEntity;
@@ -130,8 +130,8 @@ const ProfileEdit: React.FunctionComponent<IProfileEditProps> = (props) => {
         <div className="col-auto">
           <div className="d-flex flex-column justify-content-center w-auto">
             <CarouselImage
-              width={500}
-              height={600}
+              width={330}
+              height={480}
               onChangeCarouselIndex={() => {}}
               autoPlay={false}
               carouselIndex={0}

@@ -1,7 +1,8 @@
+import React, { useEffect, useState } from "react";
+
 import API_URLS from "../../core/apiUrls";
 import CarouselImage from "../carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../../core/entities/user/GetFullUserEntity";
-import React, { useEffect, useState } from "react";
 import { GetRoleEntity } from "../../core/entities/role/GetRoleEntity";
 import localStorageKeys from "../../core/localStorageKeys";
 
@@ -19,8 +20,8 @@ const ProfileInf: React.FunctionComponent<IProfileInfProps> = (props) => {
         <div className="col-auto">
           <div className="d-flex flex-column justify-content-center">
             <CarouselImage
-              width={500}
-              height={600}
+              width={330}
+              height={480}
               onChangeCarouselIndex={() => {}}
               autoPlay={false}
               carouselIndex={0}

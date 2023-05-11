@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import API_URLS from "../core/apiUrls";
+import CarouselImage from "../components/carousel_image/CarouselImage";
 import { GetFullUserEntity } from "../core/entities/user/GetFullUserEntity";
 import { GetRoleEntity } from "../core/entities/role/GetRoleEntity";
 import MyContainer from "../components/containers/MyContainer";
@@ -36,7 +38,7 @@ const UsersPage: React.FunctionComponent<IRolesPageProps> = (props) => {
   }, []);
 
   const onUserClick = (user: GetFullUserEntity) => {
-    navigate(`/profile/${user.id}`)
+    navigate(`/profile/${user.id}`);
   };
 
   return (
@@ -62,7 +64,27 @@ const UsersPage: React.FunctionComponent<IRolesPageProps> = (props) => {
                   role="btn"
                   className="btn border d-flex w-100"
                 >
-                  <span>{item.nickname}</span>
+                  <div className="d-flex">
+                    <CarouselImage
+                      width={83}
+                      height={120}
+                      autoPlay={false}
+                      carouselIndex={0}
+                      imageUrlArr={[
+                        item.profileImageUrl !== null
+                          ? API_URLS.REACT_APP_IMAGES_API_URL +
+                            item.profileImageUrl
+                          : "",
+                      ]}
+                      onChangeCarouselIndex={() => {}}
+                    />
+                  </div>
+                  <div className="d-flex flex-column ps-2">
+                    <p className="d-flex m-0">
+                      <strong>{`${item.lastName} ${item.firstName}`}</strong>
+                    </p>
+                    <span className="d-flex">{item.nickname}</span>
+                  </div>
                 </div>
               </div>
             ))}

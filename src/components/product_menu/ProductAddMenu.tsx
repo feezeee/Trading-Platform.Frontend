@@ -188,6 +188,8 @@ const ProductAddMenu: React.FunctionComponent<IProductAddMenuProps> = (
                 setCurrentImageIndex(index);
               }}
               imageUrlArr={productImageUrls}
+              width={640}
+              height={480}
             />
           </div>
           <div>

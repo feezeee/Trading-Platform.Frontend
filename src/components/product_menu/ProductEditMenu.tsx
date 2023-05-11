@@ -235,6 +235,8 @@ const ProductEditMenu: React.FunctionComponent<IProductEditMenuProps> = (
                 ),
                 ...productImages.map((file) => URL.createObjectURL(file)),
               ]}
+              width={640}
+              height={480}
             />
           </div>
           <div>
