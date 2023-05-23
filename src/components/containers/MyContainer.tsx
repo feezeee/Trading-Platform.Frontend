@@ -54,15 +54,6 @@ function MyContainer({
     checkUser();
   }, []);
 
-  function rgba(
-    arg0: number,
-    arg1: number,
-    arg2: number,
-    arg3: number
-  ): import("csstype").Property.BackgroundColor | undefined {
-    throw new Error("Function not implemented.");
-  }
-
   const [isChangePassword, setIsChangePassword] = useState(false);
 
   const [showChangingPasswordLoading, setShowChangingPasswordLoading] = useState(false)

@@ -120,10 +120,11 @@ const ProductInformationPage: React.FunctionComponent<
   const userService = new UserService()
   useEffect(() => {
     const fetch = async () => {
-      setRemoteUser(await userService.getUserById(product!.userId!))
+      if (product !== null)
+      setRemoteUser(await userService.getUserById(product.userId))
     }
     fetch()
-  }, [product !== null && product.userId !== null])
+  }, [product !== null && product.userId !== ""])
 
   const [sendMessageModalIsShow, setSendMessageModalIsShow] = useState(false);
 

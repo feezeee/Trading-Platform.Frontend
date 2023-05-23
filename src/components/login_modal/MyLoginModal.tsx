@@ -1,5 +1,3 @@
-// import * as bootstrap from "bootstrap";
-
 import React, { useRef, useState } from "react";
 
 import { Modal } from "react-bootstrap";
